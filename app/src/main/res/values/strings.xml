@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gitinder</string>
+    <string name="loginGitHub">Login with Github</string>
 </resources>
