@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
         //checks the SHared preference for existing gitinder token
         if (preferences.contains("gitinder-token")) {
             Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.loginwgh);
