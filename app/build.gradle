@@ -16,6 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -26,6 +31,15 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //RoboElectric
+    //Robolectric
     testImplementation 'org.robolectric:robolectric:4.0.2'
+    //Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    // Dagger
+    implementation "com.google.dagger:dagger-android:2.15"
+    implementation "com.google.dagger:dagger-android-support:2.15"
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.15'
+
 }
