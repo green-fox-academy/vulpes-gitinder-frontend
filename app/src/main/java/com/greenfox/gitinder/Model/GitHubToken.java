@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class GitHubToken {
 
-    @SerializedName("acces_token")
+    @SerializedName("access_token")
     String token;
     String scope;
     @SerializedName("token_type")
