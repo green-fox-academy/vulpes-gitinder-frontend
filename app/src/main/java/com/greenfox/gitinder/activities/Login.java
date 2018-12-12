@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.gitinder.MainActivity;
+import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.R;
 
 import javax.inject.Inject;
@@ -21,9 +22,9 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = getSharedPreferences("preference", Context.MODE_PRIVATE);
+        preferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         //checks the SHared preference for existing gitinder token
-        if (preferences.contains("gitinder-token")) {
+        if (preferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -36,3 +37,4 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
