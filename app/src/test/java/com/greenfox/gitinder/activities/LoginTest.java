@@ -30,11 +30,6 @@ public class LoginTest {
 
     Login login;
 
-    @Before
-    public void setup() {
-
-    }
-
     @Test
     public void buttonTextTest() {
         login = Robolectric.setupActivity(Login.class);
