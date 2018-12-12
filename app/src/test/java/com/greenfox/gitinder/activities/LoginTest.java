@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.greenfox.gitinder.MainActivity;
+import com.greenfox.gitinder.Model.Constants;
 
 import org.apache.tools.ant.Main;
 import org.junit.Before;
@@ -30,11 +31,6 @@ public class LoginTest {
 
     Login login;
 
-    @Before
-    public void setup() {
-
-    }
-
     @Test
     public void buttonTextTest() {
         login = Robolectric.setupActivity(Login.class);
@@ -42,9 +38,9 @@ public class LoginTest {
     }
     @Test
     public void testRedirectTrue() {
-        SharedPreferences preferences =  ApplicationProvider.getApplicationContext().getSharedPreferences("preference", Context.MODE_PRIVATE);
+        SharedPreferences preferences =  ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("gitinder-token", "aaa").apply();
+        editor.putString(Constants.GITINDER_TOKEN, "aaa").apply();
         login = Robolectric.setupActivity(Login.class);
         Intent expectedIntent = new Intent(login, MainActivity.class);
         Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
@@ -52,22 +48,21 @@ public class LoginTest {
     }
     @Test
     public void testRedirectFail() {
-        SharedPreferences preferences = ApplicationProvider.getApplicationContext().getSharedPreferences("preference", Context.MODE_PRIVATE);
+        SharedPreferences preferences = ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("ryba", "aaa");
+        editor.putString("ryba", "aaa").apply();
         Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
         assertEquals(null, actual);
     }
     @Test
     public void testButtonWillRedirect() {
-        SharedPreferences preferences =  ApplicationProvider.getApplicationContext().getSharedPreferences("preference", Context.MODE_PRIVATE);
+        SharedPreferences preferences =  ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("gitinder-token", "aaa").apply();
+        editor.putString(Constants.GITINDER_TOKEN, "aaa").apply();
         login = Robolectric.setupActivity(Login.class);
         login.login.performClick();
         Intent expectedIntent = new Intent(login, LoginGitHub.class);
         Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
-
 }
