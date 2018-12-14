@@ -10,6 +10,12 @@ public class GitHubToken {
     @SerializedName("token_type")
     String tokenType;
 
+    public GitHubToken(String token, String tokenType) {
+        scope = "";
+        this.token = token;
+        this.tokenType = tokenType;
+    }
+
     public String getToken() {
         return token;
     }
