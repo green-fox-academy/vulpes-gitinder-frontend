@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def secretsFile = rootProject.file("project.secrets");
+def secretsProperties = new Properties()
+secretsProperties.load(new FileInputStream(secretsFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -9,6 +13,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "gitHubClientId", secretsProperties['githubclientid'])
+        buildConfigField("String", "gitHubClientSecret", secretsProperties['githubclientsecret'])
+        buildConfigField("String", "gitHubCallback", secretsProperties['githubcallback'])
     }
     buildTypes {
         release {
