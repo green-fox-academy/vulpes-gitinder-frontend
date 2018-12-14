@@ -5,6 +5,8 @@ import com.greenfox.gitinder.Model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface GitHubClient {
@@ -12,6 +14,8 @@ public interface GitHubClient {
     @POST("login")
     Call<APIResponse> usernameAndToken(@Body User user);
 
+    @DELETE("logout")
+    Call<APIResponse> logoutUser(@Header("header") String gitinderToken);
 
 
 }

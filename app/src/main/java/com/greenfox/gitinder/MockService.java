@@ -1,5 +1,7 @@
 package com.greenfox.gitinder;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 import com.greenfox.gitinder.Model.APIResponse;
 import com.greenfox.gitinder.Model.User;
@@ -19,6 +21,8 @@ import retrofit2.Response;
 
 public class MockService implements GitHubClient {
 
+    SharedPreferences sharedPreferences;
+
     @Override
     public Call<APIResponse> usernameAndToken(final User user) {
         return new Call<APIResponse>() {
@@ -32,17 +36,65 @@ public class MockService implements GitHubClient {
             public void enqueue(Callback<APIResponse> callback) {
                 APIResponse apiResponse = new APIResponse();
                 if(user.getUsername() == null) {
-                    apiResponse.setStatus("error");
-                    apiResponse.setMessage("Username is missing!");
-                } else if (user.getAccess_token() == null) {
-                    apiResponse.setStatus("error");
-                    apiResponse.setMessage("Access token is missing!");
                     callback.onResponse(this, Response.<APIResponse>error(400,
                             ResponseBody.create(MediaType.parse("application/json"),
-                                                apiResponse.getErrorJSON())));
+                                    apiResponse.getErrorJSON("Username is missing!"))));
+                } else if (user.getAccess_token() == null) {
+                    callback.onResponse(this, Response.<APIResponse>error(400,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                                apiResponse.getErrorJSON("Access token is missing!"))));
                 } else {
                     apiResponse.setStatus("ok");
                     apiResponse.setGitinder_token("abc123");
+                    callback.onResponse(this, Response.success(apiResponse));
+                }
+            }
+
+            @Override
+            public boolean isExecuted() {
+                return false;
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+
+            @Override
+            public boolean isCanceled() {
+                return false;
+            }
+
+            @Override
+            public Call<APIResponse> clone() {
+                return null;
+            }
+
+            @Override
+            public Request request() {
+                return null;
+            }
+        };
+    }
+
+    @Override
+    public Call<APIResponse> logoutUser(final String header) {
+        return new Call<APIResponse>() {
+            @Override
+            public Response<APIResponse> execute() throws IOException {
+                return null;
+            }
+
+            @Override
+            public void enqueue(Callback<APIResponse> callback) {
+                APIResponse apiResponse = new APIResponse();
+                if(header == null || header.isEmpty()) {
+                    callback.onResponse(this, Response.<APIResponse>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    apiResponse.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    apiResponse.setStatus("ok");
+                    apiResponse.setMessage("Logged out successfully!");
                     callback.onResponse(this, Response.success(apiResponse));
                 }
             }

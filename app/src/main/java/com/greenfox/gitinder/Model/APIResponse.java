@@ -51,7 +51,7 @@ public class APIResponse {
         this.message = message;
     }
 
-    public String getErrorJSON(){
-        return "{\"status\": \"error\",\"message\": \"Access token is missing!\"}";
+    public String getErrorJSON(String message){
+        return "{\"status\": \"error\",\"message\": \"" + message + "\"}";
     }
 }
