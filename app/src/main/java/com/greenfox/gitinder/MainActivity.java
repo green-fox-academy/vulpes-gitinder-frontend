@@ -28,9 +28,6 @@ public class MainActivity extends AppCompatActivity {
         settingsButton = findViewById(R.id.main_settings_button);
 
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d("token_checking", "Token is missing!");
