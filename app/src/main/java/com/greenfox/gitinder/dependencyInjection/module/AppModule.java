@@ -16,7 +16,7 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-// create your dependency here...
+// create your dependency here. Provides annotation have to return object cannot be done on void methods.
     @Provides
     @Singleton
     Context provideContext(Application application) {
@@ -24,7 +24,7 @@ public class AppModule {
     }
 
     @Provides
-    SharedPreferences sharedPreferences(GitinderApp gitinderApp) {
-        return gitinderApp.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    SharedPreferences sharedPreferences(Application application) {
+        return application.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
 }
