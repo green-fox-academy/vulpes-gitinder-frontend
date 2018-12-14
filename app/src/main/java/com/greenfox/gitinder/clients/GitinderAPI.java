@@ -10,8 +10,9 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 
-public interface GitHubClient {
+public interface GitinderAPI {
 
     @POST("login")
     Call<APIResponse> usernameAndToken(@Body User user);
@@ -22,7 +23,7 @@ public interface GitHubClient {
     @GET("settings")
     Call<Settings> getSettings(@Header("X-Gitinder-Token") String gitinderToken);
 
-    @POST("settings")
+    @PUT("settings")
     Call<APIResponse> updateSettings(@Header("X-Gitinder-Token") String gitinderToken, @Body Settings settings);
 
 }

@@ -3,7 +3,7 @@ package com.greenfox.gitinder;
 import com.greenfox.gitinder.Model.APIResponse;
 import com.greenfox.gitinder.Model.Settings;
 import com.greenfox.gitinder.Model.User;
-import com.greenfox.gitinder.clients.GitHubClient;
+import com.greenfox.gitinder.clients.GitinderAPI;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MockService implements GitHubClient {
+public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public Call<APIResponse> usernameAndToken(final User user) {
@@ -180,8 +180,6 @@ public class MockService implements GitHubClient {
 
             @Override
             public void enqueue(Callback<APIResponse> callback) {
-                Settings testSettings = settings;
-
                 APIResponse apiResponse = new APIResponse();
                 apiResponse.setStatus("ok");
                 apiResponse.setMessage("success");

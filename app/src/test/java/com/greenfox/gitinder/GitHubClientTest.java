@@ -3,7 +3,7 @@ package com.greenfox.gitinder;
 import com.greenfox.gitinder.Model.APIResponse;
 import com.greenfox.gitinder.Model.Settings;
 import com.greenfox.gitinder.Model.User;
-import com.greenfox.gitinder.clients.GitHubClient;
+import com.greenfox.gitinder.clients.GitinderAPI;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class GitHubClientTest {
     public void loginPostGotAllParamsTest(){
         User testUser = new User("Ferdinand", "fakink123");
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.usernameAndToken(testUser);
 
         call.enqueue(new Callback<APIResponse>() {
@@ -44,7 +44,7 @@ public class GitHubClientTest {
         User testUser = new User("Ferdinand");
         final APIResponse apiResponse = new APIResponse();
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.usernameAndToken(testUser);
 
         call.enqueue(new Callback<APIResponse>() {
@@ -66,7 +66,7 @@ public class GitHubClientTest {
 
     @Test
     public void logoutDeleteHeaderIsCorrectTest(){
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.logoutUser("abc123");
 
         call.enqueue(new Callback<APIResponse>() {
@@ -87,7 +87,7 @@ public class GitHubClientTest {
     public void logoutDeleteHeaderIsEmptyTest(){
         final APIResponse apiResponse = new APIResponse();
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.logoutUser("");
 
         call.enqueue(new Callback<APIResponse>() {
@@ -113,7 +113,7 @@ public class GitHubClientTest {
     public void logoutDeleteHeaderIsNullTest(){
         final APIResponse apiResponse = new APIResponse();
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.logoutUser(null);
 
         call.enqueue(new Callback<APIResponse>() {
@@ -137,7 +137,7 @@ public class GitHubClientTest {
 
     @Test
     public void settingsGetHeaderIsCorrectTest(){
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<Settings> call = client.getSettings("abc123");
         Settings profileService = new Settings();
         final Settings testJerry = profileService.createSettings();
@@ -158,7 +158,7 @@ public class GitHubClientTest {
 
     @Test
     public void settingsGetHeaderIsIncorrectTest(){
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<Settings> call = client.getSettings(null);
         final APIResponse apiResponse = new APIResponse();
 
@@ -182,11 +182,11 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void settingsPostBodyCorrectTest(){
+    public void settingsPutBodyCorrectTest(){
         Settings settingsService = new Settings();
         final Settings testSettings = settingsService.createSettings();
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.updateSettings("abc123", testSettings);
 
         call.enqueue(new Callback<APIResponse>() {
@@ -202,9 +202,9 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void settingsPostBodyIncorrectTest(){
+    public void settingsPutBodyIncorrectTest(){
 
-        GitHubClient client = new MockService();
+        GitinderAPI client = new BackendMockAPI();
         Call<APIResponse> call = client.updateSettings("abc123", null);
         final APIResponse apiResponse = new APIResponse();
 
