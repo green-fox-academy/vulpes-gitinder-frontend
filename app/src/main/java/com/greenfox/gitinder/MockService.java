@@ -1,15 +1,10 @@
 package com.greenfox.gitinder;
 
-import android.content.SharedPreferences;
-
 import com.greenfox.gitinder.Model.APIResponse;
-import com.greenfox.gitinder.Model.Profile;
 import com.greenfox.gitinder.Model.User;
 import com.greenfox.gitinder.clients.GitHubClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -113,57 +108,6 @@ public class MockService implements GitHubClient {
 
             @Override
             public Call<APIResponse> clone() {
-                return null;
-            }
-
-            @Override
-            public Request request() {
-                return null;
-            }
-        };
-    }
-
-    @Override
-    public Call<Profile> getUserProfile(final String header) {
-        return new Call<Profile>() {
-            @Override
-            public Response<Profile> execute() throws IOException {
-                return null;
-            }
-
-            @Override
-            public void enqueue(Callback<Profile> callback) {
-                Profile profileService = new Profile();
-                Profile Jerry = profileService.createProfile("Jerry");
-
-                APIResponse apiResponse = new APIResponse();
-
-                if(header == null || header.isEmpty()) {
-                    callback.onResponse(this, Response.<Profile>error(403,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    apiResponse.getErrorJSON("Unauthorized request!"))));
-                } else {
-                    callback.onResponse(this, Response.success(Jerry));
-                }
-            }
-
-            @Override
-            public boolean isExecuted() {
-                return false;
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
-
-            @Override
-            public Call<Profile> clone() {
                 return null;
             }
 
