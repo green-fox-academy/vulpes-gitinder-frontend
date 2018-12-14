@@ -9,7 +9,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class GitHubCallMock implements Call<GitHubToken> {
+public abstract class CallMock implements Call<GitHubToken> {
     @Override
     public Response<GitHubToken> execute() throws IOException {
         return null;

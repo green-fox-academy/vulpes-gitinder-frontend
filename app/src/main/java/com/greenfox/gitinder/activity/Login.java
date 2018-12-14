@@ -26,7 +26,7 @@ public class Login extends AppCompatActivity {
 
     public Button login;
     SharedPreferences preferences;
-    private final String TAG = "login";
+    GitHubClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +39,11 @@ public class Login extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.btn_login_with_github);
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://github.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        client = retrofit.create(GitHubClient.class);
     }
 
     @Override
@@ -47,11 +52,6 @@ public class Login extends AppCompatActivity {
         String intentString = getIntent().toString();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl("https://github.com/")
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
-            GitHubClient client = retrofit.create(GitHubClient.class);
             saveGitHubToken(uri, client);
         }
     }
