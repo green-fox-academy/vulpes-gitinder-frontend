@@ -24,16 +24,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
+    private final SharedPreferences spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
     public Button login;
-    SharedPreferences preferences;
     GitHubClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        preferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         //checks the Shared preference for existing gitinder token
-        if (preferences.contains(Constants.GITINDER_TOKEN)) {
+        if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -63,16 +62,15 @@ public class Login extends AppCompatActivity {
                 +"&redirect_uri="+Constants.GITHUB_CALLBACK));
         startActivity(intent);
     }
+    // Calls the githubAPI and saves the returned github token
     public void saveGitHubToken(Uri uri, GitHubClient client) {
         String code = uri.getQueryParameter("code");
-
         Call<GitHubToken> call = client.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
-        preferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-
         call.enqueue(new Callback<GitHubToken>() {
+
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                SharedPreferences.Editor editor = preferences.edit();
+                SharedPreferences.Editor editor = spref.edit();
                 editor.putString(Constants.GITINDER_TOKEN, response.body().getToken()).apply();
             }
 

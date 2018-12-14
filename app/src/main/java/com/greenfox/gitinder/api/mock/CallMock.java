@@ -9,9 +9,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class CallMock implements Call<GitHubToken> {
+public abstract class CallMock<T> implements Call<T> {
     @Override
-    public Response<GitHubToken> execute() throws IOException {
+    public Response<T> execute() throws IOException {
         return null;
     }
 
@@ -31,7 +31,7 @@ public abstract class CallMock implements Call<GitHubToken> {
     }
 
     @Override
-    public Call<GitHubToken> clone() {
+    public Call<T> clone() {
         return null;
     }
 

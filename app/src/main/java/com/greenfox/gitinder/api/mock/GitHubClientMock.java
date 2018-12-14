@@ -8,8 +8,8 @@ import retrofit2.Response;
 
 public class GitHubClientMock implements GitHubClient {
     @Override
-    public CallMock getToken(String ClientID, String secret, final String code) {
-        return new CallMock() {
+    public CallMock<GitHubToken> getToken(String ClientID, String secret, final String code) {
+        return new CallMock<GitHubToken>() {
             @Override
             public void enqueue(Callback<GitHubToken> callback) {
                 if (code.equals("7fd23c00de517e3b78c2")) {

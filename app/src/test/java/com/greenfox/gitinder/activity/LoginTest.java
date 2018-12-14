@@ -68,12 +68,7 @@ public class LoginTest {
     @Test
     public void testMockIsReturningAccessToken() {
         GitHubClientMock clientMock = new GitHubClientMock();
-        Intent intent = IntentFactory.getGitHubCallBackIntent();
-        ActivityController<Login> controller = Robolectric.buildActivity(Login.class, intent).create().start();
-        Activity login = controller.get();
-        controller.resume();
-        String code = login.getIntent().getData().getQueryParameter("code");
-        Call<GitHubToken> call = clientMock.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
+        Call<GitHubToken> call = clientMock.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, "7fd23c00de517e3b78c2");
         call.enqueue(new Callback<GitHubToken>() {
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
