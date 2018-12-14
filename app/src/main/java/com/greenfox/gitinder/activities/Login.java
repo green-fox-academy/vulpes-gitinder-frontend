@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Model.Constants;
-import com.greenfox.gitinder.Model.TestClass;
 import com.greenfox.gitinder.R;
 
-
+//do not touch this class
 public class Login extends AppCompatActivity {
 
-    private TestClass testClass;
 
     Button login;
     SharedPreferences preferences;
@@ -32,10 +29,8 @@ public class Login extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         login = findViewById(R.id.btn_login_with_github);
-
-
-
     }
+
     // After clicking the Github Oauth is started
     public void loginWithGithub(View view) {
         Intent intent = new Intent(this, LoginGitHub.class);

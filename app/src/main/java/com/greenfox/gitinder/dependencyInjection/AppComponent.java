@@ -1,14 +1,31 @@
 package com.greenfox.gitinder.dependencyInjection;
 
 
+import android.app.Application;
 
+import com.greenfox.gitinder.GitinderApp;
+import com.greenfox.gitinder.dependencyInjection.module.ActivityBuilder;
+import com.greenfox.gitinder.dependencyInjection.module.AppModule;
 
-import com.greenfox.gitinder.Model.TestClass;
+import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
+import dagger.android.AndroidInjectionModule;
 
-@Component(modules = AppLoggerModule.class)
+//do not touch this class
+@Singleton
+@Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
 public interface AppComponent {
-    TestClass getTestClass();
 
+    @Component.Builder
+    interface Builder {
+
+        @BindsInstance
+        Builder application(Application application);
+
+        AppComponent build();
+    }
+
+    void inject(GitinderApp gitinderApp);
 }

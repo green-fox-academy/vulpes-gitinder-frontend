@@ -1,27 +1,18 @@
 package com.greenfox.gitinder.activities;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Model.Constants;
 
-import org.apache.tools.ant.Main;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.android.controller.ActivityController;
-import org.robolectric.shadow.api.Shadow;
-import org.robolectric.shadows.ShadowApplication;
 
 import androidx.test.core.app.ApplicationProvider;
-import retrofit2.http.PUT;
 
 import static org.junit.Assert.*;
 import static org.robolectric.Shadows.*;
