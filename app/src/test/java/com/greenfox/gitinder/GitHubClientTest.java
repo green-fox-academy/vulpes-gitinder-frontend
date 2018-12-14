@@ -1,6 +1,7 @@
 package com.greenfox.gitinder;
 
 import com.greenfox.gitinder.Model.APIResponse;
+import com.greenfox.gitinder.Model.Profile;
 import com.greenfox.gitinder.Model.User;
 import com.greenfox.gitinder.clients.GitHubClient;
 
@@ -23,7 +24,7 @@ import static org.junit.Assert.*;
 public class GitHubClientTest {
 
     @Test
-    public void loginPostEndpointGotAllParamsTest(){
+    public void loginPostGotAllParamsTest(){
         User testUser = new User("Ferdinand", "fakink123");
 
         GitHubClient client = new MockService();
@@ -42,7 +43,7 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void loginPostEndpointMissingParamTest(){
+    public void loginPostMissingParamTest(){
         User testUser = new User("Ferdinand");
         final APIResponse apiResponse = new APIResponse();
 
@@ -67,7 +68,7 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void loginDeleteEndpointHeaderIsCorrectTest(){
+    public void loginDeleteHeaderIsCorrectTest(){
         GitHubClient client = new MockService();
         Call<APIResponse> call = client.logoutUser("abc123");
 
@@ -86,7 +87,7 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void loginDeleteEndpointHeaderIsEmptyTest(){
+    public void loginDeleteHeaderIsEmptyTest(){
         final APIResponse apiResponse = new APIResponse();
 
         GitHubClient client = new MockService();
@@ -112,7 +113,7 @@ public class GitHubClientTest {
     }
 
     @Test
-    public void loginDeleteEndpointHeaderIsNullTest(){
+    public void loginDeleteHeaderIsNullTest(){
         final APIResponse apiResponse = new APIResponse();
 
         GitHubClient client = new MockService();
@@ -134,6 +135,50 @@ public class GitHubClientTest {
             public void onFailure(Call<APIResponse> call, Throwable t) {
 
             }
+        });
+    }
+
+    @Test
+    public void profileGetHeaderIsCorrectTest(){
+        GitHubClient client = new MockService();
+        Call<Profile> call = client.getUserProfile("abc123");
+        Profile profileService = new Profile();
+        final Profile testJerry = profileService.createProfile("Jerry");
+
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                assertEquals(200, response.code());
+                assertEquals(testJerry.getUsername(), response.body().getUsername());
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void profileGetHeaderIsIncorrectTest(){
+        GitHubClient client = new MockService();
+        Call<Profile> call = client.getUserProfile("");
+        final APIResponse apiResponse = new APIResponse();
+
+        call.enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                assertEquals(403, response.code());
+                try {
+                    assertEquals(apiResponse.getErrorJSON("Unauthorized request!"),
+                                 response.errorBody().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {}
         });
     }
 
