@@ -50,4 +50,8 @@ public class APIResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public String getErrorJSON(){
+        return "{\"status\": \"error\",\"message\": \"Access token is missing!\"}";
+    }
 }

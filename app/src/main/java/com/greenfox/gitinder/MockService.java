@@ -1,5 +1,6 @@
 package com.greenfox.gitinder;
 
+import com.google.gson.Gson;
 import com.greenfox.gitinder.Model.APIResponse;
 import com.greenfox.gitinder.Model.User;
 import com.greenfox.gitinder.clients.GitHubClient;
@@ -36,9 +37,9 @@ public class MockService implements GitHubClient {
                 } else if (user.getAccess_token() == null) {
                     apiResponse.setStatus("error");
                     apiResponse.setMessage("Access token is missing!");
-                    callback.onResponse(this, Response
-                            .<APIResponse>error(400
-                                    , ResponseBody.create(MediaType.get("TEXT_PLAIN"), apiResponse.toString())));
+                    callback.onResponse(this, Response.<APIResponse>error(400,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                                apiResponse.getErrorJSON())));
                 } else {
                     apiResponse.setStatus("ok");
                     apiResponse.setGitinder_token("abc123");
