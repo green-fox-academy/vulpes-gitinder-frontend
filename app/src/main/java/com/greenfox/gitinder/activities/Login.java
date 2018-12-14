@@ -12,8 +12,6 @@ import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.R;
 
-import javax.inject.Inject;
-
 public class Login extends AppCompatActivity {
 
     Button login;
@@ -29,7 +27,7 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         }
         setContentView(R.layout.activity_login);
-        login = findViewById(R.id.loginwgh);
+        login = findViewById(R.id.btn_login_with_github);
     }
     // After clicking the Github Oauth is started
     public void loginWithGithub(View view) {
