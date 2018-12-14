@@ -1,8 +1,7 @@
-package com.greenfox.gitinder.activities;
+package com.greenfox.gitinder.activity;
 
 import android.app.Activity;
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,8 @@ import com.greenfox.gitinder.api.mock.GitHubClientMock;
 import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
-import com.greenfox.gitinder.activity.Login;
+import com.greenfox.gitinder.factory.IntentFactory;
+import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +32,7 @@ import static org.robolectric.Shadows.*;
 public class LoginTest {
 
     Login login;
+    SharedPreferences preferences;
 
     @Test
     public void buttonTextTest() {
@@ -40,20 +41,20 @@ public class LoginTest {
     }
     @Test
     public void testRedirectTrue() {
-        SharedPreferences preferences =  ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        preferences = SharedPreferencesFactory.getSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constants.GITINDER_TOKEN, "aaa").apply();
         login = Robolectric.setupActivity(Login.class);
         Intent expectedIntent = new Intent(login, MainActivity.class);
-        Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
+        Intent actual = IntentFactory.getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
     @Test
     public void testRedirectFail() {
-        SharedPreferences preferences = ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        preferences = SharedPreferencesFactory.getSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("ryba", "aaa").apply();
-        Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
+        Intent actual = IntentFactory.getNextStartedActivity();
         assertEquals(null, actual);
     }
     @Test
@@ -61,18 +62,13 @@ public class LoginTest {
         login = Robolectric.setupActivity(Login.class);
         login.login.performClick();
         Intent expectedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/login/oauth/authorize?client_id="+Constants.GITHUB_CLIENT_ID+"&redirect_uri="+Constants.GITHUB_CALLBACK));
-        Intent actual = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
+        Intent actual = IntentFactory.getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
     @Test
-    public void testLoggingWillGetTokenBack() {
+    public void testMockIsReturningAccessToken() {
         GitHubClientMock clientMock = new GitHubClientMock();
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("gitinder://githubcallback?code=7fd23c00de517e3b78c2"));
-        intent.setFlags(339738624);
-        intent.setComponent(ComponentName.createRelative("com.greenfox.gitinder", ".activities.Login"));
+        Intent intent = IntentFactory.getGitHubCallBackIntent();
         ActivityController<Login> controller = Robolectric.buildActivity(Login.class, intent).create().start();
         Activity login = controller.get();
         controller.resume();
@@ -92,20 +88,15 @@ public class LoginTest {
     }
     @Test
     public void tokenIsSaving() {
-        SharedPreferences sharedPreferences = ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        preferences = SharedPreferencesFactory.getSharedPref();
         GitHubClientMock clientMock = new GitHubClientMock();
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse("gitinder://githubcallback?code=7fd23c00de517e3b78c2"));
-        intent.setFlags(339738624);
-        intent.setComponent(ComponentName.createRelative("com.greenfox.gitinder", ".activities.Login"));
+        Intent intent = IntentFactory.getGitHubCallBackIntent();
         ActivityController<Login> controller = Robolectric.buildActivity(Login.class, intent).create().start();
         Activity login = controller.get();
-        assertTrue(!sharedPreferences.contains(Constants.GITINDER_TOKEN));
+        assertTrue(!preferences.contains(Constants.GITINDER_TOKEN));
         controller.resume();
         Uri uri = login.getIntent().getData();
         ((Login) login).saveGitHubToken(uri, clientMock);
-        assertTrue(sharedPreferences.contains(Constants.GITINDER_TOKEN));
+        assertTrue(preferences.contains(Constants.GITINDER_TOKEN));
     }
 }
