@@ -7,13 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.webkit.WebView;
 
-import com.greenfox.gitinder.Clients.GitHubClient;
-import com.greenfox.gitinder.Clients.GitHubClientMock;
+import com.greenfox.gitinder.api.mock.GitHubClientMock;
 import com.greenfox.gitinder.MainActivity;
-import com.greenfox.gitinder.Model.Constants;
-import com.greenfox.gitinder.Model.GitHubToken;
+import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.activity.Login;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

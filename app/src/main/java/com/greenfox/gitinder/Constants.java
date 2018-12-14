@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.Model;
+package com.greenfox.gitinder;
 
 import android.content.SharedPreferences;
 

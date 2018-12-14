@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activities;
+package com.greenfox.gitinder.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,21 +6,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewDebug;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.Clients.GitHubClient;
+import com.greenfox.gitinder.api.service.GitHubClient;
 import com.greenfox.gitinder.MainActivity;
-import com.greenfox.gitinder.Model.Constants;
-import com.greenfox.gitinder.Model.GitHubToken;
+import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
-import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
-    Button login;
+    public Button login;
     SharedPreferences preferences;
     private final String TAG = "login";
 
