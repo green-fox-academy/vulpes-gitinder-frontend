@@ -1,13 +1,17 @@
 package com.greenfox.gitinder.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
     String username;
-    String access_token;
 
-    public User(String username, String access_token) {
+    @SerializedName("access_token")
+    String accessToken;
+
+    public User(String username, String accessToken) {
         this.username = username;
-        this.access_token = access_token;
+        this.accessToken = accessToken;
     }
 
     public User(String username) {
@@ -21,7 +25,7 @@ public class User {
         return username;
     }
 
-    public String getAccess_token() {
-        return access_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 }

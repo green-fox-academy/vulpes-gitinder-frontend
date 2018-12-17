@@ -1,55 +1,64 @@
 package com.greenfox.gitinder.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Settings {
 
-    boolean enable_notifications;
-    boolean enable_background_sync;
-    int max_distance;
-    List<String> preferred_languages;
+    @SerializedName("enable_notifications")
+    boolean enableNotifications;
+
+    @SerializedName("enable_background_sync")
+    boolean enableBackgroundSync;
+
+    @SerializedName("max_distance")
+    int maxDistance;
+
+    @SerializedName("preferred_languages")
+    List<String> preferredLanguages;
 
     public Settings() {
     }
 
-    public Settings(boolean enable_notifications, boolean enable_background_sync, int max_distance, List<String> preffered_languages) {
-        this.enable_notifications = enable_notifications;
-        this.enable_background_sync = enable_background_sync;
-        this.max_distance = max_distance;
-        this.preferred_languages = preffered_languages;
+    public Settings(boolean enableNotifications, boolean enableBackgroundSync, int maxDistance, List<String> preferredLanguages) {
+        this.enableNotifications = enableNotifications;
+        this.enableBackgroundSync = enableBackgroundSync;
+        this.maxDistance = maxDistance;
+        this.preferredLanguages = preferredLanguages;
     }
 
-    public boolean isEnable_notifications() {
-        return enable_notifications;
+    public boolean isEnableNotifications() {
+        return enableNotifications;
     }
 
-    public void setEnable_notifications(boolean enable_notifications) {
-        this.enable_notifications = enable_notifications;
+    public void setEnableNotifications(boolean enableNotifications) {
+        this.enableNotifications = enableNotifications;
     }
 
-    public boolean isEnable_background_sync() {
-        return enable_background_sync;
+    public boolean isEnableBackgroundSync() {
+        return enableBackgroundSync;
     }
 
-    public void setEnable_background_sync(boolean enable_background_sync) {
-        this.enable_background_sync = enable_background_sync;
+    public void setEnableBackgroundSync(boolean enableBackgroundSync) {
+        this.enableBackgroundSync = enableBackgroundSync;
     }
 
-    public int getMax_distance() {
-        return max_distance;
+    public int getMaxDistance() {
+        return maxDistance;
     }
 
-    public void setMax_distance(int max_distance) {
-        this.max_distance = max_distance;
+    public void setMaxDistance(int maxDistance) {
+        this.maxDistance = maxDistance;
     }
 
-    public List<String> getPreferred_languages() {
-        return preferred_languages;
+    public List<String> getPreferredLanguages() {
+        return preferredLanguages;
     }
 
-    public void setPreferred_languages(List<String> preferred_languages) {
-        this.preferred_languages = preferred_languages;
+    public void setPreferredLanguages(List<String> preferredLanguages) {
+        this.preferredLanguages = preferredLanguages;
     }
 
     public Settings createSettings(){

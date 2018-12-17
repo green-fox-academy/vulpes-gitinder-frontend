@@ -1,21 +1,28 @@
 package com.greenfox.gitinder.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Match {
 
     String username;
-    String avatar_url;
-    int matched_at;
+
+    @SerializedName("avatar_url")
+    String avatarUrl;
+
+    @SerializedName("matched_at")
+    int matchedAt;
+
     List<Message> messages;
 
     public Match() {
     }
 
-    public Match(String username, String avatar_url, int matched_at, List<Message> messages) {
+    public Match(String username, String avatarUrl, int matchedAt, List<Message> messages) {
         this.username = username;
-        this.avatar_url = avatar_url;
-        this.matched_at = matched_at;
+        this.avatarUrl = avatarUrl;
+        this.matchedAt = matchedAt;
         this.messages = messages;
     }
 
@@ -27,20 +34,20 @@ public class Match {
         this.username = username;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
-    public int getMatched_at() {
-        return matched_at;
+    public int getMatchedAt() {
+        return matchedAt;
     }
 
-    public void setMatched_at(int matched_at) {
-        this.matched_at = matched_at;
+    public void setMatchedAt(int matchedAt) {
+        this.matchedAt = matchedAt;
     }
 
     public List<Message> getMessages() {

@@ -1,21 +1,26 @@
 package com.greenfox.gitinder.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Message {
 
     int id;
     String from;
     String to;
-    int created_at;
+
+    @SerializedName("created_at")
+    int createdAt;
+
     String message;
 
     public Message() {
     }
 
-    public Message(int id, String from, String to, int created_at, String message) {
+    public Message(int id, String from, String to, int createdAt, String message) {
         this.id = id;
         this.from = from;
         this.to = to;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.message = message;
     }
 
@@ -43,12 +48,12 @@ public class Message {
         this.to = to;
     }
 
-    public int getCreated_at() {
-        return created_at;
+    public int getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(int created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(int createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getMessage() {

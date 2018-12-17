@@ -1,22 +1,29 @@
 package com.greenfox.gitinder.Model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Profile {
 
     String username;
-    String avatar_url;
+
+    @SerializedName("avatar_url")
+    String avatarUrl;
+
     List<String> repos;
+
     List<String> languages;
+
     List<String> snippets;
 
     public Profile() {
     }
 
-    public Profile(String username, String avatar_url, List<String> repos, List<String> languages, List<String> snippets) {
+    public Profile(String username, String avatarUrl, List<String> repos, List<String> languages, List<String> snippets) {
         this.username = username;
-        this.avatar_url = avatar_url;
+        this.avatarUrl = avatarUrl;
         this.repos = repos;
         this.languages = languages;
         this.snippets = snippets;
@@ -30,12 +37,12 @@ public class Profile {
         this.username = username;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public List<String> getRepos() {
