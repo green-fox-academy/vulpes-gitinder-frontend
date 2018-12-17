@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.api.service.GitHubClient;
-import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
@@ -52,7 +51,6 @@ public class Login extends AppCompatActivity {
         Uri uri = getIntent().getData();
         if (uri != null) {
             saveGitHubToken(uri, client);
-            Toas
         }
     }
 
