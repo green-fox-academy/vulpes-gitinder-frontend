@@ -12,10 +12,7 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 
 
-
-
 import dagger.android.AndroidInjection;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLogin(View view) {
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
-        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
+        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
         }

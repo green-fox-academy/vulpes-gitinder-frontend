@@ -17,7 +17,6 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-// create your dependency here...
     @Provides
     @Singleton
     Context provideContext(Application application) {
