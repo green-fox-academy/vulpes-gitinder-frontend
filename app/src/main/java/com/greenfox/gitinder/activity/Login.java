@@ -52,7 +52,6 @@ public class Login extends AppCompatActivity {
         Uri uri = getIntent().getData();
         if (uri != null) {
             saveGitHubToken(uri, client);
-            Toas
         }
     }
 
