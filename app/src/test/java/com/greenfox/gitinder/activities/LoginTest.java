@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.greenfox.gitinder.Model.Constants;
+import com.greenfox.gitinder.activity.MainActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

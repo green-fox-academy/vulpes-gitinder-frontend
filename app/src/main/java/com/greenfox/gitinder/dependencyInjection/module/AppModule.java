@@ -5,8 +5,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.GitinderApp;
-import com.greenfox.gitinder.Model.Constants;
+
 
 import javax.inject.Singleton;
 

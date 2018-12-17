@@ -1,17 +1,21 @@
-package com.greenfox.gitinder.activities;
+package com.greenfox.gitinder.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.activities.Login;
+
 
 
 
 import dagger.android.AndroidInjection;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toLogin(View view) {
-        Intent intent = new Intent(this, Login.class);
-        startActivity(intent);
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.greenfox.gitinder;
 
-import com.greenfox.gitinder.activities.MainActivity;
+import com.greenfox.gitinder.activity.MainActivity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
