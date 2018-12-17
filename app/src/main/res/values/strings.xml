@@ -6,5 +6,9 @@
     <string name="Setting_Notification_Text">Allow Notifications</string>
     <string name="setting_background_sync_text">Allow Background Sync</string>
     <string name="max_distance_text">Set Maximum distance to match</string>
+    <string name="login_dialog_header">Login with Github</string>
+    <string name="login_dialog_body">In order to use GiTinder you need to login using your Github Account. Click login if you want to proceed.</string>
+    <string name="login_dialog_login">login</string>
+    <string name="login_dialog_exit">exit</string>
 
 </resources>
