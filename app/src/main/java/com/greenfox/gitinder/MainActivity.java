@@ -1,24 +1,18 @@
 package com.greenfox.gitinder;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Icon;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TableLayout;
 
-import com.greenfox.gitinder.activities.Login;
-import com.squareup.picasso.Picasso;
+import com.greenfox.gitinder.Adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.MainActivityFragment.SwipingFragment;
+import com.greenfox.gitinder.MainActivityFragment.MatchesFragment;
+import com.greenfox.gitinder.MainActivityFragment.SettingsFragment;
+import com.greenfox.gitinder.Activity.Login;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,18 +44,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager viewPager){
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-        sectionsPageAdapter.addFragment(new Tab1Fragment(),"Swiping");
-        sectionsPageAdapter.addFragment(new Tab2Fragment(),"Matches");
-        sectionsPageAdapter.addFragment(new Tab3Fragment(),"Settings");
+        sectionsPageAdapter.addFragment(new SwipingFragment(),"Swiping");
+        sectionsPageAdapter.addFragment(new MatchesFragment(),"Matches");
+        sectionsPageAdapter.addFragment(new SettingsFragment(),"Settings");
         viewPager.setAdapter(sectionsPageAdapter);
     }
-
-
-
-
-
-
-
 
     public void toLogin(View view) {
         Intent intent = new Intent(this, Login.class);

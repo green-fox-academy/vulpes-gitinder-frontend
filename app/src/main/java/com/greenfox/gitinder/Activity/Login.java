@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activities;
+package com.greenfox.gitinder.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,8 +11,6 @@ import android.widget.Button;
 import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.R;
-
-import javax.inject.Inject;
 
 public class Login extends AppCompatActivity {
 

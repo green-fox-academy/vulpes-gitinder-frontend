@@ -1,7 +1,5 @@
-package com.greenfox.gitinder.activities;
+package com.greenfox.gitinder.Activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 

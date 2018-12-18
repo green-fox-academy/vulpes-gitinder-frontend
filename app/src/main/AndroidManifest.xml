@@ -18,8 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Login" />
-        <activity android:name=".activities.LoginGitHub" />
+        <activity android:name=".Activity.Login" />
+        <activity android:name=".Activity.LoginGitHub" />
     </application>
 
 </manifest>

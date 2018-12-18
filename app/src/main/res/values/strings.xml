@@ -9,4 +9,6 @@
     <string name="tab_title_matches">Matches</string>
     <string name="tab_title_settings">Settings</string>
     <string name="image_description_profile_picture">Profile picture</string>
+    <string name="like_button_text">Like</string>
+    <string name="nope_button_text">Nope</string>
 </resources>
