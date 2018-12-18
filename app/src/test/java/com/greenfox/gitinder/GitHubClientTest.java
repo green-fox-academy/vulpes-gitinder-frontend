@@ -1,13 +1,15 @@
 package com.greenfox.gitinder;
 
 import com.greenfox.gitinder.API.BackendMockAPI;
+import com.greenfox.gitinder.Model.Factory.ErrorMessageFactory;
+import com.greenfox.gitinder.Model.Factory.SettingsFactory;
 import com.greenfox.gitinder.Model.Response.GitinderResponse;
 import com.greenfox.gitinder.Model.Response.LoginResponse;
-import com.greenfox.gitinder.Model.Response.SettingsResponse;
 import com.greenfox.gitinder.Model.Settings;
 import com.greenfox.gitinder.Model.User;
 import com.greenfox.gitinder.API.GitinderAPI;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -44,6 +46,8 @@ public class GitHubClientTest {
 
     @Test
     public void loginPostMissingParamTest(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+
         User testUser = new User("Ferdinand");
         final LoginResponse apiResponse = new LoginResponse();
 
@@ -55,7 +59,7 @@ public class GitHubClientTest {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 assertEquals(400, response.code());
                 try {
-                    assertEquals(apiResponse.getErrorJSON("Access token is missing!"),
+                    assertEquals(errorMessageFactory.getErrorJSON("Access token is missing!"),
                                  response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -88,7 +92,7 @@ public class GitHubClientTest {
 
     @Test
     public void logoutDeleteHeaderIsEmptyTest(){
-        final GitinderResponse apiResponse = new GitinderResponse();
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         GitinderAPI client = new BackendMockAPI();
         Call<GitinderResponse> call = client.logoutUser("");
@@ -98,7 +102,7 @@ public class GitHubClientTest {
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                 assertEquals(403, response.code());
                 try {
-                    assertEquals(apiResponse.getErrorJSON("Unauthorized request!"),
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),
                                  response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -114,7 +118,7 @@ public class GitHubClientTest {
 
     @Test
     public void logoutDeleteHeaderIsNullTest(){
-        final GitinderResponse apiResponse = new GitinderResponse();
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         GitinderAPI client = new BackendMockAPI();
         Call<GitinderResponse> call = client.logoutUser(null);
@@ -124,7 +128,7 @@ public class GitHubClientTest {
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                 assertEquals(403, response.code());
                 try {
-                    assertEquals(apiResponse.getErrorJSON("Unauthorized request!"),
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),
                             response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -141,19 +145,19 @@ public class GitHubClientTest {
     @Test
     public void settingsGetHeaderIsCorrectTest(){
         GitinderAPI client = new BackendMockAPI();
-        Call<SettingsResponse> call = client.getSettings("abc123");
-        Settings profileService = new Settings();
-        final Settings testJerry = profileService.createSettings();
+        Call<Settings> call = client.getSettings("abc123");
+        SettingsFactory settingsFactory = new SettingsFactory();
+        final Settings testJerry = settingsFactory.createSettings();
 
-        call.enqueue(new Callback<SettingsResponse>() {
+        call.enqueue(new Callback<Settings>() {
             @Override
-            public void onResponse(Call<SettingsResponse> call, Response<SettingsResponse> response) {
+            public void onResponse(Call<Settings> call, Response<Settings> response) {
                 assertEquals(200, response.code());
-                assertEquals(testJerry.getPreferredLanguages(), response.body().getSettings().getPreferredLanguages());
+                assertEquals(testJerry.getPreferredLanguages(), response.body().getPreferredLanguages());
             }
 
             @Override
-            public void onFailure(Call<SettingsResponse> call, Throwable t) {
+            public void onFailure(Call<Settings> call, Throwable t) {
 
             }
         });
@@ -161,16 +165,17 @@ public class GitHubClientTest {
 
     @Test
     public void settingsGetHeaderIsIncorrectTest(){
-        GitinderAPI client = new BackendMockAPI();
-        Call<SettingsResponse> call = client.getSettings(null);
-        final GitinderResponse apiResponse = new GitinderResponse();
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
-        call.enqueue(new Callback<SettingsResponse>() {
+        GitinderAPI client = new BackendMockAPI();
+        Call<Settings> call = client.getSettings(null);
+
+        call.enqueue(new Callback<Settings>() {
             @Override
-            public void onResponse(Call<SettingsResponse> call, Response<SettingsResponse> response) {
+            public void onResponse(Call<Settings> call, Response<Settings> response) {
                 assertEquals(403, response.code());
                 try {
-                    assertEquals(apiResponse.getErrorJSON("Unauthorized request!"),
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),
                                  response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -178,7 +183,7 @@ public class GitHubClientTest {
             }
 
             @Override
-            public void onFailure(Call<SettingsResponse> call, Throwable t) {
+            public void onFailure(Call<Settings> call, Throwable t) {
 
             }
         });
@@ -186,8 +191,8 @@ public class GitHubClientTest {
 
     @Test
     public void settingsPutBodyCorrectTest(){
-        Settings settingsService = new Settings();
-        final Settings testSettings = settingsService.createSettings();
+        SettingsFactory settingsFactory = new SettingsFactory();
+        final Settings testSettings = settingsFactory.createSettings();
 
         GitinderAPI client = new BackendMockAPI();
         Call<GitinderResponse> call = client.updateSettings("abc123", testSettings);
@@ -206,17 +211,17 @@ public class GitHubClientTest {
 
     @Test
     public void settingsPutBodyIncorrectTest(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         GitinderAPI client = new BackendMockAPI();
         Call<GitinderResponse> call = client.updateSettings("abc123", null);
-        final GitinderResponse apiResponse = new GitinderResponse();
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                 assertEquals(403, response.code());
                 try {
-                    assertEquals(apiResponse.getErrorJSON("Unauthorized request!"),
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),
                                  response.errorBody().string());
                 } catch (IOException e) {
                     e.printStackTrace();

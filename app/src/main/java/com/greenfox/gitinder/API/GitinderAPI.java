@@ -2,7 +2,6 @@ package com.greenfox.gitinder.API;//package gitinder.backup.features.gitinder.cl
 
 import com.greenfox.gitinder.Model.Response.GitinderResponse;
 import com.greenfox.gitinder.Model.Response.LoginResponse;
-import com.greenfox.gitinder.Model.Response.SettingsResponse;
 import com.greenfox.gitinder.Model.Settings;
 import com.greenfox.gitinder.Model.User;
 
@@ -23,7 +22,7 @@ public interface GitinderAPI {
     Call<GitinderResponse> logoutUser(@Header("X-Gitinder-Token") String gitinderToken);
 
     @GET("settings")
-    Call<SettingsResponse> getSettings(@Header("X-Gitinder-Token") String gitinderToken);
+    Call<Settings> getSettings(@Header("X-Gitinder-Token") String gitinderToken);
 
     @PUT("settings")
     Call<GitinderResponse> updateSettings(@Header("X-Gitinder-Token") String gitinderToken, @Body Settings settings);

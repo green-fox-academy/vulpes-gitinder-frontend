@@ -6,6 +6,7 @@ public class GitinderResponse {
     String message;
 
     public GitinderResponse() {
+        super();
     }
 
     public GitinderResponse(String status, String message) {
@@ -29,7 +30,4 @@ public class GitinderResponse {
         this.message = message;
     }
 
-    public String getErrorJSON(String message){
-        return "{\"status\": \"error\",\"message\": \"" + message + "\"}";
-    }
 }

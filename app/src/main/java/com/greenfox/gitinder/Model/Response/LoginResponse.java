@@ -7,6 +7,7 @@ public class LoginResponse extends GitinderResponse {
     String gitinderToken;
 
     public LoginResponse() {
+        super();
     }
 
     public LoginResponse(String status, String message, String gitinderToken) {

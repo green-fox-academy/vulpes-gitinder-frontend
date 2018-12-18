@@ -60,11 +60,4 @@ public class Settings {
     public void setPreferredLanguages(List<String> preferredLanguages) {
         this.preferredLanguages = preferredLanguages;
     }
-
-    public Settings createSettings(){
-        List<String> languages = new ArrayList<>();
-        languages.add("EN"); languages.add("CZ"); languages.add("HU");
-        return new Settings(true, true, 20, languages);
-    }
-
 }
