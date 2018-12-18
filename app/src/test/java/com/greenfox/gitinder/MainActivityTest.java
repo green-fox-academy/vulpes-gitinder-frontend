@@ -1,5 +1,6 @@
 package com.greenfox.gitinder;
 
+<<<<<<< HEAD
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -8,18 +9,24 @@ import android.util.Log;
 
 import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.activities.Login;
+=======
+import com.greenfox.gitinder.activity.MainActivity;
+>>>>>>> 9738dff82543f82a7b76391a56f5d7688fa828e0
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
+<<<<<<< HEAD
 import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.*;
 import static org.robolectric.Shadows.*;
 
 
+=======
+>>>>>>> 9738dff82543f82a7b76391a56f5d7688fa828e0
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
 
@@ -31,6 +38,7 @@ public class MainActivityTest {
         assertEquals("Settings", mainActivity.settingsButton.getText());
     }
 
+<<<<<<< HEAD
     @Test
     public void tokenIsPresentRedirectionTest() {
         SharedPreferences preferences = ApplicationProvider.getApplicationContext().getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
@@ -59,4 +67,6 @@ public class MainActivityTest {
 
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
     }
+=======
+>>>>>>> 9738dff82543f82a7b76391a56f5d7688fa828e0
 }

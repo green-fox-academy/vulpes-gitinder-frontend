@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.activities.Login;
 
 import org.w3c.dom.Text;
