@@ -12,16 +12,41 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+<<<<<<< HEAD
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".MainActivity">
+=======
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.MainActivity">
 
+>>>>>>> 9738dff82543f82a7b76391a56f5d7688fa828e0
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
+
+        <activity
+            android:name=".activities.Login"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".activities.LoginGitHub"
+            android:parentActivityName=".activities.Login">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Login" />
+        </activity>
+
+=======
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -35,6 +60,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.Settings"></activity>
+>>>>>>> 9738dff82543f82a7b76391a56f5d7688fa828e0
     </application>
 
 </manifest>
