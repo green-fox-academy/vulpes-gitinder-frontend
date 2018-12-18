@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Gitinder</string>
     <string name="loginGitHub">Login with Github</string>
+    <string name="main_settings_button_text">Settings</string>
+    <string name="main_logout_button_text">Logout</string>
+
 </resources>
