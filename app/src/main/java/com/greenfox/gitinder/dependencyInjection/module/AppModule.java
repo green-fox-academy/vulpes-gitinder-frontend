@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import com.greenfox.gitinder.GitinderApp;
+import com.greenfox.gitinder.Model.UserSettings;
 import com.greenfox.gitinder.Model.Constants;
 
 import javax.inject.Singleton;
@@ -26,5 +26,11 @@ public class AppModule {
     @Provides
     SharedPreferences sharedPreferences(Application application) {
         return application.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    UserSettings appSettings(){
+        return new UserSettings();
     }
 }
