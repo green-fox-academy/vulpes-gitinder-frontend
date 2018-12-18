@@ -37,6 +37,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
     // Retrofit
@@ -44,6 +45,7 @@ dependencies {
     // Dagger
     implementation "com.google.dagger:dagger-android:2.19"
     implementation "com.google.dagger:dagger-android-support:2.19"
+    implementation 'com.android.support:design:28.0.0'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.19'
     // Test - Robolectric
     testImplementation 'org.robolectric:robolectric:4.0.2'

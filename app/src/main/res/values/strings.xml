@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">Gitinder</string>
+    <string name="app_name">GiTinder</string>
     <string name="loginGitHub">Login with Github</string>
+    <string name="test_text_1">Test 1</string>
+    <string name="title_activity_tabbed_to_delete">TabbedActivityToDelete</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="tab_title_swiping">Swiping</string>
+    <string name="tab_title_matches">Matches</string>
+    <string name="tab_title_settings">Settings</string>
+    <string name="image_description_profile_picture">Profile picture</string>
 </resources>

@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         }
         setContentView(R.layout.activity_login);
-        login = findViewById(R.id.loginwgh);
+        login = findViewById(R.id.btn_login_with_github);
     }
     // After clicking the Github Oauth is started
     public void loginWithGithub(View view) {
