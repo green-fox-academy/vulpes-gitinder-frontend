@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
-    private final SharedPreferences spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    private SharedPreferences spref;
     public Button login;
     GitHubClient client;
 
@@ -31,6 +31,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //checks the Shared preference for existing gitinder token
+        spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
