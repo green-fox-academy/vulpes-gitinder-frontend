@@ -32,6 +32,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //checks the Shared preference for existing gitinder token
         spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
         if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
