@@ -35,8 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        SettingsSwitchButtons();
-        SettingSeekBar();
+        settingsSwitchButtons();
+        settingSeekBar();
         displayImage();
 
 
@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
         Picasso.get().load("https://vignette.wikia.nocookie.net/rickandmorty/images/1/19/Pickle_rick_transparent.png/revision/latest?cb=20171025014216").into(imageView);
     }
 
-    public void SettingsSwitchButtons() {
+    public void settingsSwitchButtons() {
         aSwitch = (Switch) findViewById(R.id.notifications);
         bSwitch = (Switch) findViewById(R.id.bckSync);
 
@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public void SettingSeekBar() {
+    public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         maximumDistance.setText("Maximum Distance :" + seekBar.getProgress());
@@ -92,7 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 maximumDistance.setText("Maximum Distance :" + seekBar.getProgress());
-                Toast.makeText(SettingsActivity.this, "Stop", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -102,6 +101,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 userSettings.setMaxDistance(seekBar.getProgress());
+                sharedPreferences.edit().putInt("maximumDistance",seekBar.getProgress()).apply();
             }
         });
     }

@@ -11,7 +11,7 @@ import android.widget.Button;
 import com.greenfox.gitinder.Model.Constants;
 import com.greenfox.gitinder.R;
 
-//do not touch this class
+
 public class Login extends AppCompatActivity {
 
 

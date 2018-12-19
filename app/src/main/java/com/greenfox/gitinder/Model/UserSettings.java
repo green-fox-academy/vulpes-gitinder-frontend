@@ -7,9 +7,9 @@ import java.util.List;
 public class UserSettings {
 
     @SerializedName("enable_notifications")
-    boolean isEnableNotification;
+    boolean EnableNotification;
     @SerializedName("enable_background_sync")
-    boolean isEnableBackgroundSync;
+    boolean EnableBackgroundSync;
     @SerializedName("max_distance")
     int maxDistance;
     @SerializedName("preferred_languages")
@@ -19,26 +19,26 @@ public class UserSettings {
     }
 
     public UserSettings(List<String> preferredLanguages) {
-        this.isEnableNotification = false;
-        this.isEnableBackgroundSync = false;
+        this.EnableNotification = false;
+        this.EnableBackgroundSync = false;
         this.maxDistance = 0;
         this.preferredLanguages = preferredLanguages;
     }
 
     public boolean isEnableNotification() {
-        return isEnableNotification;
+        return EnableNotification;
     }
 
     public void setEnableNotification(boolean enableNotification) {
-        isEnableNotification = enableNotification;
+        EnableNotification = enableNotification;
     }
 
     public boolean isEnableBackgroundSync() {
-        return isEnableBackgroundSync;
+        return EnableBackgroundSync;
     }
 
     public void setEnableBackgroundSync(boolean enableBackgroundSync) {
-        isEnableBackgroundSync = enableBackgroundSync;
+        EnableBackgroundSync = enableBackgroundSync;
     }
 
     public int getMaxDistance() {

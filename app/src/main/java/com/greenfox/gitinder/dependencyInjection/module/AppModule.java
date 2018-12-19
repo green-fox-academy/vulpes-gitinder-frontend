@@ -24,6 +24,7 @@ public class AppModule {
     }
 
     @Provides
+    @Singleton
     SharedPreferences sharedPreferences(Application application) {
         return application.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
     }
