@@ -53,8 +53,7 @@ public class Login extends AppCompatActivity {
         if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
-        if (uri == null && !spref.contains(Constants.GITINDER_TOKEN)){
+        } else if (uri == null){
             LoginDialog loginDialog = new LoginDialog();
             loginDialog.show(getSupportFragmentManager(), "loginDialog");
         }
