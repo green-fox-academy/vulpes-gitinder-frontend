@@ -32,7 +32,6 @@
                     android:scheme="gitinder" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Settings"></activity>
     </application>
 
 </manifest>
