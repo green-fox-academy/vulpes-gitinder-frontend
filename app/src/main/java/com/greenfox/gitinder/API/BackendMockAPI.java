@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.API;
+package com.greenfox.gitinder.api;
 
 import com.greenfox.gitinder.Model.Factory.ErrorMessageFactory;
 import com.greenfox.gitinder.Model.Factory.SettingsFactory;
@@ -13,6 +13,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BackendMockAPI implements GitinderAPI {
+
+    @Override
+    public CallMock<com.greenfox.gitinder.api.model.GitHubToken> getToken(String ClientID, String secret, final String code) {
+        return new CallMock<com.greenfox.gitinder.api.model.GitHubToken>() {
+            @Override
+            public void enqueue(Callback<com.greenfox.gitinder.api.model.GitHubToken> callback) {
+                if (code.equals("7fd23c00de517e3b78c2")) {
+                    callback.onResponse(this, Response.success(new com.greenfox.gitinder.api.model.GitHubToken("aaa", "bbb")));
+                }
+            }
+        };
+    }
 
 
     @Override
@@ -108,5 +120,4 @@ public class BackendMockAPI implements GitinderAPI {
             }
         };
     }
-
 }

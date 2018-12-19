@@ -1,10 +1,9 @@
-package com.greenfox.gitinder.API;
+package com.greenfox.gitinder.api;
 
 import java.io.IOException;
 
 import okhttp3.Request;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public abstract class CallMock<T> implements Call<T> {

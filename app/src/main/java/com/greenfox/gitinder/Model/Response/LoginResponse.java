@@ -1,7 +1,5 @@
 package com.greenfox.gitinder.Model.Response;
 
-import com.greenfox.gitinder.Model.User;
-
 public class LoginResponse extends GitinderResponse {
 
     String gitinderToken;
