@@ -1,15 +1,12 @@
 package com.greenfox.gitinder.activity;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 
 import com.greenfox.gitinder.api.mock.GitHubClientMock;
-import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.factory.IntentFactory;
@@ -21,13 +18,11 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
 
-import androidx.test.core.app.ApplicationProvider;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.junit.Assert.*;
-import static org.robolectric.Shadows.*;
 
 @RunWith(RobolectricTestRunner.class)
 public class LoginTest {

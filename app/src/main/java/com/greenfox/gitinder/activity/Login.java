@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.api.service.GitHubClient;
-import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
@@ -24,13 +23,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
-    SharedPreferences spref;
+
+    private SharedPreferences spref;
     public Button login;
     GitHubClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //checks the Shared preference for existing gitinder token
+        spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        if (spref.contains(Constants.GITINDER_TOKEN)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
         setContentView(R.layout.activity_login);
         spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
         //checks the Shared preference for existing gitinder token
