@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.greenfox.gitinder">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
 
     <application
         android:name=".GitinderApp"
@@ -11,16 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.Login" />
-        <activity android:name=".activities.LoginGitHub" />
-        <activity android:name=".activities.SettingsActivity"></activity>
+
+        <activity android:name=".activity.SettingsActivity"></activity>
+        <activity android:name=".activity.Login">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="githubcallback"
+                    android:scheme="gitinder" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

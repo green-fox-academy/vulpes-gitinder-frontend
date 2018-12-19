@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 
 
 import com.greenfox.gitinder.Model.UserSettings;
-import com.greenfox.gitinder.Model.Constants;
+
+import com.greenfox.gitinder.Constants;
+
 
 import javax.inject.Singleton;
 
@@ -16,7 +18,9 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
+
 // create your dependency here. Provides annotation have to return object cannot be done on void methods.
+
     @Provides
     @Singleton
     Context provideContext(Application application) {
@@ -31,7 +35,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserSettings appSettings(){
+    UserSettings appSettings() {
         return new UserSettings();
     }
 }
