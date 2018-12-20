@@ -1,31 +1,42 @@
 package com.greenfox.gitinder;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
+import com.greenfox.gitinder.Activity.Login1;
 import com.greenfox.gitinder.Adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.MainActivityFragment.SwipingFragment;
 import com.greenfox.gitinder.MainActivityFragment.MatchesFragment;
 import com.greenfox.gitinder.MainActivityFragment.SettingsFragment;
-import com.greenfox.gitinder.Activity.Login;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-
     private SectionsPageAdapter mSectionsPageAdapter;
-
     private ViewPager mViewPager;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_1);
+
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
+        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
+            Log.d("token_checking", "Token is missing!");
+            toLogin();
+        } else {
+            Log.d("token_checking", "Token is present.");
+        }
+
 
         Log.d(TAG, "onCreate: Starting.");
 
@@ -50,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPageAdapter);
     }
 
-    public void toLogin(View view) {
-        Intent intent = new Intent(this, Login.class);
+    public void toLogin() {
+        Intent intent = new Intent(this, Login1.class);
         startActivity(intent);
     }
 }
