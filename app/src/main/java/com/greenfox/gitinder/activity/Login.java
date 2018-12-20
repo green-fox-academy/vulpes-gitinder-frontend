@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.api.service.GitHubClient;
+import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
@@ -26,13 +26,14 @@ public class Login extends AppCompatActivity {
 
     private SharedPreferences spref;
     public Button login;
-    GitHubClient client;
+    GithubAPI client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //checks the Shared preference for existing gitinder token
         spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
         if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -45,7 +46,7 @@ public class Login extends AppCompatActivity {
                 .baseUrl("https://github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
-        client = retrofit.create(GitHubClient.class);
+        client = retrofit.create(GithubAPI.class);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
     // Calls the githubAPI and saves the returned github token
-    public void saveGitHubToken(Uri uri, GitHubClient client) {
+    public void saveGitHubToken(Uri uri, GithubAPI client) {
         String code = uri.getQueryParameter("code");
         Call<GitHubToken> call = client.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
 
@@ -95,4 +96,3 @@ public class Login extends AppCompatActivity {
         });
     }
 }
-
