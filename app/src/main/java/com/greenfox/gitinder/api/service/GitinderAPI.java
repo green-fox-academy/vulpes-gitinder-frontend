@@ -1,9 +1,9 @@
 package com.greenfox.gitinder.api.service;
 
-import com.greenfox.gitinder.model.Response.GitinderResponse;
-import com.greenfox.gitinder.model.Response.LoginResponse;
-import com.greenfox.gitinder.model.Settings;
-import com.greenfox.gitinder.model.User;
+import com.greenfox.gitinder.modelBANANA.Responsesad.GitinderResponse;
+import com.greenfox.gitinder.modelBANANA.Responsesad.LoginResponse;
+import com.greenfox.gitinder.modelBANANA.Settings;
+import com.greenfox.gitinder.modelBANANA.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
