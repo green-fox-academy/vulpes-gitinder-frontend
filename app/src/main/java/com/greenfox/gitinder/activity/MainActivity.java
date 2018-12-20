@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import com.greenfox.gitinder.Constants;
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    public void toSettings(View view){
+        Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
     }
 }
