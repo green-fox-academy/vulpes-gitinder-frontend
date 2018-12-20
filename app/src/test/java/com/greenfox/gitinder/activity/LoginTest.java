@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.DialogFragment;
 
 import com.greenfox.gitinder.api.mock.GitHubClientMock;
 import com.greenfox.gitinder.Constants;
@@ -30,9 +31,14 @@ public class LoginTest {
     SharedPreferences preferences;
 
     @Test
-    public void buttonTextTest() {
+    public void dialogFragmentIsShownToTheUser() {
+        preferences = SharedPreferencesFactory.getSharedPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ryba", "aaa").apply();
         login = Robolectric.setupActivity(Login.class);
-        assertEquals("Login with Github", login.login.getText());
+        login.onResume();
+        DialogFragment dialogFragment = (DialogFragment) login.getSupportFragmentManager().findFragmentByTag("loginDialog");
+        assertNotNull(dialogFragment);
     }
     @Test
     public void testRedirectTrue() {
