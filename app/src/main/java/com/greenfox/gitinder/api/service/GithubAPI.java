@@ -1,6 +1,6 @@
-package com.greenfox.gitinder.apiTest.service;
+package com.greenfox.gitinder.api.service;
 
-import com.greenfox.gitinder.apiTest.model.GitHubToken;
+import com.greenfox.gitinder.api.model.GitHubToken;
 
 import retrofit2.Call;
 import retrofit2.http.Headers;

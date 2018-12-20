@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.apiTest.mock;
+package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.model.Factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.Factory.SettingsFactory;
@@ -6,7 +6,7 @@ import com.greenfox.gitinder.model.Response.GitinderResponse;
 import com.greenfox.gitinder.model.Response.LoginResponse;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
-import com.greenfox.gitinder.apiTest.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;

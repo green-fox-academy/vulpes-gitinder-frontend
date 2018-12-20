@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.apiTest.service;
+package com.greenfox.gitinder.api.service;
 
 import com.greenfox.gitinder.model.Response.GitinderResponse;
 import com.greenfox.gitinder.model.Response.LoginResponse;

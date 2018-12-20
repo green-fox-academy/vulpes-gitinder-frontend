@@ -1,13 +1,13 @@
 package com.greenfox.gitinder;
 
-import com.greenfox.gitinder.apiTest.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.model.Factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.Factory.SettingsFactory;
 import com.greenfox.gitinder.model.Response.GitinderResponse;
 import com.greenfox.gitinder.model.Response.LoginResponse;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
-import com.greenfox.gitinder.apiTest.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
