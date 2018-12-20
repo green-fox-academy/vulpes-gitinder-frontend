@@ -12,4 +12,5 @@ public interface GitHubClient {
     @Headers("Accept: application/json")
     @POST("login/oauth/access_token")
     Call<GitHubToken> getToken(@Query("client_id") String ClientID, @Query("client_secret") String secret, @Query("code") String code);
+
 }
