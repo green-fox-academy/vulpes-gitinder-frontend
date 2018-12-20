@@ -52,5 +52,4 @@ public class MainActivityTest {
 
         assertEquals(expectedIntent.getComponent(), actualIntent.getComponent());
     }
-
 }
