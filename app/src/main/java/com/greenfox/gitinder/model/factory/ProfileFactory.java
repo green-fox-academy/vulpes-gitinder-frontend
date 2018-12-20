@@ -1,6 +1,6 @@
-package com.greenfox.gitinder.modelBANANA.Factorysad;
+package com.greenfox.gitinder.model.factory;
 
-import com.greenfox.gitinder.modelBANANA.Profile;
+import com.greenfox.gitinder.model.Profile;
 
 import java.util.ArrayList;
 import java.util.List;

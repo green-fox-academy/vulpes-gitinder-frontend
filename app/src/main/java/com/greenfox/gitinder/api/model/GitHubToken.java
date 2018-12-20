@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.api.modelsad;
+package com.greenfox.gitinder.api.model;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,11 +1,11 @@
 package com.greenfox.gitinder.api.mock;
 
-import com.greenfox.gitinder.modelBANANA.Factorysad.ErrorMessageFactory;
-import com.greenfox.gitinder.modelBANANA.Factorysad.SettingsFactory;
-import com.greenfox.gitinder.modelBANANA.Responsesad.GitinderResponse;
-import com.greenfox.gitinder.modelBANANA.Responsesad.LoginResponse;
-import com.greenfox.gitinder.modelBANANA.Settings;
-import com.greenfox.gitinder.modelBANANA.User;
+import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.SettingsFactory;
+import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.model.Settings;
+import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 
 import okhttp3.MediaType;

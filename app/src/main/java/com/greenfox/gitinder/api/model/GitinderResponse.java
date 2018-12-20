@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.modelBANANA.Responsesad;
+package com.greenfox.gitinder.api.model;
 
 public class GitinderResponse {
 
