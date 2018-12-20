@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.Adapter;
+package com.greenfox.gitinder.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

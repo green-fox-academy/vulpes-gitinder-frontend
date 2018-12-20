@@ -22,7 +22,7 @@ public class IntentFactory {
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse("gitinder://githubcallback?code=7fd23c00de517e3b78c2"));
         intent.setFlags(339738624);
-        intent.setComponent(ComponentName.createRelative("com.greenfox.gitinder", ".activities.Login1"));
+        intent.setComponent(ComponentName.createRelative("com.greenfox.gitinder", ".activities.Login"));
         return intent;
     }
 }

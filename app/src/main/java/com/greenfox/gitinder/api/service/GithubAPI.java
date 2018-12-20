@@ -7,7 +7,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-public interface GitHubClient {
+public interface GithubAPI {
 
     @Headers("Accept: application/json")
     @POST("login/oauth/access_token")

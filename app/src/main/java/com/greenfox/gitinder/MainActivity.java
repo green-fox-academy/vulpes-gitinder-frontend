@@ -9,11 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.greenfox.gitinder.Activity.Login1;
-import com.greenfox.gitinder.Adapter.SectionsPageAdapter;
-import com.greenfox.gitinder.MainActivityFragment.SwipingFragment;
-import com.greenfox.gitinder.MainActivityFragment.MatchesFragment;
-import com.greenfox.gitinder.MainActivityFragment.SettingsFragment;
+import com.greenfox.gitinder.activity.Login;
+import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.mainActivityFragment.SwipingFragment;
+import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
+import com.greenfox.gitinder.mainActivityFragment.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("token_checking", "Token is present.");
         }
-
 
         Log.d(TAG, "onCreate: Starting.");
 
@@ -62,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toLogin() {
-        Intent intent = new Intent(this, Login1.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 }

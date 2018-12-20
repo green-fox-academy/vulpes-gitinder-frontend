@@ -1,5 +1,7 @@
 package com.greenfox.gitinder.dependencyInjection.module;
 
+import com.greenfox.gitinder.MainActivity;
+
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 

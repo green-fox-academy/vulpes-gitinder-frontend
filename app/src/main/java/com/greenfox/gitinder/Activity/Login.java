@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.Activity;
+package com.greenfox.gitinder.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.MainActivity;
-import com.greenfox.gitinder.api.service.GitHubClient;
+import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
@@ -22,28 +22,32 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Login1 extends AppCompatActivity {
+public class Login extends AppCompatActivity {
+
 
     private SharedPreferences spref;
     public Button login;
-    GitHubClient client;
+    GithubAPI client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //checks the Shared preference for existing gitinder token
         spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+
         if (spref.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
         setContentView(R.layout.activity_login);
+        spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        //checks the Shared preference for existing gitinder token
         login = findViewById(R.id.btn_login_with_github);
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
-        client = retrofit.create(GitHubClient.class);
+        client = retrofit.create(GithubAPI.class);
     }
 
     @Override
@@ -54,6 +58,14 @@ public class Login1 extends AppCompatActivity {
         if (uri != null) {
             saveGitHubToken(uri, client);
         }
+        if (spref.contains(Constants.GITINDER_TOKEN)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (uri == null){
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.show(getSupportFragmentManager(), "loginDialog");
+        }
+
     }
 
     // After clicking the Github Oauth is started
@@ -64,22 +76,24 @@ public class Login1 extends AppCompatActivity {
         startActivity(intent);
     }
     // Calls the githubAPI and saves the returned github token
-    public void saveGitHubToken(Uri uri, GitHubClient client) {
+    public void saveGitHubToken(Uri uri, GithubAPI client) {
         String code = uri.getQueryParameter("code");
         Call<GitHubToken> call = client.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
+
         call.enqueue(new Callback<GitHubToken>() {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
                 SharedPreferences.Editor editor = spref.edit();
                 editor.putString(Constants.GITINDER_TOKEN, response.body().getToken()).apply();
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<GitHubToken> call, Throwable t) {
-                Toast.makeText(Login1.this, "Failed to call", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, "Failed to call", Toast.LENGTH_SHORT).show();
             }
         });
     }
 }
-

@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.MainActivityFragment;
+package com.greenfox.gitinder.mainActivityFragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +20,7 @@ public class SwipingFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
 
-        ImageView profilePic = view.findViewById(R.id.tab1_profile_pic);
+        ImageView profilePic = view.findViewById(R.id.main_profile_picture);
         Picasso.get().load("https://www.randomlists.com/img/people/tom_hanks.jpg").into(profilePic);
 
         return view;

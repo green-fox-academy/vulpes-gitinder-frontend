@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">GiTinder</string>
     <string name="loginGitHub">Login with Github</string>
-<<<<<<< HEAD
     <string name="test_text_1">Test 1</string>
     <string name="title_activity_tabbed_to_delete">TabbedActivityToDelete</string>
     <string name="action_settings">Settings</string>
@@ -12,7 +11,6 @@
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="like_button_text">Like</string>
     <string name="nope_button_text">Nope</string>
-=======
     <string name="main_settings_button_text">Settings</string>
     <string name="main_logout_button_text">Logout</string>
     <string name="Setting_Notification_Text">Allow Notifications</string>
@@ -24,5 +22,4 @@
     <string name="login_dialog_exit">exit</string>
     <string name="main_nope">Nope</string>
     <string name="main_like">Like</string>
->>>>>>> week2
 </resources>

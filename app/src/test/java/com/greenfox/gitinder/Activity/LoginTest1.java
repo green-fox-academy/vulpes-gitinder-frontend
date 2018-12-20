@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.app.DialogFragment;
 
-import com.greenfox.gitinder.api.mock.GitHubClientMock;
 import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.MainActivity;
+import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.mock.GitHubMock;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.factory.IntentFactory;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
@@ -30,9 +33,14 @@ public class LoginTest1 {
     SharedPreferences preferences;
 
     @Test
-    public void buttonTextTest() {
+    public void dialogFragmentIsShownToTheUser() {
+        preferences = SharedPreferencesFactory.getSharedPref();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("ryba", "aaa").apply();
         login = Robolectric.setupActivity(Login.class);
-        assertEquals("Login1 with Github", login.login.getText());
+        login.onResume();
+        DialogFragment dialogFragment = (DialogFragment) login.getSupportFragmentManager().findFragmentByTag("loginDialog");
+        assertNotNull(dialogFragment);
     }
     @Test
     public void testRedirectTrue() {
@@ -62,7 +70,7 @@ public class LoginTest1 {
     }
     @Test
     public void testMockIsReturningAccessToken() {
-        GitHubClientMock clientMock = new GitHubClientMock();
+        GitHubMock clientMock = new GitHubMock();
         Call<GitHubToken> call = clientMock.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, "7fd23c00de517e3b78c2");
         call.enqueue(new Callback<GitHubToken>() {
             @Override
@@ -79,7 +87,7 @@ public class LoginTest1 {
     @Test
     public void tokenIsSaving() {
         preferences = SharedPreferencesFactory.getSharedPref();
-        GitHubClientMock clientMock = new GitHubClientMock();
+        GitHubMock clientMock = new GitHubMock();
         Intent intent = IntentFactory.getGitHubCallBackIntent();
         ActivityController<Login> controller = Robolectric.buildActivity(Login.class, intent).create().start();
         Activity login = controller.get();

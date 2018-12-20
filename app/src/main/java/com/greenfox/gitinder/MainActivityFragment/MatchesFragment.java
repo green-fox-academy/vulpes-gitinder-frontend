@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.MainActivityFragment;
+package com.greenfox.gitinder.mainActivityFragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
