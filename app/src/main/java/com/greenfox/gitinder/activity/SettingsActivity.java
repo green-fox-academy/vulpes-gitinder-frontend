@@ -18,9 +18,9 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
-    Switch aSwitch, bSwitch;
+    Switch notificationSwitch, bSyncSwitch;
     SeekBar seekBar;
     TextView maximumDistance;
     ImageView imageView;
@@ -35,9 +35,10 @@ public class SettingsActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        settingsSwitchButtons();
+//        settingsSwitchButtons();
         settingSeekBar();
         displayImage();
+        onCheckedChanged(notificationSwitch,false);
 
 
     }
@@ -48,41 +49,52 @@ public class SettingsActivity extends AppCompatActivity {
         Picasso.get().load("https://vignette.wikia.nocookie.net/rickandmorty/images/1/19/Pickle_rick_transparent.png/revision/latest?cb=20171025014216").into(imageView);
     }
 
-    public void settingsSwitchButtons() {
-        aSwitch = (Switch) findViewById(R.id.notifications);
-        bSwitch = (Switch) findViewById(R.id.bckSync);
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        notificationSwitch = (Switch) findViewById(R.id.notifications);
+        bSyncSwitch = (Switch) findViewById(R.id.bckSync);
+        if (notificationSwitch.isChecked()){
+            Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
+        }
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                    userSettings.setEnableNotification(true);
-                    sharedPreferences.edit().putBoolean("enableNotifications", true).apply();
-                } else {
-                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
-                    userSettings.setEnableNotification(false);
-                    sharedPreferences.edit().putBoolean("enableNotifications", false).apply();
-                }
-            }
-        });
-        bSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                    userSettings.setEnableBackgroundSync(true);
-                    sharedPreferences.edit().putBoolean("enableBackgroundSync", true).apply();
-                } else {
-                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
-                    userSettings.setEnableBackgroundSync(false);
-                    sharedPreferences.edit().putBoolean("enableBackgroundSync", false).apply();
-
-                }
-            }
-        });
 
     }
+
+//    public void settingsSwitchButtons() {
+//        notificationSwitch = (Switch) findViewById(R.id.notifications);
+//       bSyncSwitch = (Switch) findViewById(R.id.bckSync);
+//
+//        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
+//                    userSettings.setEnableNotification(true);
+//                    sharedPreferences.edit().putBoolean("enableNotifications", true).apply();
+//                } else {
+//                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+//                    userSettings.setEnableNotification(false);
+//                    sharedPreferences.edit().putBoolean("enableNotifications", false).apply();
+//                }
+//            }
+//        });
+//        bSyncSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if (isChecked) {
+//                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
+//                    userSettings.setEnableBackgroundSync(true);
+//                    sharedPreferences.edit().putBoolean("enableBackgroundSync", true).apply();
+//                } else {
+//                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+//                    userSettings.setEnableBackgroundSync(false);
+//                    sharedPreferences.edit().putBoolean("enableBackgroundSync", false).apply();
+//
+//                }
+//            }
+//        });
+
+//    }
 
     public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
@@ -105,4 +117,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
