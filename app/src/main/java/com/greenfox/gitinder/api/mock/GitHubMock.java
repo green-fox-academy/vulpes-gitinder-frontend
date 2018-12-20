@@ -1,6 +1,6 @@
 package com.greenfox.gitinder.api.mock;
 
-import com.greenfox.gitinder.api.modelsss.GitHubToken;
+import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.api.service.GithubAPI;
 
 import retrofit2.Callback;
