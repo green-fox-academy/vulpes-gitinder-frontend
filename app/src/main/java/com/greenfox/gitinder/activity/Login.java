@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity {
 
+
     private SharedPreferences spref;
     public Button login;
     GitHubClient client;
@@ -37,6 +38,8 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         }
         setContentView(R.layout.activity_login);
+        spref = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+        //checks the Shared preference for existing gitinder token
         login = findViewById(R.id.btn_login_with_github);
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://github.com/")
@@ -53,6 +56,14 @@ public class Login extends AppCompatActivity {
         if (uri != null) {
             saveGitHubToken(uri, client);
         }
+        if (spref.contains(Constants.GITINDER_TOKEN)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        } else if (uri == null){
+            LoginDialog loginDialog = new LoginDialog();
+            loginDialog.show(getSupportFragmentManager(), "loginDialog");
+        }
+
     }
 
     // After clicking the Github Oauth is started
@@ -66,12 +77,15 @@ public class Login extends AppCompatActivity {
     public void saveGitHubToken(Uri uri, GitHubClient client) {
         String code = uri.getQueryParameter("code");
         Call<GitHubToken> call = client.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
+
         call.enqueue(new Callback<GitHubToken>() {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
                 SharedPreferences.Editor editor = spref.edit();
                 editor.putString(Constants.GITINDER_TOKEN, response.body().getToken()).apply();
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
             }
 
             @Override
