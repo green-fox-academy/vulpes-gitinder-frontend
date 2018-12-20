@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.api;
+package com.greenfox.gitinder.api.service;
 
 import com.greenfox.gitinder.api.model.GitHubToken;
 
