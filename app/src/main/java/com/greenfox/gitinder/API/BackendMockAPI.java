@@ -12,7 +12,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BackendMockAPI implements GitinderAPI {x
+public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public CallMock<LoginResponse> login(final User user){
