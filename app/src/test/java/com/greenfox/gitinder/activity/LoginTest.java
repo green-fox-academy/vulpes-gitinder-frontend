@@ -7,7 +7,7 @@ import android.net.Uri;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
-import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.api.modelsss.GitHubToken;
 import com.greenfox.gitinder.factory.IntentFactory;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 
