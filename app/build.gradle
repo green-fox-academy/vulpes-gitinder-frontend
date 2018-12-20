@@ -39,6 +39,7 @@ configurations.all {
     }
 }
 
+
 dependencies {
     // General
     implementation fileTree(dir: 'libs', include: ['*.jar'])

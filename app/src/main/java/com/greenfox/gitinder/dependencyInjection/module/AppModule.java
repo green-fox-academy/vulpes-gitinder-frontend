@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import com.greenfox.gitinder.Model.UserSettings;
+import com.greenfox.gitinder.model.UserSettings;
 
 import com.greenfox.gitinder.Constants;
 

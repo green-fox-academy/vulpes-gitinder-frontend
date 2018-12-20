@@ -3,7 +3,6 @@ package com.greenfox.gitinder.activity;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -11,7 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.Model.UserSettings;
+import com.greenfox.gitinder.model.UserSettings;
 import com.greenfox.gitinder.R;
 import com.squareup.picasso.Picasso;
 
@@ -41,7 +40,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         notificationSwitch.setOnCheckedChangeListener(this);
         bSyncSwitch.setOnCheckedChangeListener(this);
         settingSeekBar();
-        displayImage();
+//        displayImage();
     }
 
     @Override
@@ -52,16 +51,12 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
                 userSettings.setEnableNotification(isChecked);
                 sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
                 Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
-                userSettings.setEnableNotification(false);
-                sharedPreferences.edit().putBoolean("enableNotifications", false).apply();
+
             case R.id.bckSync:
                 Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                userSettings.setEnableBackgroundSync(true);
-                sharedPreferences.edit().putBoolean("enableBackgroundSync", true).apply();
+                userSettings.setEnableBackgroundSync(isChecked);
+                sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
                 Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
-                userSettings.setEnableBackgroundSync(false);
-                sharedPreferences.edit().putBoolean("enableBackgroundSync", false).apply();
-
         }
     }
 

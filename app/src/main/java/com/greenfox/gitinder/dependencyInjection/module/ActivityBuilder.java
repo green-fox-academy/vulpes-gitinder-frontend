@@ -15,4 +15,5 @@ public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector()
     abstract SettingsActivity bindSettingsActivity();
+
 }
