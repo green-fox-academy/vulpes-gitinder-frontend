@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.Model.Factory;
+package com.greenfox.gitinder.model.Factory;
 
 public class ErrorMessageFactory {
 

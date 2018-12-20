@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.api;
+package com.greenfox.gitinder.apiTest.mock;
 
 import java.io.IOException;
 

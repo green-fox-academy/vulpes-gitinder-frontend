@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.api.GitinderAPI;
+import com.greenfox.gitinder.apiTest.service.GitinderAPI;
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.apiTest.model.GitHubToken;
 import com.greenfox.gitinder.R;
 
 import retrofit2.Call;
