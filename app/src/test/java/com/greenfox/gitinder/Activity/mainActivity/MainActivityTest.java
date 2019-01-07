@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activity;
+package com.greenfox.gitinder.activity.mainActivity;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,16 +10,27 @@ import android.support.v4.view.ViewPager;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.Login;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
+import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
+import com.greenfox.gitinder.mainActivityFragment.SettingsFragment;
+import com.greenfox.gitinder.mainActivityFragment.SwipingFragment;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.shadow.ShadowFragmentPagerAdapter;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.PicassoProvider;
 
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.shadows.ShadowPreference;
+import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+
+import static org.robolectric.util.FragmentTestUtil.startFragment;
 
 import javax.inject.Inject;
 
@@ -40,10 +51,7 @@ public class MainActivityTest {
         editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
 
         mainActivity = Robolectric.setupActivity(MainActivity.class);
-        ShadowFragmentPagerAdapter shadowFragmentPagerAdapter = new ShadowFragmentPagerAdapter();
         ViewPager viewPager = (ViewPager)mainActivity.findViewById(R.id.container);
-        mainActivity.setupViewPager(viewPager);
-        shadowFragmentPagerAdapter.setAdapter(viewPager.getAdapter());
 
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
 
@@ -57,7 +65,6 @@ public class MainActivityTest {
         editorTest.clear();
 
         mainActivity = Robolectric.setupActivity(MainActivity.class);
-//        mainActivity.sharedPreferences.edit().clear().apply();
 
         Intent expectedIntent = new Intent(mainActivity, Login.class);
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
