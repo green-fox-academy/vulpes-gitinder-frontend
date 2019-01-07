@@ -4,6 +4,7 @@ import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
+import com.greenfox.gitinder.model.factory.AvailableProfilesFactory;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
@@ -13,6 +14,9 @@ import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -21,9 +25,10 @@ import retrofit2.Response;
 
 public class BackendMockAPI implements GitinderAPI {
 
+    final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+
     @Override
     public CallMock<LoginResponse> login(final User user){
-        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<LoginResponse>(){
 
@@ -49,7 +54,6 @@ public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public CallMock<GitinderResponse> logoutUser(final String header){
-        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<GitinderResponse>(){
 
@@ -71,7 +75,6 @@ public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public CallMock<Settings> getSettings(final String header){
-        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<Settings>(){
 
@@ -94,7 +97,6 @@ public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public CallMock<GitinderResponse> updateSettings(final String header, final Settings settings){
-        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<GitinderResponse>(){
 
@@ -117,7 +119,6 @@ public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public CallMock<Profile> getProfile(final String gitinderToken) {
-        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<Profile>(){
 
@@ -138,8 +139,22 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public Call<AvailableProfiles> getAvailable(String gitinderToken) {
-        return null;
+    public Call<AvailableProfiles> getAvailable(final String gitinderToken) {
+
+        return new CallMock<AvailableProfiles>() {
+            @Override
+            public void enqueue(Callback<AvailableProfiles> callback) {
+                AvailableProfiles availableProfiles = AvailableProfilesFactory.createAvailableProfiles();
+
+                if (gitinderToken == null || gitinderToken.isEmpty()) {
+                    callback.onResponse(this, Response.<AvailableProfiles>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    callback.onResponse(this, Response.success(availableProfiles));
+                }
+            }
+        };
     }
 
     @Override
