@@ -1,5 +1,7 @@
 package com.greenfox.gitinder.api.mock;
 
+import com.greenfox.gitinder.api.model.AvailableProfiles;
+import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 import com.greenfox.gitinder.api.model.GitinderResponse;
@@ -10,6 +12,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
@@ -107,5 +110,38 @@ public class BackendMockAPI implements GitinderAPI {
                 }
             }
         };
+    }
+
+    @Override
+    public CallMock<Profile> getProfile(String gitinderToken) {
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+
+        return new CallMock<Profile>(){
+
+            @Override
+            public void enqueue(Callback<Settings> callback) {
+                SettingsFactory settingsFactory = new SettingsFactory();
+
+                Settings settings = settingsFactory.createSettings();
+
+                if(header == null || header.isEmpty()) {
+                    callback.onResponse(this, Response.<Settings>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    callback.onResponse(this, Response.success(settings));
+                }
+            }
+        };
+    }
+
+    @Override
+    public Call<AvailableProfiles> getAvailable(String gitinderToken) {
+        return null;
+    }
+
+    @Override
+    public Call<SwipeResponse> swipe(String gitinderToken, String username, String leftorright) {
+        return null;
     }
 }
