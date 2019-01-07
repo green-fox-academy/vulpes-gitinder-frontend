@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.UserSettings;
 import com.greenfox.gitinder.R;
 import com.squareup.picasso.Picasso;
@@ -28,7 +29,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     @Inject
     SharedPreferences sharedPreferences;
     @Inject
-    UserSettings userSettings;
+    Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         notificationSwitch.setOnCheckedChangeListener(this);
         bSyncSwitch.setOnCheckedChangeListener(this);
         settingSeekBar();
-//        displayImage();
     }
 
     @Override
@@ -48,13 +48,13 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         switch (buttonView.getId()) {
             case R.id.notifications:
                 Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                userSettings.setEnableNotification(isChecked);
+                settings.setEnableNotifications(isChecked);
                 sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
                 Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
 
             case R.id.bckSync:
                 Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                userSettings.setEnableBackgroundSync(isChecked);
+                settings.setEnableBackgroundSync(isChecked);
                 sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
                 Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
         }
@@ -76,8 +76,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                userSettings.setMaxDistance(seekBar.getProgress());
-                sharedPreferences.edit().putInt("maximumDistance", seekBar.getProgress()).apply();
+                settings.setMaxDistance(seekBar.getProgress());
+                sharedPreferences.edit().putInt("maxDistance", seekBar.getProgress()).apply();
             }
         });
     }

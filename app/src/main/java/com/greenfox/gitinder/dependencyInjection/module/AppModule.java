@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 
-import com.greenfox.gitinder.model.UserSettings;
+import com.greenfox.gitinder.model.Settings;
 
 import com.greenfox.gitinder.Constants;
 
@@ -35,7 +35,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    UserSettings appSettings() {
-        return new UserSettings();
+    Settings settings() {
+        return new Settings();
     }
 }
