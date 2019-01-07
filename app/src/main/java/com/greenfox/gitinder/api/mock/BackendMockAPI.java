@@ -2,7 +2,10 @@ package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.SwipeResponse;
+import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
@@ -113,23 +116,22 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public CallMock<Profile> getProfile(String gitinderToken) {
+    public CallMock<Profile> getProfile(final String gitinderToken) {
         final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
         return new CallMock<Profile>(){
 
             @Override
-            public void enqueue(Callback<Settings> callback) {
-                SettingsFactory settingsFactory = new SettingsFactory();
+            public void enqueue(Callback<Profile> callback) {
 
-                Settings settings = settingsFactory.createSettings();
+                Profile profile = ProfileFactory.createProfile("user");
 
-                if(header == null || header.isEmpty()) {
-                    callback.onResponse(this, Response.<Settings>error(403,
+                if(gitinderToken == null || gitinderToken.isEmpty()) {
+                    callback.onResponse(this, Response.<Profile>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
                 } else {
-                    callback.onResponse(this, Response.success(settings));
+                    callback.onResponse(this, Response.success(profile));
                 }
             }
         };
@@ -142,6 +144,11 @@ public class BackendMockAPI implements GitinderAPI {
 
     @Override
     public Call<SwipeResponse> swipe(String gitinderToken, String username, String leftorright) {
+        return null;
+    }
+
+    @Override
+    public Call<Matches> matches(String gitinderToken) {
         return null;
     }
 }
