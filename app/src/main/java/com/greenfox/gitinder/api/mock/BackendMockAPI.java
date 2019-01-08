@@ -7,6 +7,7 @@ import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 import com.greenfox.gitinder.api.model.GitinderResponse;
@@ -163,7 +164,7 @@ public class BackendMockAPI implements GitinderAPI {
         return new CallMock<SwipeResponse>() {
             @Override
             public void enqueue(Callback<SwipeResponse> callback) {
-                SwipeResponse swipeResponse = new SwipeResponse();
+                SwipeResponse swipeResponse = new SwipeResponse("ok", "succes", MatchFactory.createNewMatch());
 
                 if (gitinderToken == null || gitinderToken.isEmpty()) {
                     callback.onResponse(this, Response.<SwipeResponse>error(403,
@@ -183,6 +184,7 @@ public class BackendMockAPI implements GitinderAPI {
             public void enqueue(Callback<Matches> callback) {
                 List<Match> matchesList = new ArrayList<>();
                 Matches matches = new Matches();
+                matchesList.add(MatchFactory.createNewMatch());
                 matches.setMatches(matchesList);
 
                 if (gitinderToken == null || gitinderToken.isEmpty()) {
