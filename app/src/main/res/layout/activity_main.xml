@@ -10,6 +10,7 @@
         android:id="@+id/main_settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="toSettings"
         android:text="@string/main_settings_button_text"
         app:layout_constraintBottom_toTopOf="@+id/main_logout_button"
         app:layout_constraintStart_toStartOf="parent" />

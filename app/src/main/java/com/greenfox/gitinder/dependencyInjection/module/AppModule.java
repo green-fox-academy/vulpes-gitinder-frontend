@@ -4,23 +4,22 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-
+import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.GitinderApp;
-import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.api.service.GithubAPI;
 
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Call;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
+
+
+// create your dependency here. Provides annotation have to return object cannot be done on void methods.
 
     @Provides
     @Singleton
@@ -32,6 +31,12 @@ public class AppModule {
     @Singleton
     SharedPreferences sharedPreferences(Application application) {
         return application.getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
+    }
+
+    @Provides
+    @Singleton
+    Settings settings() {
+        return new Settings();
     }
 
     @Provides
