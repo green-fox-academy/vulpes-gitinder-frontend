@@ -164,7 +164,7 @@ public class BackendMockAPI implements GitinderAPI {
         return new CallMock<SwipeResponse>() {
             @Override
             public void enqueue(Callback<SwipeResponse> callback) {
-                SwipeResponse swipeResponse = new SwipeResponse("ok", "succes", MatchFactory.createNewMatch());
+                SwipeResponse swipeResponse = new SwipeResponse("ok", "success", MatchFactory.createNewMatch());
 
                 if (gitinderToken == null || gitinderToken.isEmpty()) {
                     callback.onResponse(this, Response.<SwipeResponse>error(403,
