@@ -13,7 +13,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
-//do not touch this class
+//do not touch this class, all is set up, thi class build our dagger injector
 @Singleton
 @Component(modules = {AndroidInjectionModule.class, AppModule.class, ActivityBuilder.class})
 public interface AppComponent {

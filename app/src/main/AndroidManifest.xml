@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.greenfox.gitinder">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".GitinderApp"
@@ -20,6 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activity.SettingsActivity"></activity>
         <activity android:name=".activity.Login">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -32,7 +34,6 @@
                     android:scheme="gitinder" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.Settings"></activity>
     </application>
 
 </manifest>
