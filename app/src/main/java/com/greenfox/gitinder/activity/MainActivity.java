@@ -12,19 +12,24 @@ import android.widget.Button;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 public class MainActivity extends AppCompatActivity {
 
     Button settingsButton;
+
+    @Inject
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         settingsButton = findViewById(R.id.main_settings_button);
-
-        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d("token_checking", "Token is missing!");

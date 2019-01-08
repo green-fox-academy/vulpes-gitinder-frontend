@@ -4,16 +4,16 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-
 import com.greenfox.gitinder.model.Settings;
-
 import com.greenfox.gitinder.Constants;
-
+import com.greenfox.gitinder.api.service.GithubAPI;
 
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
@@ -38,4 +38,15 @@ public class AppModule {
     Settings settings() {
         return new Settings();
     }
+
+    @Provides
+    @Singleton
+    GithubAPI githubAPI(){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://github.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        return retrofit.create(GithubAPI.class);
+    }
 }
+
