@@ -29,14 +29,6 @@ public class SettingsActivityTest {
     private ShadowSeekBar shadow;
     private SeekBar.OnSeekBarChangeListener listener;
 
-    @Before
-    public void seekBarSetup(){
-        seekBar = new SeekBar(ApplicationProvider.getApplicationContext());
-        shadow = Shadows.shadowOf(seekBar);
-        listener = new TestSeekBarChangedListener();
-        seekBar.setOnSeekBarChangeListener(listener);
-    }
-
     @Test
     public void testIfNotificationsSettingsIsSaving() {
         settingsActivity = Robolectric.buildActivity(SettingsActivity.class).create().get();
@@ -59,7 +51,6 @@ public class SettingsActivityTest {
         assertEquals(false, pref.getBoolean("enableBackgroundSync", false));
     }
 
-
     @Test
     public void testUserNotifications() {
         settingsActivity = Robolectric.buildActivity(SettingsActivity.class).create().get();
@@ -72,7 +63,7 @@ public class SettingsActivityTest {
     }
 
     @Test
-    public void testUserBackgroundSync(){
+    public void testUserBackgroundSync() {
         settingsActivity = Robolectric.buildActivity(SettingsActivity.class).create().get();
         assertEquals(false, settingsActivity.settings.isEnableBackgroundSync());
         settingsActivity.bSyncSwitch.performClick();
@@ -80,7 +71,6 @@ public class SettingsActivityTest {
         settingsActivity.bSyncSwitch.performClick();
         assertEquals(false, settingsActivity.settings.isEnableBackgroundSync());
     }
-
 
     @Test
     public void testOnSeekBarChangedListener() {
@@ -90,31 +80,13 @@ public class SettingsActivityTest {
     }
 
     @Test
-    public void testIfMaxDystanceIsSaving(){
+    public void testIfMaxDystanceIsSaving() {
         settingsActivity = Robolectric.buildActivity(SettingsActivity.class).create().get();
         pref = SharedPreferencesFactory.getSharedPref();
         settingsActivity.seekBar.setProgress(5);
-        pref.edit().putInt("maxDistance", settingsActivity.seekBar.getProgress()).apply();
-        assertEquals(5, pref.getInt("maxDistance",0));
+        shadow = Shadows.shadowOf(settingsActivity.seekBar);
+        shadow.getOnSeekBarChangeListener().onStopTrackingTouch(settingsActivity.seekBar);
+        assertEquals(5, pref.getInt("maxDistance", 0));
     }
 
-
-
-    private class TestSeekBarChangedListener implements SeekBar.OnSeekBarChangeListener{
-
-        @Override
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-        }
-
-        @Override
-        public void onStartTrackingTouch(SeekBar seekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(SeekBar seekBar) {
-
-        }
-    }
 }

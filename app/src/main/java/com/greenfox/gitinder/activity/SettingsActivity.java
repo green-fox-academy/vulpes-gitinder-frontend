@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.model.Settings;
-import com.greenfox.gitinder.model.UserSettings;
 import com.greenfox.gitinder.R;
 import com.squareup.picasso.Picasso;
 
@@ -63,11 +62,11 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        maximumDistance.setText("Maximum Distance :" + seekBar.getProgress());
+        maximumDistance.setText("Maximum distance :" + seekBar.getProgress());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maximumDistance.setText("Maximum Distance :" + seekBar.getProgress());
+                maximumDistance.setText("Maximum distance :" + seekBar.getProgress());
             }
 
             @Override
