@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activity.mainActivity;
+package com.greenfox.gitinder.activity;
 
 import android.app.Application;
 import android.content.Context;
@@ -11,6 +11,7 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.MainActivity;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.Login;
+import com.greenfox.gitinder.adapter.ShadowViewPager;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
 import com.greenfox.gitinder.mainActivityFragment.SettingsFragment;
@@ -43,6 +44,7 @@ import static org.robolectric.Shadows.*;
 public class MainActivityTest {
 
     MainActivity mainActivity;
+    ShadowViewPager shadowViewPager;
 
     @Test
     public void tokenIsPresentRedirectionTest() {
@@ -51,7 +53,9 @@ public class MainActivityTest {
         editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
 
         mainActivity = Robolectric.setupActivity(MainActivity.class);
-        ViewPager viewPager = (ViewPager)mainActivity.findViewById(R.id.container);
+//        ViewPager viewPager = (ViewPager)mainActivity.findViewById(R.id.container);
+
+
 
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
 

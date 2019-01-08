@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activity.mainActivity;
+package com.greenfox.gitinder.activity.mainActivityFragments;
 
 import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
 
