@@ -1,7 +1,8 @@
-package com.greenfox.gitinder.model.factory;
+package com.greenfox.gitinder.api.model.factory;
 
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.model.Profile;
+import com.greenfox.gitinder.model.factory.ProfileFactory;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,9 +2,10 @@ package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.SwipeResponse;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.model.factory.AvailableProfilesFactory;
+import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
@@ -158,12 +159,40 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public Call<SwipeResponse> swipe(String gitinderToken, String username, String leftorright) {
-        return null;
+    public Call<SwipeResponse> swipe(final String gitinderToken, String username, String leftorright) {
+        return new CallMock<SwipeResponse>() {
+            @Override
+            public void enqueue(Callback<SwipeResponse> callback) {
+                SwipeResponse swipeResponse = new SwipeResponse();
+
+                if (gitinderToken == null || gitinderToken.isEmpty()) {
+                    callback.onResponse(this, Response.<SwipeResponse>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    callback.onResponse(this, Response.success(swipeResponse));
+                }
+            }
+        };
     }
 
     @Override
-    public Call<Matches> matches(String gitinderToken) {
-        return null;
+    public Call<Matches> matches(final String gitinderToken) {
+        return new CallMock<Matches>() {
+            @Override
+            public void enqueue(Callback<Matches> callback) {
+                List<Match> matchesList = new ArrayList<>();
+                Matches matches = new Matches();
+                matches.setMatches(matchesList);
+
+                if (gitinderToken == null || gitinderToken.isEmpty()) {
+                    callback.onResponse(this, Response.<Matches>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    callback.onResponse(this, Response.success(matches));
+                }
+            }
+        };
     }
 }
