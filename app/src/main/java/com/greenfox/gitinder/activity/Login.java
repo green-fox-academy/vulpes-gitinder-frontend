@@ -70,9 +70,8 @@ public class Login extends AppCompatActivity {
 
     // After clicking the Github Oauth is started
     public void loginWithGithub(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/login/oauth/authorize?githubAPI_id="
-                +Constants.GITHUB_CLIENT_ID
-                +"&redirect_uri="+Constants.GITHUB_CALLBACK));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_URL + Constants.GITHUB_CLIENT_ID
+                                                                 + "&redirect_uri=" + Constants.GITHUB_CALLBACK));
         startActivity(intent);
     }
     // Calls the githubAPI and saves the returned github token
