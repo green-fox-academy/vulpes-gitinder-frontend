@@ -1,16 +1,14 @@
 package com.greenfox.gitinder.activity;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v4.view.ViewPager;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.MainActivity;
-import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.ShadowViewPager;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
+import com.squareup.picasso.MockPicasso;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +18,8 @@ import org.robolectric.annotation.Config;
 
 import androidx.test.core.app.ApplicationProvider;
 
-import static org.junit.Assert.*;
-import static org.robolectric.Shadows.*;
+import static org.junit.Assert.assertEquals;
+import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(shadows = {ShadowViewPager.class})
@@ -30,7 +28,9 @@ public class MainActivityTest {
     MainActivity mainActivity;
 
     @Test
-    public void tokenIsPresentRedirectionTest() {
+    public void tokenIsPresentRedirectionTest() throws Exception{
+        MockPicasso.init();
+
         SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();

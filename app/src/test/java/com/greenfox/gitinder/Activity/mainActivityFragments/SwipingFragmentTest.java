@@ -14,7 +14,7 @@ public class SwipingFragmentTest {
 
     @Test
     public void settingsFragmentIsNotNull() throws Exception {
-//        MockPicasso.init();
+//        MockPicassoWIP.init();
 
 
         SwipingFragment swipingFragment = new SwipingFragment();

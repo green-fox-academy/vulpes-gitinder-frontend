@@ -1,57 +1,57 @@
 package com.squareup.picasso;
 
-import android.graphics.Bitmap;
+import android.content.Context;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Rule;
+import org.junit.rules.TemporaryFolder;
+import org.mockito.Mock;
+
+import static android.graphics.Bitmap.Config.ARGB_8888;
+import static com.squareup.picasso.TestUtils.NO_HANDLERS;
 
 public class MockPicasso extends Picasso {
-    private static ArrayList<String> paths;
-    private static ArrayList<ImageView> views;
+    private static String lastImagePath = null;
+    private static ImageView lastTargetImageView = null;
 
-    MockPicasso() {
-        super(null, null, Cache.NONE, null, null,
-                null, new MockStats(), null, false, false);
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+    @Mock
+    private static Context context;
+    @Mock
+    private static Dispatcher dispatcher;
+    @Mock
+    private static RequestTransformer transformer;
+    @Mock
+    private static Listener listener;
+
+    public MockPicasso() {
+        super(context, dispatcher, Cache.NONE, listener, transformer, NO_HANDLERS,
+                new MockStats(), ARGB_8888, false, false);
     }
 
-    /** Initializes new {@code MockPicasso} and replaces production instance. */
     public static void init() {
-        paths = new ArrayList();
-        views = new ArrayList();
         singleton = new MockPicasso();
     }
 
-    /** Returns a list of all image paths in the order requested. */
-    public static List getImagePaths() {
-        return paths;
-    }
-
-    /** Returns the most recent image path requested. */
     public static String getLastImagePath() {
-        return paths.size() > 0 ? paths.get(paths.size() - 1) : null;
+        return lastImagePath;
     }
 
-    /** Returns a list of all {@link ImageView} targets in the order requested. */
-    public static List getTargetImageViews() {
-        return views;
-    }
-
-    /** Returns the most recent {@link ImageView} target. */
     public static ImageView getLastTargetImageView() {
-        return views.size() > 0 ? views.get(views.size() - 1) : null;
+        return lastTargetImageView;
     }
 
     @Override
     public RequestCreator load(String path) {
-        paths.add(path);
-        return new MockRequestBuilder();
+        lastImagePath = path;
+        return new MockRequestCreator();
     }
 
-    static class MockRequestBuilder extends RequestCreator {
+    class MockRequestCreator extends RequestCreator {
         @Override
         public void into(ImageView target) {
-            views.add(target);
+            lastTargetImageView = target;
         }
     }
 
