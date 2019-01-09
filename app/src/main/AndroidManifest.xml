@@ -34,6 +34,9 @@
                     android:scheme="gitinder" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="ce4addb6cbbd5006ab46da12b345c98e178f7fd3" />
     </application>
 
 </manifest>
