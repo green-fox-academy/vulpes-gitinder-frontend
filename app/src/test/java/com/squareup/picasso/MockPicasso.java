@@ -1,14 +1,14 @@
 package com.squareup.picasso;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
 import org.mockito.Mock;
 
-import static android.graphics.Bitmap.Config.ARGB_8888;
-import static com.squareup.picasso.TestUtils.NO_HANDLERS;
+import java.util.List;
 
 public class MockPicasso extends Picasso {
     private static String lastImagePath = null;
@@ -17,21 +17,21 @@ public class MockPicasso extends Picasso {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
     @Mock
-    private static Context context;
+    Context context;
     @Mock
-    private static Dispatcher dispatcher;
+    Dispatcher dispatcher;
     @Mock
-    private static RequestTransformer transformer;
+    RequestTransformer transformer;
     @Mock
-    private static Listener listener;
+    Listener listener;
 
-    public MockPicasso() {
-        super(context, dispatcher, Cache.NONE, listener, transformer, NO_HANDLERS,
-                new MockStats(), ARGB_8888, false, false);
+    MockPicasso(Context context, Dispatcher dispatcher, Cache cache, Listener listener, RequestTransformer requestTransformer, List<RequestHandler> extraRequestHandlers, Stats stats, Bitmap.Config defaultBitmapConfig, boolean indicatorsEnabled, boolean loggingEnabled) {
+        super(context, dispatcher, cache, listener, requestTransformer, extraRequestHandlers, stats, defaultBitmapConfig, indicatorsEnabled, loggingEnabled);
     }
 
+
     public static void init() {
-        singleton = new MockPicasso();
+        singleton = TestUtils.mockPicasso();
     }
 
     public static String getLastImagePath() {
