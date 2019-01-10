@@ -42,7 +42,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         notificationSwitch.setChecked(sharedPreferences.getBoolean("enableNotifications", false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean("enableBackgroundSync", false));
         settingSeekBar();
-        displayImage();
+//        displayImage();
     }
 
     @Override
