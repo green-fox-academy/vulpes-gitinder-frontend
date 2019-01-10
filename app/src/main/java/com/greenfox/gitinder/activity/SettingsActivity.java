@@ -39,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         bSyncSwitch = (Switch) findViewById(R.id.bckSync);
         notificationSwitch.setOnCheckedChangeListener(this);
         bSyncSwitch.setOnCheckedChangeListener(this);
+        notificationSwitch.setChecked(sharedPreferences.getBoolean("enableNotifications", false));
+        bSyncSwitch.setChecked(sharedPreferences.getBoolean("enableBackgroundSync", false));
         settingSeekBar();
     }
 
@@ -46,23 +48,36 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()) {
             case R.id.notifications:
-                Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                settings.setEnableNotifications(isChecked);
-                sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
-                Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+                if (notificationSwitch.isChecked() && !sharedPreferences.getBoolean("enableNotifications", false)) {
+                    settings.setEnableNotifications(isChecked);
+                    sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
+                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
+                } else if (!notificationSwitch.isChecked() && sharedPreferences.getBoolean("enableNotifications", false)) {
+                    settings.setEnableNotifications(isChecked);
+                    sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
+                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
             case R.id.bckSync:
-                Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                settings.setEnableBackgroundSync(isChecked);
-                sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
-                Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+                if (bSyncSwitch.isChecked() && !sharedPreferences.getBoolean("enableBackgroundSync", false)) {
+                    settings.setEnableBackgroundSync(isChecked);
+                    sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
+                    Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
+                } else if (!bSyncSwitch.isChecked() && sharedPreferences.getBoolean("enableBackgroundSync", false)) {
+                    settings.setEnableBackgroundSync(isChecked);
+                    sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
+                    Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
     public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        maximumDistance.setText("Maximum distance :" + seekBar.getProgress());
+        maximumDistance.setText("Maximum distance :" + sharedPreferences.getInt("maxDistance", 0));
+        seekBar.setProgress(sharedPreferences.getInt("maxDistance", 0));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
