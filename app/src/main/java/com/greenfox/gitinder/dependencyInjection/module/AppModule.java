@@ -56,21 +56,18 @@ public class AppModule {
     @Singleton
     GitinderAPI backendAPI() {
         if (BuildConfig.FLAVOR.equals("live")) {
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl("https://gitinder.azurewebsites.net")
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
-            return retrofit.create(GitinderAPI.class);
+            return getApi("https://gitinder.azurewebsites.net");
         } else if (BuildConfig.FLAVOR.equals("staging")) {
-            Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl("https://gitinder-staging.azurewebsites.net")
-                    .addConverterFactory(GsonConverterFactory.create());
-            Retrofit retrofit = builder.build();
-            return retrofit.create(GitinderAPI.class);
+            return getApi("https://gitinder-staging.azurewebsites.net");
         } else {
             return new BackendMockAPI();
         }
 
+    }
+
+
+    private GitinderAPI getApi(String baseUrl) {
+        return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
 }
 
