@@ -25,9 +25,7 @@ public class SettingsActivityTest {
 
     SharedPreferences pref;
     SettingsActivity settingsActivity;
-    private SeekBar seekBar;
     private ShadowSeekBar shadow;
-    private SeekBar.OnSeekBarChangeListener listener;
 
     @Test
     public void testIfNotificationsSettingsIsSaving() {
@@ -70,13 +68,6 @@ public class SettingsActivityTest {
         assertEquals(true, settingsActivity.settings.isEnableBackgroundSync());
         settingsActivity.bSyncSwitch.performClick();
         assertEquals(false, settingsActivity.settings.isEnableBackgroundSync());
-    }
-
-    @Test
-    public void testOnSeekBarChangedListener() {
-        assertThat(shadow.getOnSeekBarChangeListener(), sameInstance(listener));
-        seekBar.setOnSeekBarChangeListener(null);
-        assertThat(shadow.getOnSeekBarChangeListener(), nullValue());
     }
 
     @Test
