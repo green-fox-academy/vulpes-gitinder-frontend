@@ -45,7 +45,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //checks the Shared preference for existing gitinder <></>oken
         login = findViewById(R.id.btn_login_with_github);
-
     }
 
     @Override
