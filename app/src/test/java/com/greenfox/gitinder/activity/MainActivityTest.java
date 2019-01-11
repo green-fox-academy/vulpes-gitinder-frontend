@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.activityREF.MainActivity;
 import com.greenfox.gitinder.adapter.ShadowViewPager;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.squareup.picasso.MockPicasso;

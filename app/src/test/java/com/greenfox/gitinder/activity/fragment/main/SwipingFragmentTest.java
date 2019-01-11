@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.activityREF.fragment.main;
+package com.greenfox.gitinder.activity.fragment.main;
 
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
 
