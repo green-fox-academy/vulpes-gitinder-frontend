@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.greenfox.gitinder">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+    <uses-sdk tools:overrideLibrary="com.mindorks.placeholderview"/>
 
     <application
         android:name=".GitinderApp"
