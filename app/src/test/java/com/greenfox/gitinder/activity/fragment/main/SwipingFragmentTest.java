@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.activity.fragment.main;
 
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.squareup.picasso.MockPicasso;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +15,7 @@ public class SwipingFragmentTest {
 
     @Test
     public void settingsFragmentIsNotNull() throws Exception {
-//        MockPicassoWIP.init();
-
+        MockPicasso.init();
 
         SwipingFragment swipingFragment = new SwipingFragment();
         SupportFragmentTestUtil.startFragment(swipingFragment);
