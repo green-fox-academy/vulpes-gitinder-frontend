@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.MainActivity;
+import com.greenfox.gitinder.activityREF.MainActivity;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;

@@ -1,4 +1,4 @@
-package com.greenfox.gitinder;
+package com.greenfox.gitinder.activityREF;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.Login;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
-import com.greenfox.gitinder.mainActivityFragment.SwipingFragment;
-import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
-import com.greenfox.gitinder.mainActivityFragment.SettingsFragment;
+import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.fragment.main.MatchesFragment;
+import com.greenfox.gitinder.fragment.main.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_1);
+        setContentView(R.layout.activity_main);
 
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 

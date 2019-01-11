@@ -1,6 +1,6 @@
-package com.greenfox.gitinder.activity.mainActivityFragments;
+package com.greenfox.gitinder.activityREF.fragment.main;
 
-import com.greenfox.gitinder.mainActivityFragment.MatchesFragment;
+import com.greenfox.gitinder.fragment.main.MatchesFragment;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

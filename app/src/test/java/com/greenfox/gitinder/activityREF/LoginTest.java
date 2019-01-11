@@ -7,8 +7,7 @@ import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.MainActivity;
-import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.activityREF.MainActivity;
 import com.greenfox.gitinder.api.mock.GitHubMock;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.factory.IntentFactory;
@@ -27,7 +26,7 @@ import retrofit2.Response;
 import static org.junit.Assert.*;
 
 @RunWith(RobolectricTestRunner.class)
-public class LoginTest1 {
+public class LoginTest {
 
     Login login;
     SharedPreferences preferences;

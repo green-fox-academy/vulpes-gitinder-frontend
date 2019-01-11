@@ -1,6 +1,6 @@
-package com.greenfox.gitinder.activity.mainActivityFragments;
+package com.greenfox.gitinder.activityREF.fragment.main;
 
-import com.greenfox.gitinder.mainActivityFragment.SwipingFragment;
+import com.greenfox.gitinder.fragment.main.SwipingFragment;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
