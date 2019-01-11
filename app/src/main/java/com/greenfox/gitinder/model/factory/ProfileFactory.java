@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ProfileFactory {
 
-    public Profile createProfile(String username){
+    public static Profile createProfile(String username){
         List<String> repos = new ArrayList<>();
         repos.add("repo1"); repos.add("repo2"); repos.add("repo3");
         List<String> languages = new ArrayList<>();

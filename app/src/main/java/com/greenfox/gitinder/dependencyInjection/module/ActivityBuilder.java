@@ -1,14 +1,25 @@
 package com.greenfox.gitinder.dependencyInjection.module;
 
+import com.greenfox.gitinder.activity.Login;
 import com.greenfox.gitinder.activity.MainActivity;
+import com.greenfox.gitinder.activity.SettingsActivity;
+
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
-//do not touch this class, all is done
+//add ContributesAndroidInjector with the name of your activity with inject annotation
 @Module
 public abstract class ActivityBuilder {
 
     @ContributesAndroidInjector()
     abstract MainActivity bindMainActivity();
+
+    @ContributesAndroidInjector()
+
+    abstract SettingsActivity bindSettingsActivity();
+
+    @ContributesAndroidInjector
+    abstract Login bindLogin();
+
 }

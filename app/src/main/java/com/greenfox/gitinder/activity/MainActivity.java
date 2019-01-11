@@ -1,6 +1,5 @@
 package com.greenfox.gitinder.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -16,20 +16,24 @@ import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private SectionsPageAdapterOld mSectionsPageAdapter;
     private ViewPager mViewPager;
 
+    @Inject
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES, Context.MODE_PRIVATE);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d("token_checking", "Token is missing!");
@@ -63,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
+        startActivity(intent);
+    }
+
+    public void toSettings(View view){
+        Intent intent = new Intent(this,SettingsActivity.class);
         startActivity(intent);
     }
 }
