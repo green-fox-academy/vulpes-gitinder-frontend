@@ -3,7 +3,11 @@ package com.greenfox.gitinder.dependencyInjection.module;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
+import com.greenfox.gitinder.BuildConfig;
+import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.service.GithubAPI;
@@ -47,6 +51,23 @@ public class AppModule {
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         return retrofit.create(GithubAPI.class);
+    }
+    @Provides
+    @Singleton
+    GitinderAPI backendAPI() {
+        if (BuildConfig.FLAVOR.equals("live")) {
+            return getApi("https://gitinder.azurewebsites.net");
+        } else if (BuildConfig.FLAVOR.equals("staging")) {
+            return getApi("https://gitinder-staging.azurewebsites.net");
+        } else {
+            return new BackendMockAPI();
+        }
+
+    }
+
+
+    private GitinderAPI getApi(String baseUrl) {
+        return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
 }
 

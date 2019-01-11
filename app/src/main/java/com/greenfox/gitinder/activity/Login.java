@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.GitHubToken;
@@ -47,7 +48,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //checks the Shared preference for existing gitinder <></>oken
         login = findViewById(R.id.btn_login_with_github);
-
     }
 
     @Override

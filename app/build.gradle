@@ -37,6 +37,34 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+        }
+    }
+    flavorDimensions "version"
+    productFlavors {
+        live {
+
+        }
+        staging {
+            applicationIdSuffix ".staging"
+            versionNameSuffix "-staging"
+
+        }
+        dev {
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+
+        }
+    }
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("live") && variant.buildType.name == "debug") {
+            // Gradle ignores any variants that satisfy the conditions above.
+            setIgnore(true)
+        }
     }
     testOptions.unitTests.includeAndroidResources = true
 }
