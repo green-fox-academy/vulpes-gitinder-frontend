@@ -45,6 +45,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Token is present.");
         }
+        profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toProfile(v);
+            }
+        });
 
     }
 
