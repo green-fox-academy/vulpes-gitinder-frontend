@@ -60,8 +60,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        maximumDistance.setText(getString(R.string.settings_maximum_distance) + sharedPreferences.getInt(Constants.Max_DISTANCE, 0));
-        seekBar.setProgress(sharedPreferences.getInt(Constants.Max_DISTANCE, 0));
+        maximumDistance.setText(getString(R.string.settings_maximum_distance) + sharedPreferences.getInt(Constants.MAX_DISTANCE, 0));
+        seekBar.setProgress(sharedPreferences.getInt(Constants.MAX_DISTANCE, 0));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -75,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 settings.setMaxDistance(seekBar.getProgress());
-                sharedPreferences.edit().putInt(Constants.Max_DISTANCE, seekBar.getProgress()).apply();
+                sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
             }
         });
     }

@@ -10,6 +10,6 @@ public class Constants {
     public static final String GITHUB_URL = "https://github.com/login/oauth/authorize?githubAPI_id=";
     public static final String ENABLE_NOTIFICATIONS = "enableNotifications";
     public static final String ENABLE_BACKGROUNDSYNC = "enableBackgroundSync";
-    public static final String Max_DISTANCE = "maxDistance";
+    public static final String MAX_DISTANCE = "maxDistance";
 
 }
