@@ -3,23 +3,23 @@ package com.greenfox.gitinder.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.adapter.SectionsPageAdapter;
-import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.adapter.SectionsPageAdapterOld;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
+import com.greenfox.gitinder.fragment.main.SwipingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
-    private SectionsPageAdapter mSectionsPageAdapter;
+    private SectionsPageAdapterOld mSectionsPageAdapter;
     private ViewPager mViewPager;
 
     SharedPreferences sharedPreferences;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        mSectionsPageAdapter = new SectionsPageAdapterOld(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupViewPager(ViewPager viewPager){
-        SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-        sectionsPageAdapter.addFragment(new SwipingFragment(),"Swiping");
-        sectionsPageAdapter.addFragment(new MatchesFragment(),"Matches");
-        sectionsPageAdapter.addFragment(new SettingsFragment(),"Settings");
+        SectionsPageAdapterOld sectionsPageAdapter = new SectionsPageAdapterOld(getSupportFragmentManager());
+        sectionsPageAdapter.addFragment(new SwipingFragment(),getString(R.string.tab_title_swiping));
+        sectionsPageAdapter.addFragment(new MatchesFragment(),getString(R.string.tab_title_matches));
+        sectionsPageAdapter.addFragment(new SettingsFragment(),getString(R.string.tab_title_settings));
         viewPager.setAdapter(sectionsPageAdapter);
     }
 
