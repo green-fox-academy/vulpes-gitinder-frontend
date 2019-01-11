@@ -17,4 +17,5 @@
     <string name="settings_bck_sync">Enable background sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance</string>
+    <string name="main_proifle_button_text">Profile</string>
 </resources>

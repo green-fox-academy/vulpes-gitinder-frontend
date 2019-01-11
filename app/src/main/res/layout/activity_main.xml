@@ -23,4 +23,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/main_settings_button"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/main_profile_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="toProfile"
+        android:text="@string/main_proifle_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/main_settings_button"
+        app:layout_constraintEnd_toEndOf="@+id/main_settings_button"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
