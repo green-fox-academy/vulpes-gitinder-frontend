@@ -5,22 +5,23 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Profile {
+    private static int counter = 0;
 
+    public long id;
     String username;
 
     @SerializedName("avatar_url")
     String avatarUrl;
 
     List<String> repos;
-
     List<String> languages;
-
     List<String> snippets;
 
     public Profile() {
     }
 
     public Profile(String username, String avatarUrl, List<String> repos, List<String> languages, List<String> snippets) {
+        this.id = counter++;
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.repos = repos;

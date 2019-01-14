@@ -27,7 +27,7 @@ public class MainActivityTest {
     MainActivity mainActivity;
 
     @Test
-    public void tokenIsPresentRedirectionTest() throws Exception{
+    public void tokenIsPresentRedirectionTest() {
         MockPicasso.init();
 
         SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();
