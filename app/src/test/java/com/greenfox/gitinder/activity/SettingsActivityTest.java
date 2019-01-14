@@ -19,9 +19,7 @@ public class SettingsActivityTest {
 
     SharedPreferences pref;
     SettingsActivity settingsActivity;
-    private SeekBar seekBar;
     private ShadowSeekBar shadow;
-    private SeekBar.OnSeekBarChangeListener listener;
 
     @Test
     public void testIfNotificationsSettingsIsSaving() {

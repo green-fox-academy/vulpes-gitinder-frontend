@@ -128,10 +128,10 @@
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
-            app:layout_constraintBaseline_toBaselineOf="@+id/enableBsync"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/enableBsync" />
+            app:layout_constraintStart_toEndOf="@+id/enableBsync"
+            tools:layout_editor_absoluteY="12dp" />
 
         <View
             android:id="@+id/divider7"
