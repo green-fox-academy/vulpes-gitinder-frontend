@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.R;
 import com.squareup.picasso.Picasso;
@@ -38,35 +39,33 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         notificationSwitch = (Switch) findViewById(R.id.notifications);
         bSyncSwitch = (Switch) findViewById(R.id.bckSync);
         notificationSwitch.setOnCheckedChangeListener(this);
+        notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
+        bSyncSwitch.setTag(Constants.ENABLE_BACKGROUNDSYNC);
+        notificationSwitch.setChecked(sharedPreferences.getBoolean((String)notificationSwitch.getTag(), false));
+        bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()) {
-            case R.id.notifications:
-                Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                settings.setEnableNotifications(isChecked);
-                sharedPreferences.edit().putBoolean("enableNotifications", isChecked).apply();
-                Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
-
-            case R.id.bckSync:
-                Toast.makeText(SettingsActivity.this, "Enabled!", Toast.LENGTH_SHORT).show();
-                settings.setEnableBackgroundSync(isChecked);
-                sharedPreferences.edit().putBoolean("enableBackgroundSync", isChecked).apply();
-                Toast.makeText(SettingsActivity.this, "Disabled!", Toast.LENGTH_SHORT).show();
+        if (buttonView.isChecked() != sharedPreferences.getBoolean((String)buttonView.getTag(),false)){
+            settings.setEnableNotifications(isChecked);
+            settings.setEnableBackgroundSync(isChecked);
+            sharedPreferences.edit().putBoolean((String)buttonView.getTag(),isChecked).apply();
+            Toast.makeText(SettingsActivity.this, isChecked ? "Enabled!" : "Diasbled!",Toast.LENGTH_SHORT).show();
         }
     }
 
     public void settingSeekBar() {
         maximumDistance = (TextView) findViewById(R.id.maximumDistance);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        maximumDistance.setText("Maximum distance :" + seekBar.getProgress());
+        maximumDistance.setText(getString(R.string.settings_maximum_distance) + sharedPreferences.getInt(Constants.MAX_DISTANCE, 0));
+        seekBar.setProgress(sharedPreferences.getInt(Constants.MAX_DISTANCE, 0));
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maximumDistance.setText("Maximum distance :" + seekBar.getProgress());
+                maximumDistance.setText(getString(R.string.settings_maximum_distance) + seekBar.getProgress());
             }
 
             @Override
@@ -76,7 +75,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 settings.setMaxDistance(seekBar.getProgress());
-                sharedPreferences.edit().putInt("maxDistance", seekBar.getProgress()).apply();
+                sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
             }
         });
     }

@@ -25,7 +25,7 @@
     <string name="settings_hard_coded_list">Klingon, Matrix, Java</string>
     <string name="settings_bck_sync">Enable background sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
-    <string name="settings_maximum_distance">Maximum distance</string>
+    <string name="settings_maximum_distance">Maximum distance :</string>
 
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>
