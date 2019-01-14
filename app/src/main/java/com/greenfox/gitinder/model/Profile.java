@@ -1,4 +1,4 @@
-package com.greenfox.gitinder.model;
+    package com.greenfox.gitinder.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -67,5 +67,21 @@ public class Profile {
 
     public void setSnippets(List<String> snippets) {
         this.snippets = snippets;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Profile.counter = counter;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }
