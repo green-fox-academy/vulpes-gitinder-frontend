@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.activity.ProfileDetails;
+import com.greenfox.gitinder.activity.ProfileActivity;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.squareup.picasso.Picasso;
 
@@ -27,12 +27,15 @@ public class SwipingFragment extends BaseFragment {
         ImageView profilePic = view.findViewById(R.id.main_profile_picture);
         Picasso.get().load("https://www.randomlists.com/img/people/tom_hanks.jpg").into(profilePic);
         TextView like = view.findViewById(R.id.main_like);
-        like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(this, ProfileDetails.class);
-            }
-        });
+        if (BuildConfig.FLAVOR.equals("dev")) {
+            like.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
         return view;
 
 

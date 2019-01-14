@@ -1,6 +1,5 @@
 package com.greenfox.gitinder.activity.fragment.main;
 
-import com.greenfox.gitinder.fragment.main.SwipingFragment;
 import com.squareup.picasso.MockPicasso;
 
 import org.junit.Test;
