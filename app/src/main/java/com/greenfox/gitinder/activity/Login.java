@@ -1,24 +1,22 @@
 package com.greenfox.gitinder.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.api.service.GithubAPI;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +45,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         //checks the Shared preference for existing gitinder <></>oken
         login = findViewById(R.id.btn_login_with_github);
-
     }
 
     @Override
