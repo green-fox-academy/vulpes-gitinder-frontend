@@ -5,7 +5,6 @@ import android.widget.SeekBar;
 
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -13,12 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowSeekBar;
 
-
-import androidx.test.core.app.ApplicationProvider;
-
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.hamcrest.core.IsSame.sameInstance;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class SettingsActivityTest {
