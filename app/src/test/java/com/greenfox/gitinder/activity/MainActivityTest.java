@@ -34,6 +34,7 @@ public class MainActivityTest {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
 
+        mainActivity.
         mainActivity = Robolectric.setupActivity(MainActivity.class);
 
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();

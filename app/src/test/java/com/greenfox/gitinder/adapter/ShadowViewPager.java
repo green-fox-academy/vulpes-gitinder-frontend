@@ -2,8 +2,7 @@ package com.greenfox.gitinder.adapter;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-
-import com.greenfox.gitinder.model.NonSwipeableViewPager;
+import android.support.v4.view.ViewPager;
 
 import org.mockito.internal.util.reflection.Fields;
 import org.mockito.internal.util.reflection.InstanceField;
@@ -17,15 +16,15 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 import static org.robolectric.shadow.api.Shadow.directlyOn;
 
-@Implements(NonSwipeableViewPager.class)
+@Implements(ViewPager.class)
 public class ShadowViewPager extends ShadowViewGroup {
 
     @RealObject
-    NonSwipeableViewPager realViewPager;
+    ViewPager realViewPager;
 
     @Implementation
     public void setAdapter(PagerAdapter adapter) {
-        directlyOn(realViewPager, NonSwipeableViewPager.class).setAdapter(addWorkaround(adapter));
+        directlyOn(realViewPager, ViewPager.class).setAdapter(addWorkaround(adapter));
     }
 
     private PagerAdapter addWorkaround(PagerAdapter adapter) {
