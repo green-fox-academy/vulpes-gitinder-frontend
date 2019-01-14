@@ -3,23 +3,21 @@ package com.greenfox.gitinder.fragment.main;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.util.DiffUtil;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.ProfileDiffCallback;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
-
+import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -33,7 +31,6 @@ import java.util.List;
 
 public class SwipingFragment extends BaseFragment implements CardStackListener {
     private static final String TAG = "SwipingFragment";
-    private DrawerLayout drawerLayout;
 
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
@@ -57,32 +54,45 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardDragging(Direction direction, float ratio) {
-
+        Log.d(TAG, "onCardDragging: d = " + direction.name() + ", r = " + ratio);
     }
 
     @Override
     public void onCardSwiped(Direction direction) {
-
+        Log.d(TAG, "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction);
+        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
+            paginate();
+        }
     }
 
     @Override
     public void onCardRewound() {
-
+        Log.d(TAG, "onCardRewound: " + manager.getTopPosition());
     }
 
     @Override
     public void onCardCanceled() {
-
+        Log.d(TAG, "onCardCanceled:" + manager.getTopPosition());
     }
 
     @Override
     public void onCardAppeared(View view, int position) {
-
+        try{
+            TextView textView = view.findViewById(R.id.item_name);
+            Log.d(TAG, "onCardAppeared: (" + position + ") " + textView.getText());
+        } catch(Exception e){
+            Log.d(TAG, "onCardAppeared: item_name is null");
+        }
     }
 
     @Override
     public void onCardDisappeared(View view, int position) {
-
+        try{
+            TextView textView = view.findViewById(R.id.item_name);
+            Log.d(TAG, "onCardDisappeared: (" + position + ") " + textView.getText());
+        } catch(Exception e){
+            Log.d(TAG, "onCardDisappeared: item_name is null");
+        }
     }
 
     private void setupCardStackView() {
@@ -148,6 +158,18 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         cardStackView = getView().findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
+    }
+
+    private void paginate() {
+        List<Profile> oldList = adapter.getProfiles();
+        List<Profile> newList = new ArrayList<Profile>() {{
+            addAll(adapter.getProfiles());
+            addAll(createProfiles());
+        }};
+        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+        adapter.setProfiles(newList);
+        result.dispatchUpdatesTo(adapter);
     }
 
     private void reload() {
@@ -232,6 +254,11 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
         profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
         profiles.add(profileFactory.createProfileWithPicture("Idiot", "http://noomoon.com/noomoonastro/AstroGallery/images/HorseHeadFlame.20040227.22X2Mins.10X2Mins.10X2Mins.16X2Mins.600X800.jpg"));
+        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
+        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
+        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
+        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
+        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
         return profiles;
     }
 }

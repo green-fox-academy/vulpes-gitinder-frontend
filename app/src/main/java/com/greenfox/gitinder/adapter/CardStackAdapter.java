@@ -37,16 +37,9 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         final Profile profile = profiles.get(position);
         holder.username.setText(profile.getUsername());
         Picasso.get().load(profile.getAvatarUrl()).into(holder.image);
-//        Glide.with(holder.image)
-//                .load(profile.url)
-//                .into(holder.image);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), profile.getUsername(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.itemView.setOnClickListener
+                (v -> Toast.makeText(v.getContext(), profile.getUsername(), Toast.LENGTH_SHORT).show());
     }
 
     @Override
