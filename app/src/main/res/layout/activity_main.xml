@@ -25,24 +25,8 @@
         android:layout_height="0dp"
         app:layout_behavior="android.support.design.widget.AppBarLayout$Scrolling"
         app:layout_constraintBottom_toBottomOf="parent"
-<<<<<<< HEAD
-        app:layout_constraintEnd_toEndOf="@+id/main_settings_button"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/main_profile_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:onClick="toProfile"
-        android:text="@string/main_proifle_button_text"
-        app:layout_constraintBottom_toTopOf="@+id/main_settings_button"
-        app:layout_constraintEnd_toEndOf="@+id/main_settings_button"
-        app:layout_constraintStart_toStartOf="parent" />
-=======
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabs"
         app:layout_constraintVertical_bias="0.0" />
-
->>>>>>> 9b68da7369a5ca9e15f3a2b2a19e0e351c2ac645
 </android.support.constraint.ConstraintLayout>

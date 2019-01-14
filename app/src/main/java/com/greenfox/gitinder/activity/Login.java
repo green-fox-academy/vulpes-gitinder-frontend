@@ -48,7 +48,6 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String intentString = getIntent().toString();
         Uri uri = getIntent().getData();
         if (uri != null) {
             saveGitHubToken(uri, githubAPI);

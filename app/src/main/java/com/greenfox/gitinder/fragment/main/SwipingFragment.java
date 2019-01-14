@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.ProfileDetails;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.squareup.picasso.Picasso;
 
 public class SwipingFragment extends BaseFragment {
     private static final String TAG = "SwipingFragment";
+
 
     @Nullable
     @Override
@@ -21,6 +26,15 @@ public class SwipingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
         ImageView profilePic = view.findViewById(R.id.main_profile_picture);
         Picasso.get().load("https://www.randomlists.com/img/people/tom_hanks.jpg").into(profilePic);
+        TextView like = view.findViewById(R.id.main_like);
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(this, ProfileDetails.class);
+            }
+        });
         return view;
+
+
     }
 }
