@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.util.DiffUtil;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
@@ -17,6 +19,7 @@ import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.ProfileDiffCallback;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
+
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
