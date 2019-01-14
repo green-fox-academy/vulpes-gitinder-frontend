@@ -101,45 +101,36 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void setupButton() {
         View skip = getView().findViewById(R.id.skip_button);
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Left)
-                        .setDuration(200)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .build();
-                manager.setSwipeAnimationSetting(setting);
-                cardStackView.swipe();
-            }
+        skip.setOnClickListener(v -> {
+            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Left)
+                    .setDuration(200)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .build();
+            manager.setSwipeAnimationSetting(setting);
+            cardStackView.swipe();
         });
 
         View rewind = getView().findViewById(R.id.rewind_button);
-        rewind.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-                        .setDirection(Direction.Bottom)
-                        .setDuration(200)
-                        .setInterpolator(new DecelerateInterpolator())
-                        .build();
-                manager.setRewindAnimationSetting(setting);
-                cardStackView.rewind();
-            }
+        rewind.setOnClickListener(v -> {
+            RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
+                    .setDirection(Direction.Bottom)
+                    .setDuration(200)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .build();
+            manager.setRewindAnimationSetting(setting);
+            cardStackView.rewind();
         });
 
         View like = getView().findViewById(R.id.like_button);
-        like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                        .setDirection(Direction.Right)
-                        .setDuration(200)
-                        .setInterpolator(new AccelerateInterpolator())
-                        .build();
-                manager.setSwipeAnimationSetting(setting);
-                cardStackView.swipe();
-            }
+        like.setOnClickListener(v -> {
+            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
+                    .setDirection(Direction.Right)
+                    .setDuration(200)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .build();
+            manager.setSwipeAnimationSetting(setting);
+            cardStackView.swipe();
         });
     }
 
@@ -170,83 +161,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setProfiles(newList);
         result.dispatchUpdatesTo(adapter);
-    }
-
-    private void reload() {
-        List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = createProfiles();
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
-    }
-
-    private void addFirst(final int size) {
-        List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = new ArrayList<Profile>() {{
-            addAll(adapter.getProfiles());
-            for (int i = 0; i < size; i++) {
-                add(manager.getTopPosition(), createProfile());
-            }
-        }};
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
-    }
-
-    private void addLast(final int size) {
-        List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = new ArrayList<Profile>() {{
-            addAll(adapter.getProfiles());
-            for (int i = 0; i < size; i++) {
-                add(createProfile());
-            }
-        }};
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
-    }
-
-    private void removeFirst(final int size) {
-        if (adapter.getProfiles().isEmpty()) {
-            return;
-        }
-
-        List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = new ArrayList<Profile>() {{
-            addAll(adapter.getProfiles());
-            for (int i = 0; i < size; i++) {
-                remove(manager.getTopPosition());
-            }
-        }};
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
-    }
-
-    private void removeLast(final int size) {
-        if (adapter.getProfiles().isEmpty()) {
-            return;
-        }
-
-        List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = new ArrayList<Profile>() {{
-            addAll(adapter.getProfiles());
-            for (int i = 0; i < size; i++) {
-                remove(size() - 1);
-            }
-        }};
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
-    }
-
-    private Profile createProfile(){
-        return profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg");
     }
 
     private List<Profile> createProfiles() {
