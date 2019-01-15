@@ -1,8 +1,8 @@
 package com.greenfox.gitinder.model;
 
-import android.support.v4.app.Fragment;
+import dagger.android.support.DaggerFragment;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends DaggerFragment {
 
     String title;
 
