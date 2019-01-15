@@ -14,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public class SwipingFragmentTest {
 
     @Test
-    public void settingsFragmentIsNotNull() throws Exception {
+    public void swipingFragmentIsNotNull() throws Exception {
         MockPicasso.init();
 
         SwipingFragment swipingFragment = new SwipingFragment();
@@ -22,5 +22,4 @@ public class SwipingFragmentTest {
 
         assertNotNull(swipingFragment);
     }
-
 }

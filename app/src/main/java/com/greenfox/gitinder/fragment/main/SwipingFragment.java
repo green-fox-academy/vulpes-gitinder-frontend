@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +13,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.adapter.CardStackAdapter;
+import com.greenfox.gitinder.api.model.AvailableProfiles;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.ProfileDiffCallback;
-import com.greenfox.gitinder.model.factory.ProfileFactory;
-import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -26,8 +29,14 @@ import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SwipingFragment extends BaseFragment implements CardStackListener {
     private static final String TAG = "SwipingFragment";
@@ -36,25 +45,32 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
-    private ProfileFactory profileFactory = new ProfileFactory();
+    @Inject
+    GitinderAPI gitinderAPI;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
-
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        AndroidInjection.inject(getActivity());
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setupButton();
         setupCardStackView();
+        loadProfiles();
     }
 
     @Override
     public void onCardDragging(Direction direction, float ratio) {
-        Log.d(TAG, "onCardDragging: d = " + direction.name() + ", r = " + ratio);
+        Log.d(TAG, "onCardDragging: d = " + direction.name() + ", r = " + ratio + " + 3 velké hrušky");
     }
 
     @Override
@@ -145,7 +161,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setCanScrollVertical(true);
-        adapter = new CardStackAdapter(getActivity().getApplicationContext(), createProfiles());
+        adapter = new CardStackAdapter(getActivity().getApplicationContext());
         cardStackView = getView().findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
@@ -153,26 +169,31 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void paginate() {
         List<Profile> oldList = adapter.getProfiles();
-        List<Profile> newList = new ArrayList<Profile>() {{
-            addAll(adapter.getProfiles());
-            addAll(createProfiles());
-        }};
+        loadProfiles();
+        List<Profile> newList = adapter.getProfiles();
+
         ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
         DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
         adapter.setProfiles(newList);
         result.dispatchUpdatesTo(adapter);
     }
 
-    private List<Profile> createProfiles() {
-        List<Profile> profiles = new ArrayList<>();
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Idiot", "http://noomoon.com/noomoonastro/AstroGallery/images/HorseHeadFlame.20040227.22X2Mins.10X2Mins.10X2Mins.16X2Mins.600X800.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        return profiles;
+    private void loadProfiles() {
+        Call<AvailableProfiles> call = gitinderAPI.getAvailable(Constants.GITINDER_TOKEN);
+
+        call.enqueue(new Callback<AvailableProfiles>() {
+            @Override
+            public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
+                Log.d(TAG, "Getting available profiles - SUCCESS");
+                List<Profile> profiles = response.body().getProfiles();
+
+                adapter.addProfiles(profiles);
+            }
+
+            @Override
+            public void onFailure(Call<AvailableProfiles> call, Throwable t) {
+                Log.d(TAG, "Getting available profiles - FAILURE");
+            }
+        });
     }
 }
