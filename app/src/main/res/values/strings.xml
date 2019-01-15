@@ -115,5 +115,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="settings_maximum_distance">Maximum distance :</string>
+    <string name="title_activity_scrolling">aaa</string>
 
 </resources>
