@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -14,6 +13,7 @@ import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.model.NonSwipeableViewPager;
 
 import javax.inject.Inject;
 
@@ -22,7 +22,7 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private SectionsPageAdapter mSectionsPageAdapter;
-    private ViewPager mViewPager;
+    private NonSwipeableViewPager mViewPager;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -42,7 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+
+        mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
     }
 
-    public void setupViewPager(ViewPager viewPager){
+    public void setupViewPager(NonSwipeableViewPager viewPager){
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
         sectionsPageAdapter.addFragment(new MatchesFragment(), getString(R.string.tab_title_matches));

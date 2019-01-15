@@ -1,26 +1,27 @@
-package com.greenfox.gitinder.model;
+    package com.greenfox.gitinder.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Profile {
+    private static int counter = 0;
 
+    public long id;
     String username;
 
     @SerializedName("avatar_url")
     String avatarUrl;
 
     List<String> repos;
-
     List<String> languages;
-
     List<String> snippets;
 
     public Profile() {
     }
 
     public Profile(String username, String avatarUrl, List<String> repos, List<String> languages, List<String> snippets) {
+        this.id = counter++;
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.repos = repos;
@@ -66,5 +67,21 @@ public class Profile {
 
     public void setSnippets(List<String> snippets) {
         this.snippets = snippets;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public static void setCounter(int counter) {
+        Profile.counter = counter;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -70,7 +70,7 @@ public class CodeFragment extends BaseFragment {
                 "        Intent intent = new Intent(this, Login.class);\n" +
                 "        startActivity(intent);\n" +
                 "    }\n" +
-                "}").setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).apply();
+                "}").setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
         Log.d(TAG, "onCreateView: created");
         return view;
     }
