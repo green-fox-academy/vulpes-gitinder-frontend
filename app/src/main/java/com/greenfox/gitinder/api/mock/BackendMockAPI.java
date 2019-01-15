@@ -1,22 +1,21 @@
 package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.api.model.AvailableProfiles;
+import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
+import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
+import com.greenfox.gitinder.model.Settings;
+import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
-import com.greenfox.gitinder.api.model.GitinderResponse;
-import com.greenfox.gitinder.api.model.LoginResponse;
-import com.greenfox.gitinder.model.Settings;
-import com.greenfox.gitinder.model.User;
-import com.greenfox.gitinder.api.service.GitinderAPI;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -182,12 +181,8 @@ public class BackendMockAPI implements GitinderAPI {
         return new CallMock<Matches>() {
             @Override
             public void enqueue(Callback<Matches> callback) {
-                List<Match> matchesList = new ArrayList<>();
+                List<Match> matchesList = MatchFactory.createNewMatches();
                 Matches matches = new Matches();
-                matchesList.add(MatchFactory.createNewMatch());
-                matchesList.add(MatchFactory.createNewMatch());
-                matchesList.add(MatchFactory.createNewMatch());
-                matchesList.add(MatchFactory.createNewMatch());
                 matches.setMatches(matchesList);
 
                 if (gitinderToken == null || gitinderToken.isEmpty()) {
