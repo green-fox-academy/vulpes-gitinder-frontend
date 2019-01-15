@@ -185,6 +185,9 @@ public class BackendMockAPI implements GitinderAPI {
                 List<Match> matchesList = new ArrayList<>();
                 Matches matches = new Matches();
                 matchesList.add(MatchFactory.createNewMatch());
+                matchesList.add(MatchFactory.createNewMatch());
+                matchesList.add(MatchFactory.createNewMatch());
+                matchesList.add(MatchFactory.createNewMatch());
                 matches.setMatches(matchesList);
 
                 if (gitinderToken == null || gitinderToken.isEmpty()) {

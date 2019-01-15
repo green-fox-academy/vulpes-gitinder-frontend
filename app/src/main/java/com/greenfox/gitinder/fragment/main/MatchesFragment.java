@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,8 +52,10 @@ public class MatchesFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
+        loadMatches();
         recyclerView.setAdapter(matchAdapter);
     }
 
