@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.ProfileActivity;
 import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
@@ -20,6 +22,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     private LayoutInflater inflater;
     private List<Profile> profiles;
+    private Intent intent;
 
     public CardStackAdapter(Context context, List<Profile> profiles) {
         this.inflater = LayoutInflater.from(context);
@@ -38,8 +41,13 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
         holder.username.setText(profile.getUsername());
         Picasso.get().load(profile.getAvatarUrl()).into(holder.image);
 
-        holder.itemView.setOnClickListener
-                (v -> Toast.makeText(v.getContext(), profile.getUsername(), Toast.LENGTH_SHORT).show());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

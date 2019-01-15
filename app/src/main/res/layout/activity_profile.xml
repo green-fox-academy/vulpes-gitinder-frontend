@@ -47,7 +47,7 @@
             android:background="?attr/colorPrimary"
             app:tabMode="scrollable"/>
     </android.support.design.widget.AppBarLayout>
-    <android.support.v4.view.ViewPager
+    <com.greenfox.gitinder.model.NonSwipeableViewPager
         android:id="@+id/profile_details_layout_tab_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -10,13 +10,14 @@ import android.widget.ImageView;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.fragment.profile.CodeFragment;
+import com.greenfox.gitinder.model.NonSwipeableViewPager;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profilePic;
     private Toolbar toolbar;
-    private ViewPager viewPager;
+    private NonSwipeableViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
 
     @Override

@@ -9,12 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.ImageView;
-
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-
 import android.widget.TextView;
 
 import com.greenfox.gitinder.BuildConfig;
@@ -25,7 +21,6 @@ import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.ProfileDiffCallback;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
-import com.squareup.picasso.Picasso;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -43,29 +38,13 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
-
     private ProfileFactory profileFactory = new ProfileFactory();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
-
-        ImageView profilePic = view.findViewById(R.id.main_profile_picture);
-        Picasso.get().load("https://www.randomlists.com/img/people/tom_hanks.jpg").into(profilePic);
-        TextView like = view.findViewById(R.id.main_like);
-        if (BuildConfig.FLAVOR.equals("dev")) {
-            like.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), ProfileActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
         return view;
-
-
     }
 
     @Override
