@@ -10,13 +10,12 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class FragmentBuilder {
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector()
     abstract SwipingFragment bindSwipingFragment();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector()
     abstract MatchesFragment bindMatchesFragment();
 
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector()
     abstract SettingsFragment bindSettingsFragment();
-
 }
