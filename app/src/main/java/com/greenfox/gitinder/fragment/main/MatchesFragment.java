@@ -23,7 +23,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +46,6 @@ public class MatchesFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        AndroidInjection.inject(getActivity());
     }
 
     @Override
