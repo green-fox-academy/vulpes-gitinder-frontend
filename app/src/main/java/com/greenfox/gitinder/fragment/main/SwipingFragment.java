@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -63,94 +62,49 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onViewCreated: asdf");
-        setupButton();
+        setupButtons();
         setupCardStackView();
         loadProfiles();
     }
 
     @Override
-    public void onCardDragging(Direction direction, float ratio) {
-        Log.d(TAG, "onCardDragging: d = " + direction.name() + ", r = " + ratio + " + 3 velké hrušky");
-    }
-
-    @Override
     public void onCardSwiped(Direction direction) {
-        Log.d(TAG, "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction + "+ tři oříšky pro Popelku");
         if (manager.getTopPosition() == adapter.getItemCount() - 5) {
             loadProfiles();
         }
     }
 
-    @Override
-    public void onCardRewound() {
-        Log.d(TAG, "onCardRewound: " + manager.getTopPosition());
+    private void setupButtons(){
+        setupButtonSwipe(getView().findViewById(R.id.like_button), Direction.Right);
+        setupButtonSwipe(getView().findViewById(R.id.skip_button), Direction.Left);
+        setupButtonRewind(getView().findViewById(R.id.rewind_button), Direction.Bottom);
     }
 
-    @Override
-    public void onCardCanceled() {
-        Log.d(TAG, "onCardCanceled:" + manager.getTopPosition());
-    }
-
-    @Override
-    public void onCardAppeared(View view, int position) {
-        try{
-            TextView textView = view.findViewById(R.id.item_name);
-            Log.d(TAG, "onCardAppeared: (" + position + ") " + textView.getText());
-        } catch(Exception e){
-            Log.d(TAG, "onCardAppeared: item_name is null");
-        }
-    }
-
-    @Override
-    public void onCardDisappeared(View view, int position) {
-        try{
-            TextView textView = view.findViewById(R.id.item_name);
-            Log.d(TAG, "onCardDisappeared: (" + position + ") " + textView.getText());
-        } catch(Exception e){
-            Log.d(TAG, "onCardDisappeared: item_name is null");
-        }
-    }
-
-    private void setupCardStackView() {
-        initialize();
-    }
-
-    private void setupButton() {
-        View skip = getView().findViewById(R.id.skip_button);
-        skip.setOnClickListener(v -> {
+    private void setupButtonSwipe(View view, Direction direction){
+        view.setOnClickListener(v -> {
             SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Left)
+                    .setDirection(direction)
                     .setDuration(200)
                     .setInterpolator(new AccelerateInterpolator())
                     .build();
             manager.setSwipeAnimationSetting(setting);
             cardStackView.swipe();
         });
+    }
 
-        View rewind = getView().findViewById(R.id.rewind_button);
-        rewind.setOnClickListener(v -> {
+    private void setupButtonRewind(View view, Direction direction){
+        view.setOnClickListener(v -> {
             RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-                    .setDirection(Direction.Bottom)
+                    .setDirection(direction)
                     .setDuration(200)
                     .setInterpolator(new DecelerateInterpolator())
                     .build();
             manager.setRewindAnimationSetting(setting);
             cardStackView.rewind();
         });
-
-        View like = getView().findViewById(R.id.like_button);
-        like.setOnClickListener(v -> {
-            SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
-                    .setDirection(Direction.Right)
-                    .setDuration(200)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .build();
-            manager.setSwipeAnimationSetting(setting);
-            cardStackView.swipe();
-        });
     }
 
-    private void initialize() {
+    private void setupCardStackView() {
         manager = new CardStackLayoutManager(getActivity().getApplicationContext(), this);
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
@@ -184,5 +138,25 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });
+    }
+
+    @Override
+    public void onCardDragging(Direction direction, float ratio) {
+    }
+
+    @Override
+    public void onCardRewound() {
+    }
+
+    @Override
+    public void onCardCanceled() {
+    }
+
+    @Override
+    public void onCardAppeared(View view, int position) {
+    }
+
+    @Override
+    public void onCardDisappeared(View view, int position) {
     }
 }
