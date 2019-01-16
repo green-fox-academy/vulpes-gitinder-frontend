@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.model.BaseFragment;
+import com.greenfox.gitinder.fragment.BaseFragment;
 import com.squareup.picasso.Picasso;
 
 public class SwipingFragment extends BaseFragment {
