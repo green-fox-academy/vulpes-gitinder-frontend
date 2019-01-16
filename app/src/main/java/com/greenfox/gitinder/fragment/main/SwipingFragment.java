@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.util.DiffUtil;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,6 @@ import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.model.ProfileDiffCallback;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -77,9 +75,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        Log.d(TAG, "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction);
+        Log.d(TAG, "onCardSwiped: p = " + manager.getTopPosition() + ", d = " + direction + "+ tři oříšky pro Popelku");
         if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-            paginate();
+            loadProfiles();
         }
     }
 
@@ -167,17 +165,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         cardStackView = getView().findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
-    }
-
-    private void paginate() {
-        List<Profile> oldList = adapter.getProfiles();
-        loadProfiles();
-        List<Profile> newList = adapter.getProfiles();
-
-        ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
-        adapter.setProfiles(newList);
-        result.dispatchUpdatesTo(adapter);
     }
 
     private void loadProfiles() {
