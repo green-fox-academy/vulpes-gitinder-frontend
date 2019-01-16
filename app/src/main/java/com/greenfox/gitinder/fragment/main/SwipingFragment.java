@@ -33,7 +33,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,17 +51,20 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
+        Log.d(TAG, "onCreateView: asd");
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        AndroidInjection.inject(getActivity());
+        //AndroidInjection.inject(getActivity());
+        Log.d(TAG, "onAttach: asd");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated: asdf");
         setupButton();
         setupCardStackView();
         loadProfiles();
