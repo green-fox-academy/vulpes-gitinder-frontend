@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
 
@@ -34,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
-            Log.d("token_checking", "Token is missing!");
+            Log.d(TAG, "Token is missing!");
             toLogin();
         } else {
-            Log.d("token_checking", "Token is present.");
+            Log.d(TAG, "Token is present.");
         }
 
         Log.d(TAG, "onCreate: Starting.");
