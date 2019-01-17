@@ -123,6 +123,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
+        showProgressBar();
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(Constants.GITINDER_TOKEN);
 
         call.enqueue(new Callback<AvailableProfiles>() {
@@ -132,10 +133,11 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 List<Profile> profiles = response.body().getProfiles();
 
                 adapter.addProfiles(profiles);
+                hideProgressBar();
             }
-
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {
+                showProgressBar();
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });
