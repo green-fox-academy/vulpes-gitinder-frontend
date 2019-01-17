@@ -187,7 +187,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         List<Profile> newList = new ArrayList<Profile>() {{
             addAll(adapter.getProfiles());
             for (int i = 0; i < size; i++) {
-                add(manager.getTopPosition(), createProfile());
+                add(manager.getTopPosition(), ProfileFactory.createProfile());
             }
         }};
         ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
@@ -201,7 +201,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         List<Profile> newList = new ArrayList<Profile>() {{
             addAll(adapter.getProfiles());
             for (int i = 0; i < size; i++) {
-                add(createProfile());
+                add(ProfileFactory.createProfile());
             }
         }};
         ProfileDiffCallback callback = new ProfileDiffCallback(oldList, newList);
@@ -246,20 +246,11 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         result.dispatchUpdatesTo(adapter);
     }
 
-    private Profile createProfile(){
-        return profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg");
-    }
-
-    private List<Profile> createProfiles() {
+        private List<Profile> createProfiles() {
         List<Profile> profiles = new ArrayList<>();
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Idiot", "http://noomoon.com/noomoonastro/AstroGallery/images/HorseHeadFlame.20040227.22X2Mins.10X2Mins.10X2Mins.16X2Mins.600X800.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Almond", "https://upload.wikimedia.org/wikipedia/commons/0/05/Lippstadt-Nicolaikirche-600x800-schwarzweiss-4.jpg"));
-        profiles.add(profileFactory.createProfileWithPicture("Jerry", "http://www.akantart.cz/images/galerie/20170823111735_P1850807-(600x800).jpg"));
+            for (int i = 0; i < 10 ; i++) {
+                ProfileFactory.createProfile();
+        }
         return profiles;
     }
 }
