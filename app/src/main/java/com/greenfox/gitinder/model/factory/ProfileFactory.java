@@ -38,7 +38,12 @@ public class ProfileFactory {
         return toReturn;
     }
     private static List<String> getSnippets() {
-        List<String> snipets = new ArrayList<>(Arrays.asList(""));
+        List<String> snipets = new ArrayList<>(Arrays.asList("" +
+                "https://raw.githubusercontent.com/green-fox-academy/Splichus/master/week-3/Day-3/src/Farm.java",
+                "https://raw.githubusercontent.com/green-fox-academy/Splichus/master/week-7/tamagochi/src/main/java/com/greenfox/splichus/tamagochi/Components/MainController.java",
+                "https://raw.githubusercontent.com/green-fox-academy/Splichus/master/week-5/day-1/src/NumberToString.java",
+                "https://raw.githubusercontent.com/green-fox-academy/Splichus/master/week-4/day-1/src/AircraftCarrier/Carrier.java",
+                "https://raw.githubusercontent.com/green-fox-academy/Splichus/master/week-4/day-4/src/Todo.java"));
         return snipets;
     }
     private static List<String> getRepos() {
