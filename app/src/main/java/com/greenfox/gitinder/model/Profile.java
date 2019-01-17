@@ -1,20 +1,17 @@
-package com.greenfox.gitinder.model;
+    package com.greenfox.gitinder.model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 public class Profile {
-
     String username;
 
     @SerializedName("avatar_url")
     String avatarUrl;
 
     List<String> repos;
-
     List<String> languages;
-
     List<String> snippets;
 
     public Profile() {

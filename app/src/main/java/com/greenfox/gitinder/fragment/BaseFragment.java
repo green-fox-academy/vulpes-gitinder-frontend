@@ -9,7 +9,9 @@ import android.widget.RelativeLayout;
 
 import com.greenfox.gitinder.R;
 
-public class BaseFragment extends Fragment {
+import dagger.android.support.DaggerFragment;
+
+public class BaseFragment extends DaggerFragment {
 
     String title;
     protected ProgressBar progressBar;

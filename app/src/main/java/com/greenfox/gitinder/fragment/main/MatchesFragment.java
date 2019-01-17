@@ -13,7 +13,6 @@ import com.greenfox.gitinder.fragment.BaseFragment;
 public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
