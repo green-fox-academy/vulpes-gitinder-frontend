@@ -18,6 +18,7 @@ import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
+
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -48,20 +49,16 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
-        Log.d(TAG, "onCreateView: asd");
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //AndroidInjection.inject(getActivity());
-        Log.d(TAG, "onAttach: asd");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: asdf");
         setupButtons();
         setupCardStackView();
         loadProfiles();
