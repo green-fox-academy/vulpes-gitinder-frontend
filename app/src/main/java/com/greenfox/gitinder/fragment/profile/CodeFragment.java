@@ -1,5 +1,8 @@
 package com.greenfox.gitinder.fragment.profile;
 
+import android.app.DownloadManager;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +13,20 @@ import android.view.ViewGroup;
 
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.model.BaseFragment;
+import com.squareup.picasso.Downloader;
+
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.tiagohm.codeview.CodeView;
 import br.tiagohm.codeview.Language;
@@ -28,4 +45,30 @@ public class CodeFragment extends BaseFragment {
         Log.d(TAG, "onCreateView: created");
         return view;
     }
+
+    private class DownloadSnnipets extends AsyncTask<URL, Integer, String> {
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            String toReturn = null;
+
+            try {
+                URLConnection connection = urls[0].openConnection();
+                int contentLength = connection.getContentLength();
+                DataInputStream input = new DataInputStream(urls[0].openStream());
+
+                byte[] buffer = new byte[contentLength];
+                input.readFully(buffer);
+                input.close();
+                toReturn = new String(buffer);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return toReturn;
+        }
+    }
 }
+
+
