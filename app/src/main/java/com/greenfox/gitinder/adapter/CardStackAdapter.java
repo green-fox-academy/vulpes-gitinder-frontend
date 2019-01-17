@@ -16,6 +16,7 @@ import com.greenfox.gitinder.activity.ProfileActivity;
 import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
@@ -24,9 +25,9 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     private List<Profile> profiles;
     private Intent intent;
 
-    public CardStackAdapter(Context context, List<Profile> profiles) {
+    public CardStackAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
-        this.profiles = profiles;
+        this.profiles = new ArrayList<>();
     }
 
     @NonNull
@@ -71,6 +72,10 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             this.username = view.findViewById(R.id.item_name);
             this.image = view.findViewById(R.id.item_image);
         }
+    }
+
+    public void addProfiles(List<Profile> profileList){
+        profiles.addAll(profileList);
     }
 
 }

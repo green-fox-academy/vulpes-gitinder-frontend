@@ -21,7 +21,6 @@ import dagger.android.AndroidInjection;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private SectionsPageAdapter mSectionsPageAdapter;
     private NonSwipeableViewPager mViewPager;
 
     @Inject
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        mSectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
 
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
