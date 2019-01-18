@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.MainActivity;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Settings;
 import com.squareup.picasso.Picasso;
@@ -29,6 +32,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public SeekBar seekBar;
     public TextView maximumDistance;
     public ImageView imageView;
+    public Button logoutButton;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -47,6 +51,10 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
+        logoutButton = getView().findViewById(R.id.settings_logout_button);
+        logoutButton.setOnClickListener(v -> {
+            logout();
+        });
         notificationSwitch.setOnCheckedChangeListener(this);
         notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
@@ -93,6 +101,12 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public void displayImage() {
         imageView = (ImageView) getView().findViewById(R.id.imageView);
         Picasso.get().load("https://vignette.wikia.nocookie.net/rickandmorty/images/1/19/Pickle_rick_transparent.png/revision/latest?cb=20171025014216").into(imageView);
+    }
+
+    public void logout() {
+        sharedPreferences.edit().clear().apply();
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        startActivity(intent);
     }
 
 }

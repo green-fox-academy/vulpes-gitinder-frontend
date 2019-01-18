@@ -26,6 +26,7 @@
     <string name="settings_bck_sync">Enable background sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
+    <string name="settings_logout_button">Logout</string>
     <string name="title_activity_scrolling">aaa</string>
 
 
