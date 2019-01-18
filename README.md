@@ -5,7 +5,7 @@ This is the repo for our final project at the Green Fox Academy.
 **Project Leader:**  
 Adam Gyulavari - [GitHub](https://github.com/adamgyulavari)  
 <br>
-**Members**  
+**Members:**  
 Marek Wimmer - [GitHub](https://github.com/WimmermM)  
 Jan Šplíchal - [GitHub](https://github.com/Splichus)  
 Daniel Kolek - [GitHub](https://github.com/kolekd)
