@@ -14,10 +14,11 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.fragment.BaseFragment;
+import com.squareup.picasso.Picasso;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
-import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -125,20 +126,23 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
+        showProgressBar();
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(Constants.GITINDER_TOKEN);
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
+                showProgressBar();
                 Log.d(TAG, "Getting available profiles - SUCCESS");
                 List<Profile> profiles = response.body().getProfiles();
 
                 adapter.addProfiles(profiles);
+                hideProgressBar();
             }
-
 
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {
+                showProgressBar();
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });

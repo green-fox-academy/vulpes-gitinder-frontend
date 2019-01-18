@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.model.BaseFragment;
+import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Settings;
 import com.squareup.picasso.Picasso;
 
