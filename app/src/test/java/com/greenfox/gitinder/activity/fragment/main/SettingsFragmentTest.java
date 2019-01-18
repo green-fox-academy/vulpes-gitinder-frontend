@@ -83,4 +83,6 @@ public class SettingsFragmentTest {
         assertEquals(5, pref.getInt("maxDistance", 0));
     }
 
+
+
 }
