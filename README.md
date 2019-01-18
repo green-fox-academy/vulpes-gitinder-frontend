@@ -1,6 +1,6 @@
 # Gitinder
 ## Green Fox Academy - PRG Vulpes - Java Android Frontend
-This is the repo for ourfinal project at the Green Fox Academy.  
+This is the repo for our final project at the Green Fox Academy.  
 ### Android Team
 Marek Wimmer - [GitHub](https://github.com/WimmermM)  
 Jan Šplíchal - [GitHub](https://github.com/Splichus)  
