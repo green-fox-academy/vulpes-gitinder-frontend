@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.fragment.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,9 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     GitinderAPI gitinderAPI;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +62,7 @@ public class MatchesFragment extends BaseFragment {
     }
 
     public void loadMatches(){
-        Call<Matches> call = gitinderAPI.matches(Constants.GITINDER_TOKEN);
+        Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
         call.enqueue(new Callback<Matches>() {
             @Override

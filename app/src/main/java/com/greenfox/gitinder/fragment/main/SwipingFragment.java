@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.fragment.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Inject
     GitinderAPI gitinderAPI;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -119,7 +123,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
-        Call<AvailableProfiles> call = gitinderAPI.getAvailable(Constants.GITINDER_TOKEN);
+        Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
