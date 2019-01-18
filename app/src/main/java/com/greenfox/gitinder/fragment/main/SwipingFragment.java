@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,9 +18,8 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
-import com.greenfox.gitinder.model.BaseFragment;
+import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
-
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -42,6 +42,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
+
 
     @Inject
     GitinderAPI gitinderAPI;
@@ -124,18 +125,22 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void loadProfiles() {
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
+        showProgressBar();
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
+                showProgressBar();
                 Log.d(TAG, "Getting available profiles - SUCCESS");
                 List<Profile> profiles = response.body().getProfiles();
 
                 adapter.addProfiles(profiles);
+                hideProgressBar();
             }
 
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {
+                showProgressBar();
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });
@@ -152,6 +157,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onCardCanceled() {
     }
+
 
     @Override
     public void onCardAppeared(View view, int position) {

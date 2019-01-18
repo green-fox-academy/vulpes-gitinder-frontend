@@ -16,7 +16,7 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MatchAdapter;
 import com.greenfox.gitinder.api.service.GitinderAPI;
-import com.greenfox.gitinder.model.BaseFragment;
+import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 
