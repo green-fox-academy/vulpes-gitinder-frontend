@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,8 +43,10 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
+
     @Inject
     GitinderAPI gitinderAPI;
+
 
     @Nullable
     @Override
@@ -136,6 +139,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 adapter.addProfiles(profiles);
                 hideProgressBar();
             }
+
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {
                 showProgressBar();
@@ -155,6 +159,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onCardCanceled() {
     }
+
 
     @Override
     public void onCardAppeared(View view, int position) {
