@@ -4,7 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.greenfox.gitinder.model.BaseFragment;
+import com.greenfox.gitinder.fragment.BaseFragment;
+import com.greenfox.gitinder.fragment.main.SettingsFragment;
+
 
 import java.util.ArrayList;
 import java.util.List;
