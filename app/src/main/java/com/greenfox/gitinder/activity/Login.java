@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -12,7 +13,11 @@ import android.widget.Toast;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.api.model.GitHubUsername;
+import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.service.GithubAPI;
+import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.User;
 
 import javax.inject.Inject;
 
@@ -22,6 +27,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
+    private static final String TAG = "Login";
+
 
     public Button login;
 
@@ -30,6 +37,9 @@ public class Login extends AppCompatActivity {
 
     @Inject
     GithubAPI githubAPI;
+
+    @Inject
+    GitinderAPI gitinderAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +87,36 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString(Constants.GITINDER_TOKEN, response.body().getToken()).apply();
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
+                Call<GitHubUsername> gitHubUsernameCall = githubAPI.getGitHubUsername("Bearer " + response.body().getToken());
+
+                gitHubUsernameCall.enqueue(new Callback<GitHubUsername>() {
+                    @Override
+                    public void onResponse(Call<GitHubUsername> call, Response<GitHubUsername> response2) {
+                        Call<LoginResponse> loginResponseCall = gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken()));
+
+                        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+                            @Override
+                            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
+                                sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken());
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                Log.d(TAG, t.getMessage());
+                                t.printStackTrace();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<GitHubUsername> call, Throwable t) {
+                        Log.d(TAG, t.getMessage());
+                        t.printStackTrace();
+                    }
+                });
             }
 
             @Override
@@ -89,4 +125,5 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
 }
