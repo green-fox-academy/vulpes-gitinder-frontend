@@ -2,8 +2,10 @@
 ## Green Fox Academy - PRG Vulpes - Java Android Frontend
 This is the repo for our final project at the Green Fox Academy.  
 ### Android Team
-**Project Leader** - Adam Gyulavari - [GitHub](https://github.com/adamgyulavari)
-
+**Project Leader:**  
+Adam Gyulavari - [GitHub](https://github.com/adamgyulavari)  
+<br>
+**Members**  
 Marek Wimmer - [GitHub](https://github.com/WimmermM)  
 Jan Šplíchal - [GitHub](https://github.com/Splichus)  
 Daniel Kolek - [GitHub](https://github.com/kolekd)
