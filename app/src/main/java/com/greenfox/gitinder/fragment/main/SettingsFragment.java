@@ -13,8 +13,6 @@ import com.greenfox.gitinder.fragment.BaseFragment;
 
 public class SettingsFragment extends BaseFragment {
     private static final String TAG = "SettingsFragment";
-    public Button settingsButton;
-    public Button secondButton;
 
     @Nullable
     @Override
