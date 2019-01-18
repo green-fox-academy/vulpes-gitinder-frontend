@@ -32,7 +32,6 @@ public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
     MatchAdapter matchAdapter;
-    RecyclerView recyclerView;
 
     @Inject
     GitinderAPI gitinderAPI;
@@ -54,7 +53,7 @@ public class MatchesFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         loadMatches();

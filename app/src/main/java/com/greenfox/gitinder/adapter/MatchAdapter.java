@@ -38,10 +38,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String username = matchList.get(position).getUsername();
-        String interests = "java, ruby, js...";
+        String lastMessage = matchList.get(position).getMessages().get( matchList.get(position).getMessages().size() - 1).getMessage();
         String avatarUrl = matchList.get(position).getAvatarUrl();
 
-        holder.interestsText.setText(interests);
+        holder.messagesText.setText(lastMessage);
         holder.usernameText.setText(username);
         Picasso.get().load(avatarUrl).into(holder.profilePicture);
     }
@@ -53,7 +53,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView usernameText;
-        TextView interestsText;
+        TextView messagesText;
         Button messagesButton;
         Button profileButton;
         ImageView profilePicture;
@@ -61,7 +61,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             usernameText = itemView.findViewById(R.id.match_username);
-            interestsText = itemView.findViewById(R.id.match_interests);
+            messagesText = itemView.findViewById(R.id.match_messages);
             messagesButton = itemView.findViewById(R.id.match_messages_button);
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);

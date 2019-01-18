@@ -54,7 +54,7 @@
                 android:background="@color/colorLightGray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/match_picture"
-                app:layout_constraintTop_toBottomOf="@+id/match_interests" />
+                app:layout_constraintTop_toBottomOf="@+id/match_messages" />
 
             <TextView
                 android:id="@+id/match_username"
@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toTopOf="@+id/match_picture" />
 
             <TextView
-                android:id="@+id/match_interests"
+                android:id="@+id/match_messages"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
