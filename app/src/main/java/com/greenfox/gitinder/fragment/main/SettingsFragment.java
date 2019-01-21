@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -112,23 +113,21 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     }
 
     public void logout() {
-        Intent intent = new Intent(getActivity(), MainActivity.class);
         Call<GitinderResponse> call = gitinderAPI.logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                 sharedPreferences.edit().clear().apply();
-
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<GitinderResponse> call, Throwable t) {
-
+                Log.d(TAG, t.getMessage());
             }
         });
-
-        startActivity(intent);
     }
 
 }
