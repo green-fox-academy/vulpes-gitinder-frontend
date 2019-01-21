@@ -1,12 +1,12 @@
 package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.api.model.GitHubToken;
-import com.greenfox.gitinder.api.service.GithubAPI;
+import com.greenfox.gitinder.api.service.GithubTokenAPI;
 
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GitHubMock implements GithubAPI {
+public class GitHubMock implements GithubTokenAPI {
 
     @Override
     public CallMock<GitHubToken> getToken(String ClientID, String secret, final String code) {

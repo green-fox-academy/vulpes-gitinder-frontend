@@ -16,7 +16,7 @@ import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.api.model.GitHubUsername;
 import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.service.GithubAPI;
-import com.greenfox.gitinder.api.service.GithubUserAPI;
+import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.User;
 
@@ -37,13 +37,13 @@ public class Login extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     @Inject
-    GithubAPI githubAPI;
+    GithubTokenAPI githubAPI;
 
     @Inject
     GitinderAPI gitinderAPI;
 
     @Inject
-    GithubUserAPI githubUserAPI;
+    GithubAPI githubUserAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
     // Calls the githubAPI and saves the returned github token
-    public void saveGitHubToken(Uri uri, GithubAPI githubAPI) {
+    public void saveGitHubToken(Uri uri, GithubTokenAPI githubAPI) {
         String code = uri.getQueryParameter("code");
         Call<GitHubToken> call = githubAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
 
@@ -91,8 +91,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername(response.body().getToken());
-//                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername("Bearer " + response.body().getToken());
+                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername("token " + response.body().getToken());
 
                 gitHubUsernameCall.enqueue(new Callback<GitHubUsername>() {
                     @Override
@@ -102,7 +101,7 @@ public class Login extends AppCompatActivity {
                         loginResponseCall.enqueue(new Callback<LoginResponse>() {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
-                                sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken());
+                                sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken()).apply();
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();

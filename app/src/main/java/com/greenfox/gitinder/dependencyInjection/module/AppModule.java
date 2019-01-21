@@ -8,7 +8,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.service.GithubAPI;
-import com.greenfox.gitinder.api.service.GithubUserAPI;
+import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Settings;
 
@@ -46,22 +46,22 @@ public class AppModule {
 
     @Provides
     @Singleton
-    GithubUserAPI githubUserAPI(){
+    GithubAPI githubUserAPI(){
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
-        return retrofit.create(GithubUserAPI.class);
+        return retrofit.create(GithubAPI.class);
     }
 
     @Provides
     @Singleton
-    GithubAPI githubAPI(){
+    GithubTokenAPI githubAPI(){
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("https://github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
-        return retrofit.create(GithubAPI.class);
+        return retrofit.create(GithubTokenAPI.class);
     }
 
     @Provides

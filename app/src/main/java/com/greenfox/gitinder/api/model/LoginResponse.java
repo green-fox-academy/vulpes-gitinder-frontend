@@ -1,7 +1,10 @@
 package com.greenfox.gitinder.api.model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LoginResponse extends GitinderResponse {
 
+    @SerializedName("gitinder_token")
     String gitinderToken;
 
     public LoginResponse() {
