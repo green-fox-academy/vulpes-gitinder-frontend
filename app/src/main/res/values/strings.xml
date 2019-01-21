@@ -10,6 +10,8 @@
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="like_button_text">Like</string>
     <string name="nope_button_text">Nope</string>
+    <string name="match_messages_button_text">Messages</string>
+    <string name="match_profile_button_text">Profile</string>
     <string name="main_settings_button_text">Settings</string>
     <string name="main_logout_button_text">Logout</string>
     <string name="Setting_Notification_Text">Allow Notifications</string>
@@ -26,6 +28,9 @@
     <string name="settings_bck_sync">Enable background sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
+    <string name="title_activity_scrolling">aaa</string>
+
+
 
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>
@@ -39,4 +44,5 @@
     <string name="remove_two_spots_at_first">Remove two spots at first</string>
     <string name="remove_one_spot_at_last">Remove one spot at last</string>
     <string name="remove_two_spots_at_last">Remove two spots at last</string>
+
 </resources>

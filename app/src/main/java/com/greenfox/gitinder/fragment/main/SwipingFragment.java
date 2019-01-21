@@ -1,6 +1,8 @@
 package com.greenfox.gitinder.fragment.main;
 
+
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,11 +15,10 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.fragment.BaseFragment;
-import com.squareup.picasso.Picasso;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
@@ -42,27 +43,27 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
+
     @Inject
     GitinderAPI gitinderAPI;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.swiping_fragment, container, false);
-        Log.d(TAG, "onCreateView: asd");
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        //AndroidInjection.inject(getActivity());
-        Log.d(TAG, "onAttach: asd");
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: asdf");
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -123,8 +124,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
+        Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
         showProgressBar();
-        Call<AvailableProfiles> call = gitinderAPI.getAvailable(Constants.GITINDER_TOKEN);
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
@@ -136,6 +137,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 adapter.addProfiles(profiles);
                 hideProgressBar();
             }
+
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {
                 showProgressBar();
@@ -155,6 +157,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onCardCanceled() {
     }
+
 
     @Override
     public void onCardAppeared(View view, int position) {
