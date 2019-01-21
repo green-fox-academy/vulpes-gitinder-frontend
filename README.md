@@ -12,4 +12,4 @@ Daniel Kolek - [GitHub](https://github.com/kolekd)
 <br><br>
 ## About the app
 Gitinder is a Tinder-inspired app with a programmer-theme.  
-You connect it to your GitHub account and then it lets you get in touch with programmers with similar coding habits and interests.
+You connect to it through your GitHub account and then it lets you get in touch with programmers with similar coding habits and interests.
