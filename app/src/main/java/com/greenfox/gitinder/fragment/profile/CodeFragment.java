@@ -10,14 +10,10 @@ import android.view.ViewGroup;
 
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.api.service.SnippetService;
-import com.greenfox.gitinder.model.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.inject.Inject;
+import com.greenfox.gitinder.fragment.BaseFragment;
 
 import br.tiagohm.codeview.CodeView;
 import br.tiagohm.codeview.Language;

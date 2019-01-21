@@ -10,6 +10,8 @@
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="like_button_text">Like</string>
     <string name="nope_button_text">Nope</string>
+    <string name="match_messages_button_text">Messages</string>
+    <string name="match_profile_button_text">Profile</string>
     <string name="main_settings_button_text">Settings</string>
     <string name="main_logout_button_text">Logout</string>
     <string name="Setting_Notification_Text">Allow Notifications</string>
