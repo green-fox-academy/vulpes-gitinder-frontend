@@ -8,6 +8,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.service.GithubAPI;
+import com.greenfox.gitinder.api.service.GithubUserAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Settings;
 
@@ -42,6 +43,16 @@ public class AppModule {
     }
 
     //TODO Create a new API. Something like "GET https://api.github.com/user?access_token=... "
+
+    @Provides
+    @Singleton
+    GithubUserAPI githubUserAPI(){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        return retrofit.create(GithubUserAPI.class);
+    }
 
     @Provides
     @Singleton

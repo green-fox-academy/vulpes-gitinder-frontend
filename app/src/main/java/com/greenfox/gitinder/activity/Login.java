@@ -16,6 +16,7 @@ import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.api.model.GitHubUsername;
 import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.service.GithubAPI;
+import com.greenfox.gitinder.api.service.GithubUserAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.User;
 
@@ -40,6 +41,9 @@ public class Login extends AppCompatActivity {
 
     @Inject
     GitinderAPI gitinderAPI;
+
+    @Inject
+    GithubUserAPI githubUserAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +91,8 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                Call<GitHubUsername> gitHubUsernameCall = githubAPI.getGitHubUsername("Bearer " + response.body().getToken());
+                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername(response.body().getToken());
+//                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername("Bearer " + response.body().getToken());
 
                 gitHubUsernameCall.enqueue(new Callback<GitHubUsername>() {
                     @Override
