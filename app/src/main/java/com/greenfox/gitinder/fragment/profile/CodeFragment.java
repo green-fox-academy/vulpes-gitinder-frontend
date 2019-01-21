@@ -39,6 +39,7 @@ public class CodeFragment extends BaseFragment {
         codeView = view.findViewById(R.id.fragment_code_codeview);
         service.getSnippets(profile.getSnippets().get(Integer.parseInt(getTitle())-1), this);
         Log.d(TAG, "onCreateView: created");
+
         return view;
     }
 
