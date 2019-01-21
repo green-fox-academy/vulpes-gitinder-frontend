@@ -10,6 +10,6 @@ Marek Wimmer - [GitHub](https://github.com/WimmermM)
 Jan Šplíchal - [GitHub](https://github.com/Splichus)  
 Daniel Kolek - [GitHub](https://github.com/kolekd)
 <br><br>
-## About the app
+## About the project
 Gitinder is a Tinder-inspired app with a programmer-theme.  
 You connect to it through your GitHub account and then it lets you get in touch with programmers with similar coding habits and interests.
