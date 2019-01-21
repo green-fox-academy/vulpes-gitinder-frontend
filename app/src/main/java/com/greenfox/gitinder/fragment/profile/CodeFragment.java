@@ -3,6 +3,9 @@ package com.greenfox.gitinder.fragment.profile;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ public class CodeFragment extends BaseFragment {
     private static final String TAG = "CodeFragment";
     private CodeView codeView;
     private Profile profile;
+
     @Inject
     SnippetService service;
 
@@ -33,14 +37,16 @@ public class CodeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.code_fragment, container, false);
         profile = (Profile) getActivity().getIntent().getSerializableExtra("profile");
         codeView = view.findViewById(R.id.fragment_code_codeview);
+        codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode("").setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
         service.getSnippets(profile.getSnippets().get(Integer.parseInt(getTitle())-1), this);
         Log.d(TAG, "onCreateView: created");
-
         return view;
     }
 
     public void onSnippetsLoaded(String snippet) {
-        codeView.setTheme(Theme.ATOM_ONE_DARK).setCode(snippet).setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
+        Log.d(TAG, "onSnippetsLoaded: snippet loaded");
+        Log.d(TAG, snippet);
+        codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode(snippet).setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
     }
 }
 

@@ -60,7 +60,7 @@ public class SnippetService {
         @Override
         protected void onPostExecute(SnippetRequest request) {
             allSnippets.put(request.getUrl(), request.getSnippet());
-            fragment.onSnippetsLoaded(request.getUrl());
+            fragment.onSnippetsLoaded(request.getSnippet());
         }
     }
 }
