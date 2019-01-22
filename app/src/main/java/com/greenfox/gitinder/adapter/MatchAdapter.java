@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.factory.MessagesFactory;
@@ -18,6 +20,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> {
 
@@ -59,6 +64,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        @Inject
+        SharedPreferences sharedPreferences;
+
         TextView usernameText;
         TextView messagesText;
         Button messagesButton;
@@ -77,8 +86,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
                 setMessageToMatch(matchList.get(getAdapterPosition()));
                 notifyDataSetChanged();
             });
+
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
+
+    }
+
+    public List<Match> getMatchList() {
+        return matchList;
     }
 
     public void addMatches(List<Match> matches){
@@ -92,4 +107,15 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     public void setMessageToMatch(Match match){
         match.setMessages(MessagesFactory.createMessage());
     }
+
+    public int matchesWithNoMessage(){
+        int counter = 0;
+        for (Match match: getMatchList()){
+            if(match.getMessages().size() < 1){
+                counter++;
+            }
+        }
+        return counter;
+    }
+
 }

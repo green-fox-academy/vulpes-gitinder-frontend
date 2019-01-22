@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
 
-
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
@@ -59,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(v -> {
             mViewPager.setCurrentItem(1);
         });
+
+        if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0")){
+            floatingActionButton.hide();
+            floatingActionButtonText.setText("");
+        } else {
+            floatingActionButton.show();
+            floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+        }
+
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -76,5 +84,11 @@ public class MainActivity extends AppCompatActivity {
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, "").apply();
     }
 }

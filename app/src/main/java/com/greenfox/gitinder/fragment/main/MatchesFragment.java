@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -70,6 +71,15 @@ public class MatchesFragment extends BaseFragment {
         matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        matchAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+            }
+        });
+
+        recyclerView.setAdapter(matchAdapter);
+
         addMatchesButton.setOnClickListener(v -> {
             loadMatches();
         });
@@ -77,13 +87,10 @@ public class MatchesFragment extends BaseFragment {
         clearMatchesButton.setOnClickListener(v ->{
             matchAdapter.clearMatches();
             matchAdapter.notifyDataSetChanged();
-            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
-            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount());
-            Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+//            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
+            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount() + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
         });
-
-        loadMatches();
-        recyclerView.setAdapter(matchAdapter);
     }
 
     public void loadMatches(){
@@ -98,11 +105,10 @@ public class MatchesFragment extends BaseFragment {
 
                 matchAdapter.addMatches(matchList);
                 matchAdapter.notifyDataSetChanged();
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
-                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount());
-                Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-
                 sharedPreferencesListenerDude();
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount() + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+
             }
 
             @Override
@@ -128,4 +134,6 @@ public class MatchesFragment extends BaseFragment {
         });
 
     }
+
+
 }
