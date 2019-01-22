@@ -7,7 +7,7 @@
 /captures
 .externalNativeBuild
 *.secrets
-.tap
+session_analytics.tap
 .json
 
 
