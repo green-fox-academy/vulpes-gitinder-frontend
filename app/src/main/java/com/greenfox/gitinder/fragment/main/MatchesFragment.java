@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -19,7 +21,9 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.factory.MatchFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,6 +43,8 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     SharedPreferences sharedPreferences;
 
+    Button matchesUpdaterButton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,9 +61,15 @@ public class MatchesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
+        matchesUpdaterButton = view.findViewById(R.id.updaterButtonDude);
+        matchAdapter = new MatchAdapter(getActivity());
         loadMatches();
         recyclerView.setAdapter(matchAdapter);
+
+        matchesUpdaterButton.setOnClickListener(v -> {
+            addMatch();
+            Toast.makeText(getActivity(), "Match added.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     public void loadMatches(){
@@ -71,6 +83,7 @@ public class MatchesFragment extends BaseFragment {
                 List<Match> matchList = response.body().getMatches();
 
                 matchAdapter.addMatches(matchList);
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
             }
 
             @Override
@@ -78,5 +91,16 @@ public class MatchesFragment extends BaseFragment {
                 Log.d(TAG, "Getting matches - FAILURE");
             }
         });
+    }
+
+    public void addMatch(){
+        List<Match> matchList2 = new ArrayList<>();
+        matchList2.add(MatchFactory.createNewMatch());
+        matchAdapter.addMatches(matchList2);
+        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
+    }
+
+    public String toStringGoddammit(Integer number){
+        return number.toString();
     }
 }

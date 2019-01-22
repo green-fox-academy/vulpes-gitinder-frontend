@@ -29,6 +29,7 @@
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
     <string name="title_activity_scrolling">aaa</string>
+    <string name="floating_action_button_text_placeholder">42</string>
 
 
 
