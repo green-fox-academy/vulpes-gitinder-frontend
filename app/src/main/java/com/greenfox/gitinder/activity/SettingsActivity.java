@@ -31,8 +31,6 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     SharedPreferences sharedPreferences;
     @Inject
     Settings settings;
-    @Inject
-    AlarmSetUp alarmSetUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +56,7 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
             sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
             Toast.makeText(SettingsActivity.this, isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
             if (!bSyncSwitch.isChecked()) {
+                AlarmSetUp alarmSetUp = new AlarmSetUp(this);
                 alarmSetUp.stopAlarm();
 
             }

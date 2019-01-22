@@ -23,16 +23,14 @@ public class AlarmSetUp {
 
     public AlarmSetUp(Context context) {
         alarmContext = context;
-        alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public void startAlarm() {
-        if (sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC, true)) {
+    public void startAlarm(Context context) {
+            alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, PendingIntent.FLAG_NO_CREATE);
-            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 300000, pendingIntent);
+            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 300, pendingIntent);
 
-        }
     }
 
     public void stopAlarm() {

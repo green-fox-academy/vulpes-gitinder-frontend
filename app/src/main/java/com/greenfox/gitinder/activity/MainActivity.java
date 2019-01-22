@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        alarmSetUp.startAlarm();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
@@ -55,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
+        if (sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC,true)){
+            alarmSetUp.startAlarm(this);
+        }
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
