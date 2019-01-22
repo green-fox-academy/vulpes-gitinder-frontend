@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
-import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -28,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     SharedPreferences sharedPreferences;
-
-    @Inject
-    GitinderAPI gitinderAPI;
 
     FloatingActionButton floatingActionButton;
     TextView floatingActionButtonText;
@@ -50,8 +46,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
+        floatingActionButton = findViewById(R.id.floating_action_button);
+
 
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -64,21 +61,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-//        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) ->
+
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (key.equals(Constants.MATCHES_COUNT)){
-                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT,""));
-            }
-        });
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
@@ -93,7 +80,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
-
-
-
 }

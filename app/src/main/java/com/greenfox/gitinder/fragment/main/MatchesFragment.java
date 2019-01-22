@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -21,9 +21,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
-import com.greenfox.gitinder.model.factory.MatchFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,15 +33,15 @@ import retrofit2.Response;
 public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
-    MatchAdapter matchAdapter;
-
     @Inject
     GitinderAPI gitinderAPI;
 
     @Inject
     SharedPreferences sharedPreferences;
 
-    Button matchesUpdaterButton;
+    MatchAdapter matchAdapter;
+    TextView floatingActionButtonText;
+    Button addMatchesButton;
 
     @Nullable
     @Override
@@ -60,16 +58,28 @@ public class MatchesFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
+        floatingActionButtonText = getActivity().findViewById(R.id.floating_action_button_text);
+        addMatchesButton = getView().findViewById(R.id.add_matches_button);
+
+        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        matchesUpdaterButton = view.findViewById(R.id.updaterButtonDude);
-        matchAdapter = new MatchAdapter(getActivity());
+
+        addMatchesButton.setOnClickListener(v -> {
+            loadMatches();
+        });
+
         loadMatches();
         recyclerView.setAdapter(matchAdapter);
 
-        matchesUpdaterButton.setOnClickListener(v -> {
-            addMatch();
-            Toast.makeText(getActivity(), "Match added.", Toast.LENGTH_SHORT).show();
+
+        floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if (key.equals(Constants.MATCHES_COUNT)){
+                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+            }
         });
+
     }
 
     public void loadMatches(){
@@ -83,7 +93,9 @@ public class MatchesFragment extends BaseFragment {
                 List<Match> matchList = response.body().getMatches();
 
                 matchAdapter.addMatches(matchList);
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
+                matchAdapter.notifyDataSetChanged();
+                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount());
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount()));
             }
 
             @Override
@@ -91,16 +103,5 @@ public class MatchesFragment extends BaseFragment {
                 Log.d(TAG, "Getting matches - FAILURE");
             }
         });
-    }
-
-    public void addMatch(){
-        List<Match> matchList2 = new ArrayList<>();
-        matchList2.add(MatchFactory.createNewMatch());
-        matchAdapter.addMatches(matchList2);
-        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
-    }
-
-    public String toStringGoddammit(Integer number){
-        return number.toString();
     }
 }
