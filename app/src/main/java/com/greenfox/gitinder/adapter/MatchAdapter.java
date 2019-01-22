@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,8 +39,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String username = matchList.get(position).getUsername();
-        String lastMessage = matchList.get(position).getMessages().get( matchList.get(position).getMessages().size() - 1).getMessage();
         String avatarUrl = matchList.get(position).getAvatarUrl();
+
+        String lastMessage;
+        if(matchList.get(position).getMessages().size() == 0){
+            lastMessage = "";
+        } else {
+            lastMessage = matchList.get(position).getMessages().get(matchList.get(position).getMessages().size() - 1).getMessage();
+        }
 
         holder.messagesText.setText(lastMessage);
         holder.usernameText.setText(username);
@@ -66,12 +73,23 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
 
-            messagesButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "PIVO PROSIM", Toast.LENGTH_SHORT).show());
+            messagesButton.setOnClickListener(v -> {
+                setMessageToMatch(matchList.get(getAdapterPosition()));
+                notifyDataSetChanged();
+            });
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
     }
 
     public void addMatches(List<Match> matches){
         matchList.addAll(matches);
+    }
+
+    public void clearMatches(){
+        matchList.clear();
+    }
+
+    public void setMessageToMatch(Match match){
+        match.setMessages(MessagesFactory.createMessage());
     }
 }

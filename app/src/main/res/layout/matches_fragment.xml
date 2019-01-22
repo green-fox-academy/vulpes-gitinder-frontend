@@ -17,6 +17,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/clear_matches_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="clear"
+        app:layout_constraintBottom_toTopOf="@+id/add_matches_button"
+        app:layout_constraintStart_toStartOf="@+id/add_matches_button" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fragment_matches_recycler_view"
         android:layout_width="0dp"

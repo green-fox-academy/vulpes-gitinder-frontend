@@ -60,9 +60,6 @@ public class MainActivity extends AppCompatActivity {
             mViewPager.setCurrentItem(1);
         });
 
-
-
-
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);

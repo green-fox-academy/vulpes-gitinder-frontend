@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,8 +41,11 @@ public class MatchesFragment extends BaseFragment {
     SharedPreferences sharedPreferences;
 
     MatchAdapter matchAdapter;
+
+    FloatingActionButton floatingActionButton;
     TextView floatingActionButtonText;
     Button addMatchesButton;
+    Button clearMatchesButton;
 
     @Nullable
     @Override
@@ -58,8 +62,10 @@ public class MatchesFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
-        floatingActionButtonText = getActivity().findViewById(R.id.floating_action_button_text);
         addMatchesButton = getView().findViewById(R.id.add_matches_button);
+        clearMatchesButton = getView().findViewById(R.id.clear_matches_button);
+        floatingActionButtonText = getActivity().findViewById(R.id.floating_action_button_text);
+        floatingActionButton = getActivity().findViewById(R.id.floating_action_button);
 
         matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -68,18 +74,16 @@ public class MatchesFragment extends BaseFragment {
             loadMatches();
         });
 
-        loadMatches();
-        recyclerView.setAdapter(matchAdapter);
-
-
-        floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (key.equals(Constants.MATCHES_COUNT)){
-                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-            }
+        clearMatchesButton.setOnClickListener(v ->{
+            matchAdapter.clearMatches();
+            matchAdapter.notifyDataSetChanged();
+            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
+            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount());
+            Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
         });
 
+        loadMatches();
+        recyclerView.setAdapter(matchAdapter);
     }
 
     public void loadMatches(){
@@ -94,8 +98,11 @@ public class MatchesFragment extends BaseFragment {
 
                 matchAdapter.addMatches(matchList);
                 matchAdapter.notifyDataSetChanged();
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
                 Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount());
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount()));
+                Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+
+                sharedPreferencesListenerDude();
             }
 
             @Override
@@ -103,5 +110,22 @@ public class MatchesFragment extends BaseFragment {
                 Log.d(TAG, "Getting matches - FAILURE");
             }
         });
+    }
+
+    public void sharedPreferencesListenerDude(){
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if (key.equals(Constants.MATCHES_COUNT)){
+                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+
+                if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0")){
+                    floatingActionButton.hide();
+                    floatingActionButtonText.setText("");
+                } else {
+                    floatingActionButton.show();
+                    floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+                }
+            }
+        });
+
     }
 }

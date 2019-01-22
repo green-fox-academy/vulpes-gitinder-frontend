@@ -13,4 +13,15 @@ public class MessagesFactory {
         messages.add(new Message(0, "me", "you", 0, "Beer"));
         return messages;
     }
+
+    public static List<Message> createEmptyMessages(){
+        List<Message> messages = new ArrayList<>();
+        return messages;
+    }
+
+    public static List<Message> createMessage(){
+        List<Message> message = new ArrayList<>();
+        message.add(new Message(0, "me", "you", 0, "What is love?"));
+        return message;
+    }
 }
