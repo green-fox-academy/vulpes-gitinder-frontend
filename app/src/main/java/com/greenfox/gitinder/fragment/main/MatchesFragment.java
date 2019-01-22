@@ -87,7 +87,6 @@ public class MatchesFragment extends BaseFragment {
         clearMatchesButton.setOnClickListener(v ->{
             matchAdapter.clearMatches();
             matchAdapter.notifyDataSetChanged();
-//            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.getItemCount())).apply();
             sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
             Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount() + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
         });

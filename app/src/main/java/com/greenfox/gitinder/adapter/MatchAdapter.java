@@ -53,6 +53,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             lastMessage = matchList.get(position).getMessages().get(matchList.get(position).getMessages().size() - 1).getMessage();
         }
 
+        if(matchList.get(position).getMessages().size() < 1){
+            holder.newText.setText("NEW");
+        } else {
+            holder.newText.setText("");
+        }
+
         holder.messagesText.setText(lastMessage);
         holder.usernameText.setText(username);
         Picasso.get().load(avatarUrl).into(holder.profilePicture);
@@ -70,6 +76,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
 
         TextView usernameText;
         TextView messagesText;
+        TextView newText;
         Button messagesButton;
         Button profileButton;
         ImageView profilePicture;
@@ -78,6 +85,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             super(itemView);
             usernameText = itemView.findViewById(R.id.match_username);
             messagesText = itemView.findViewById(R.id.match_messages);
+            newText = itemView.findViewById(R.id.match_new_text);
             messagesButton = itemView.findViewById(R.id.match_messages_button);
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
