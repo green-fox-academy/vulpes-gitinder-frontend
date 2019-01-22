@@ -43,6 +43,8 @@
             android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true"></receiver>
     </application>
 
 </manifest>

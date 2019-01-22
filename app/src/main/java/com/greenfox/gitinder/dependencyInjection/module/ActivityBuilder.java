@@ -3,6 +3,7 @@ package com.greenfox.gitinder.dependencyInjection.module;
 import com.greenfox.gitinder.activity.Login;
 import com.greenfox.gitinder.activity.MainActivity;
 import com.greenfox.gitinder.activity.SettingsActivity;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

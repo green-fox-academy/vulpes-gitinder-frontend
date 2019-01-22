@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.R;
 import com.squareup.picasso.Picasso;
@@ -30,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
     SharedPreferences sharedPreferences;
     @Inject
     Settings settings;
+    @Inject
+    AlarmSetUp alarmSetUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +45,22 @@ public class SettingsActivity extends AppCompatActivity implements CompoundButto
         notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
         bSyncSwitch.setTag(Constants.ENABLE_BACKGROUNDSYNC);
-        notificationSwitch.setChecked(sharedPreferences.getBoolean((String)notificationSwitch.getTag(), false));
+        notificationSwitch.setChecked(sharedPreferences.getBoolean((String) notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.isChecked() != sharedPreferences.getBoolean((String)buttonView.getTag(),false)){
+        if (buttonView.isChecked() != sharedPreferences.getBoolean((String) buttonView.getTag(), false)) {
             settings.setEnableNotifications(isChecked);
             settings.setEnableBackgroundSync(isChecked);
-            sharedPreferences.edit().putBoolean((String)buttonView.getTag(),isChecked).apply();
-            Toast.makeText(SettingsActivity.this, isChecked ? "Enabled!" : "Diasbled!",Toast.LENGTH_SHORT).show();
+            sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
+            Toast.makeText(SettingsActivity.this, isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
+            if (!bSyncSwitch.isChecked()) {
+                alarmSetUp.stopAlarm();
+
+            }
         }
     }
 

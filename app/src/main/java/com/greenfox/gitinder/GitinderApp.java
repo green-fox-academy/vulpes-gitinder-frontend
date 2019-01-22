@@ -40,4 +40,6 @@ public class GitinderApp extends Application implements HasActivityInjector, Has
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return fragmentDispatchingAndroidInjector;
     }
+
+
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -22,15 +23,18 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
+    private AlarmSetUp alarmSetUp = new AlarmSetUp(this);
 
     @Inject
     SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        alarmSetUp.startAlarm();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");

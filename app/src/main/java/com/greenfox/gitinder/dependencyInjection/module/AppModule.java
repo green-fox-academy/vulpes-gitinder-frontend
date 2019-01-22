@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Profile;
@@ -67,4 +68,5 @@ public class AppModule {
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
+
 }
