@@ -29,6 +29,8 @@
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
     <string name="title_activity_scrolling">aaa</string>
+    <string name="add_matches_button_text">add</string>
+    <string name="clear_matches_button_text">clear</string>
 
 
 
