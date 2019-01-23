@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.GitHubToken;
 import com.greenfox.gitinder.api.model.GitHubUsername;
 import com.greenfox.gitinder.api.model.LoginResponse;
@@ -37,13 +38,13 @@ public class Login extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     @Inject
-    GithubTokenAPI githubAPI;
+    GithubTokenAPI githubTokenAPI;
 
     @Inject
     GitinderAPI gitinderAPI;
 
     @Inject
-    GithubAPI githubUserAPI;
+    GithubAPI githubAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class Login extends AppCompatActivity {
         super.onResume();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            saveGitHubToken(uri, githubAPI);
+            saveGitHubToken(uri);
         }
         if (sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -82,23 +83,24 @@ public class Login extends AppCompatActivity {
                                                                  + "&redirect_uri=" + Constants.GITHUB_CALLBACK));
         startActivity(intent);
     }
-    // Calls the githubAPI and saves the returned github token
-    public void saveGitHubToken(Uri uri, GithubTokenAPI githubAPI) {
+    // Calls the githubTokenAPI and saves the returned github token
+    public void saveGitHubToken(Uri uri) {
         String code = uri.getQueryParameter("code");
-        Call<GitHubToken> call = githubAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
+        Call<GitHubToken> call = githubTokenAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
 
-        call.enqueue(new Callback<GitHubToken>() {
+        call.enqueue(new CustomCallback<GitHubToken>() {
 
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                Call<GitHubUsername> gitHubUsernameCall = githubUserAPI.getGitHubUsername("token " + response.body().getToken());
+                Call<GitHubUsername> gitHubUsernameCall = githubAPI.getGitHubUsername("token " + response.body().getToken());
 
-                gitHubUsernameCall.enqueue(new Callback<GitHubUsername>() {
+                gitHubUsernameCall.enqueue(new CustomCallback<GitHubUsername>() {
                     @Override
                     public void onResponse(Call<GitHubUsername> call, Response<GitHubUsername> response2) {
                         Call<LoginResponse> loginResponseCall = gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken()));
 
-                        loginResponseCall.enqueue(new Callback<LoginResponse>() {
+                        loginResponseCall.enqueue(new CustomCallback<LoginResponse>() {
+
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
                                 sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken()).apply();
@@ -106,26 +108,10 @@ public class Login extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             }
-
-                            @Override
-                            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                                Log.d(TAG, t.getMessage());
-                                t.printStackTrace();
-                            }
                         });
                     }
 
-                    @Override
-                    public void onFailure(Call<GitHubUsername> call, Throwable t) {
-                        Log.d(TAG, t.getMessage());
-                        t.printStackTrace();
-                    }
                 });
-            }
-
-            @Override
-            public void onFailure(Call<GitHubToken> call, Throwable t) {
-                Toast.makeText(Login.this, "Failed to call", Toast.LENGTH_SHORT).show();
             }
         });
     }

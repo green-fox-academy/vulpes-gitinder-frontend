@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.api.mock;
 
 import com.greenfox.gitinder.api.model.GitHubToken;
+import com.greenfox.gitinder.api.model.GitHubUsername;
 import com.greenfox.gitinder.api.service.GithubTokenAPI;
 
 import retrofit2.Callback;
@@ -19,14 +20,4 @@ public class GitHubMock implements GithubTokenAPI {
             }
         };
     }
-
-//    @Override
-//    public CallMock<GitHubUsername> getGitHubUsername(String gitHubToken) {
-//        return new CallMock<GitHubUsername>() {
-//            @Override
-//            public void enqueue(Callback<GitHubUsername> callback) {
-//                callback.onResponse(this, Response.success(new GitHubUsername("Joey")));
-//            }
-//        };
-//    }
 }
