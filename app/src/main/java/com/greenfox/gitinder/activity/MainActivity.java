@@ -3,13 +3,16 @@ package com.greenfox.gitinder.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -26,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    GitinderAPI gitinderAPI;
+
+    FloatingActionButton floatingActionButton;
+    TextView floatingActionButtonText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -41,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
+        floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
 
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
@@ -48,9 +59,26 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        floatingActionButton.setOnClickListener(v -> {
+            mViewPager.setCurrentItem(1);
+        });
+
+
+//        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) ->
+
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if (key.equals(Constants.MATCHES_COUNT)){
+                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT,""));
+            }
+        });
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
@@ -66,4 +94,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
+
 }

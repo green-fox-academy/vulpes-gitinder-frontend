@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
@@ -31,8 +30,6 @@ import retrofit2.Response;
 public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
 
-
-    public Button login;
 
     @Inject
     SharedPreferences sharedPreferences;
