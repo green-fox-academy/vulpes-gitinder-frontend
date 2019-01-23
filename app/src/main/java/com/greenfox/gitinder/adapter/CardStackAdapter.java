@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.ProfileActivity;
 import com.greenfox.gitinder.model.Profile;
@@ -52,7 +53,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);
-                intent.putExtra("profile", profile);
+                intent.putExtra(Constants.PROFILE, profile);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
             }
