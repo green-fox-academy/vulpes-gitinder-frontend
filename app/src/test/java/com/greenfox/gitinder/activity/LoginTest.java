@@ -88,7 +88,7 @@ public class LoginTest {
         assertTrue(!preferences.contains(Constants.GITINDER_TOKEN));
         controller.resume();
         Uri uri = login.getIntent().getData();
-        ((Login) login).saveGitHubToken(uri, clientMock);
+        ((Login) login).saveGitHubToken(uri);
         assertTrue(preferences.contains(Constants.GITINDER_TOKEN));
     }
 

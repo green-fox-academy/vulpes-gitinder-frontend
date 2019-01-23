@@ -31,11 +31,9 @@ public class MainActivityTest {
     public void tokenIsPresentRedirectionTest() {
         MockPicasso.init();
 
-
         SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
-
 
         mainActivity = Robolectric.setupActivity(MainActivity.class);
 
