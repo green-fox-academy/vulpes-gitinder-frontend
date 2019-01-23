@@ -93,7 +93,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     //Hardcoded image
     public void displayImage() {
         imageView = (ImageView) getView().findViewById(R.id.imageView);
-        Picasso.get().load("https://vignette.wikia.nocookie.net/rickandmorty/images/1/19/Pickle_rick_transparent.png/revision/latest?cb=20171025014216").into(imageView);
+        Picasso.get().load("https://i.snapbacks.cz/noRW_/eshop/items/wy/25709_full_34fa6261fcc6e7d1.jpg").into(imageView);
     }
 
 }
