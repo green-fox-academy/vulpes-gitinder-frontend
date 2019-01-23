@@ -1,9 +1,18 @@
 package com.greenfox.gitinder.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -13,7 +22,12 @@ import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.NonSwipeableViewPager;
+import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import javax.inject.Inject;
 
@@ -22,6 +36,7 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
+    Context ctx = this;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -31,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createNotificationChannel();
+        Match match = MatchFactory.createNewMatch();
+        getBitmap(match);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
@@ -64,5 +82,53 @@ public class MainActivity extends AppCompatActivity {
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Matches";
+            String description = "Matches notifications";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void pushNotificationMatches(final Match match, Bitmap bitmap) {
+        Intent intent = new Intent(this, MatchesFragment.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL)
+                .setSmallIcon(R.mipmap.gitinder_icon)
+                .setContentTitle(match.getUsername())
+                .setContentText(getText(R.string.notification_new_match))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setLargeIcon(bitmap)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
+        manager.notify(1, mBuilder.build());
+    }
+    private void getBitmap(final Match match) {
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                pushNotificationMatches(match, bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+        Picasso.get().load(match.getAvatarUrl()).resize(256, 256).into(target);
     }
 }

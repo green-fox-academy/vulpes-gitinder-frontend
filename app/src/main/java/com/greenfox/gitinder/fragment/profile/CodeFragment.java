@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
+import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +46,8 @@ public class CodeFragment extends BaseFragment {
     public void onSnippetsLoaded(String snippet) {
         Log.d(TAG, "onSnippetsLoaded: snippet loaded");
         Log.d(TAG, snippet);
-        codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode(snippet).setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
+        codeView.setCode(snippet).apply();
+        codeView.getParent().requestLayout();
     }
 }
 
