@@ -54,6 +54,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch.setChecked(sharedPreferences.getBoolean((String)notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
+        displayImage();
     }
 
     @Override
