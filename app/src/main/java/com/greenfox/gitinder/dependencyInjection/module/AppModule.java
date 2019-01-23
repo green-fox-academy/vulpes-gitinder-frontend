@@ -10,8 +10,13 @@ import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -64,6 +69,10 @@ public class AppModule {
             return new BackendMockAPI();
         }
     }
+
+    @Provides
+    @Singleton
+    List<Match> matchList(){return new ArrayList<>();}
 
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);

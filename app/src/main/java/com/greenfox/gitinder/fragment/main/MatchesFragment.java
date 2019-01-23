@@ -34,6 +34,9 @@ public class MatchesFragment extends BaseFragment {
     MatchAdapter matchAdapter;
 
     @Inject
+    List<Match> matchList;
+
+    @Inject
     GitinderAPI gitinderAPI;
 
     @Inject
@@ -68,7 +71,7 @@ public class MatchesFragment extends BaseFragment {
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 Log.d(TAG, "Getting matches - SUCCESS");
 
-                List<Match> matchList = response.body().getMatches();
+                matchList.addAll(response.body().getMatches());
 
                 matchAdapter.addMatches(matchList);
             }

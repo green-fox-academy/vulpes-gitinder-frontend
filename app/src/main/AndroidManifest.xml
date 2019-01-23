@@ -44,7 +44,11 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true"></receiver>
+        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="intent"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -3,9 +3,11 @@ package com.greenfox.gitinder.dependencyInjection;
 import android.app.Application;
 
 import com.greenfox.gitinder.GitinderApp;
+import com.greenfox.gitinder.api.reciever.BackgroundReceiver;
 import com.greenfox.gitinder.dependencyInjection.module.ActivityBuilder;
 import com.greenfox.gitinder.dependencyInjection.module.AppModule;
 import com.greenfox.gitinder.dependencyInjection.module.FragmentBuilder;
+import com.greenfox.gitinder.dependencyInjection.module.ReceiverBuilder;
 
 import javax.inject.Singleton;
 
@@ -19,7 +21,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
 @Component(modules = {AndroidSupportInjectionModule.class,
                       AppModule.class,
                       ActivityBuilder.class,
-                      FragmentBuilder.class})
+                      FragmentBuilder.class, ReceiverBuilder.class})
 
 public interface AppComponent extends AndroidInjector<GitinderApp> {
 
