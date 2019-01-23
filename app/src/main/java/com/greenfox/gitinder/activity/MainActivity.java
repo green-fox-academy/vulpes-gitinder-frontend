@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     GitinderAPI gitinderAPI;
 
-    FloatingActionButton floatingActionButton;
-    TextView floatingActionButtonText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -50,21 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        floatingActionButton = findViewById(R.id.floatingActionButton);
-        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
-
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        floatingActionButton.setOnClickListener(v -> {
-            mViewPager.setCurrentItem(1);
-        });
-
-
-//        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) ->
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -74,11 +61,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (key.equals(Constants.MATCHES_COUNT)){
-                floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT,""));
-            }
-        });
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){

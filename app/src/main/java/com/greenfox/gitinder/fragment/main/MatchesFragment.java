@@ -43,8 +43,6 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     SharedPreferences sharedPreferences;
 
-    Button matchesUpdaterButton;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,23 +51,12 @@ public class MatchesFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        matchesUpdaterButton = view.findViewById(R.id.updaterButtonDude);
         matchAdapter = new MatchAdapter(getActivity());
         loadMatches();
         recyclerView.setAdapter(matchAdapter);
-
-        matchesUpdaterButton.setOnClickListener(v -> {
-            addMatch();
-            Toast.makeText(getActivity(), "Match added.", Toast.LENGTH_SHORT).show();
-        });
     }
 
     public void loadMatches(){
@@ -83,7 +70,6 @@ public class MatchesFragment extends BaseFragment {
                 List<Match> matchList = response.body().getMatches();
 
                 matchAdapter.addMatches(matchList);
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
             }
 
             @Override
@@ -91,16 +77,5 @@ public class MatchesFragment extends BaseFragment {
                 Log.d(TAG, "Getting matches - FAILURE");
             }
         });
-    }
-
-    public void addMatch(){
-        List<Match> matchList2 = new ArrayList<>();
-        matchList2.add(MatchFactory.createNewMatch());
-        matchAdapter.addMatches(matchList2);
-        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, toStringGoddammit(matchAdapter.getItemCount())).apply();
-    }
-
-    public String toStringGoddammit(Integer number){
-        return number.toString();
     }
 }
