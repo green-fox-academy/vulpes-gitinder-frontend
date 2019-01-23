@@ -10,5 +10,6 @@ public abstract class CustomCallback<T> implements Callback<T> {
     @Override
     public void onFailure(Call<T> call, Throwable t) {
         t.printStackTrace();
+        Log.d("HttpRequestFailure", call.request().toString());
     }
 }
