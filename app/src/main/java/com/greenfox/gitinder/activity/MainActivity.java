@@ -29,9 +29,6 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
-    @Inject
-    GitinderAPI gitinderAPI;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -58,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     public void setupViewPager(NonSwipeableViewPager viewPager){
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
@@ -75,7 +67,4 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
-
-
-
 }
