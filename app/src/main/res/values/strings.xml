@@ -31,7 +31,9 @@
     <string name="title_activity_scrolling">aaa</string>
     <string name="add_matches_button_text">add</string>
     <string name="clear_matches_button_text">clear</string>
-
+    <string name="match_new_text">new</string>
+    <string name="match_username_placeholder">Username</string>
+    <string name="match_last_msg_placeholder">java, ruby, js...</string>
 
 
     <!-- NavigationView -->
