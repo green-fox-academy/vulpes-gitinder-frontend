@@ -10,6 +10,7 @@ import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
 
 import javax.inject.Singleton;
@@ -74,6 +75,11 @@ public class AppModule {
         } else {
             return new BackendMockAPI();
         }
+    }
+    @Provides
+    @Singleton
+    SnippetService snippetService() {
+        return new SnippetService();
     }
 
     private GitinderAPI getApi(String baseUrl) {

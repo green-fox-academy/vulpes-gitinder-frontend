@@ -3,6 +3,7 @@ package com.greenfox.gitinder.dependencyInjection.module;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.fragment.profile.CodeFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -18,4 +19,7 @@ public abstract class FragmentBuilder {
 
     @ContributesAndroidInjector()
     abstract SettingsFragment bindSettingsFragment();
+
+    @ContributesAndroidInjector()
+    abstract CodeFragment bindCodeFragment();
 }
