@@ -1,7 +1,6 @@
 package com.greenfox.gitinder.activity;
 
 import android.content.SharedPreferences;
-import android.widget.SeekBar;
 
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 
@@ -73,5 +72,5 @@ public class SettingsActivityTest {
         shadow.getOnSeekBarChangeListener().onStopTrackingTouch(settingsActivity.seekBar);
         assertEquals(5, pref.getInt("maxDistance", 0));
     }
-
+    
 }
