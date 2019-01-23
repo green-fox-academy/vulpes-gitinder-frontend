@@ -26,7 +26,6 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
-    private AlarmSetUp alarmSetUp = new AlarmSetUp(this);
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -35,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        AlarmSetUp alarmSetUp = new AlarmSetUp(this);
         setContentView(R.layout.activity_main);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){

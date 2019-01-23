@@ -7,13 +7,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.adapter.MatchAdapter;
+
 import com.greenfox.gitinder.api.service.GitinderAPI;
-import com.greenfox.gitinder.fragment.main.MatchesFragment;
-import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,12 +20,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
+
 public class BackgroundReceiver extends BroadcastReceiver {
     private static final String TAG = "BackgroundReceiver";
 
-
-    @Inject
-    List<Match> realMatchList;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -39,14 +34,12 @@ public class BackgroundReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        AndroidInjection.inject(this, context);
         Call<Matches> matchesCall = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
 
         matchesCall.enqueue(new Callback<Matches>() {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
-                realMatchList.addAll(response.body().getMatches());
-                Log.d(TAG, "matchlist: " + realMatchList.size());
+                Log.d(TAG, "onResponse: matches called");
             }
 
             @Override

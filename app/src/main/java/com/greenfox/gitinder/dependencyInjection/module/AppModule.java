@@ -82,9 +82,6 @@ public class AppModule {
         }
     }
 
-    @Provides
-    @Singleton
-    List<Match> matchList(){return new ArrayList<>();}
 
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
