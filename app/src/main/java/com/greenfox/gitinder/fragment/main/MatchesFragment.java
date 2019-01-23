@@ -32,6 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.greenfox.gitinder.model.FloatingButtonHider.hideFloatingButtonWhenNoNewMatches;
+
 public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
@@ -44,13 +46,15 @@ public class MatchesFragment extends BaseFragment {
     MatchAdapter matchAdapter;
 
     FloatingActionButton floatingActionButton;
-    TextView floatingActionButtonText;
-    Button addMatchesButton;
+    public TextView floatingActionButtonText;
+    public Button addMatchesButton;
     Button clearMatchesButton;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matches_fragment, container, false);
         return view;
     }
@@ -70,15 +74,19 @@ public class MatchesFragment extends BaseFragment {
 
         matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(matchAdapter);
 
         matchAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+                sharedPreferencesListenerDude();
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT,
+                                                   String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+                Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+                Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
             }
         });
 
-        recyclerView.setAdapter(matchAdapter);
 
         addMatchesButton.setOnClickListener(v -> {
             loadMatches();
@@ -87,13 +95,15 @@ public class MatchesFragment extends BaseFragment {
         clearMatchesButton.setOnClickListener(v ->{
             matchAdapter.clearMatches();
             matchAdapter.notifyDataSetChanged();
-            sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
-            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount() + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+            sharedPreferences.edit().putString(Constants.MATCHES_COUNT,
+                                               String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount()
+                    + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
         });
     }
 
     public void loadMatches(){
-        Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
+        Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<Matches>() {
             @Override
@@ -105,8 +115,10 @@ public class MatchesFragment extends BaseFragment {
                 matchAdapter.addMatches(matchList);
                 matchAdapter.notifyDataSetChanged();
                 sharedPreferencesListenerDude();
-                sharedPreferences.edit().putString(Constants.MATCHES_COUNT, String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
-                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount() + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+                sharedPreferences.edit().putString(Constants.MATCHES_COUNT,
+                                                   String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
+                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount()
+                        + ",  MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
 
             }
 
@@ -122,13 +134,7 @@ public class MatchesFragment extends BaseFragment {
             if (key.equals(Constants.MATCHES_COUNT)){
                 floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
 
-                if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0")){
-                    floatingActionButton.hide();
-                    floatingActionButtonText.setText("");
-                } else {
-                    floatingActionButton.show();
-                    floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-                }
+                hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
             }
         });
 

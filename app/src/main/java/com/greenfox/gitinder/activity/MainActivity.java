@@ -21,6 +21,8 @@ import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 
+import static com.greenfox.gitinder.model.FloatingButtonHider.hideFloatingButtonWhenNoNewMatches;
+
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
@@ -29,13 +31,15 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
 
     FloatingActionButton floatingActionButton;
-    TextView floatingActionButtonText;
+    public TextView floatingActionButtonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
@@ -49,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
 
+        hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
+
+        Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+        Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
+
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
@@ -59,13 +68,17 @@ public class MainActivity extends AppCompatActivity {
             mViewPager.setCurrentItem(1);
         });
 
-        if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0")){
-            floatingActionButton.hide();
-            floatingActionButtonText.setText("");
-        } else {
-            floatingActionButton.show();
-            floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-        }
+
+//        if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0") ||
+//           sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("") ||
+//          !sharedPreferences.contains(Constants.MATCHES_COUNT)){
+//
+//            floatingActionButton.hide();
+//            floatingActionButtonText.setText("");
+//        } else {
+//            floatingActionButton.show();
+//            floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+//        }
 
 
         getSupportActionBar().setElevation(0);
@@ -89,6 +102,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, "").apply();
+        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
     }
 }
