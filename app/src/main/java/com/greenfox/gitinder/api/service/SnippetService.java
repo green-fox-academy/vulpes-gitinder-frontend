@@ -2,6 +2,7 @@ package com.greenfox.gitinder.api.service;
 
 import android.os.AsyncTask;
 
+import com.greenfox.gitinder.activity.CallBackListener;
 import com.greenfox.gitinder.api.model.SnippetRequest;
 import com.greenfox.gitinder.fragment.profile.CodeFragment;
 
@@ -18,7 +19,7 @@ public class SnippetService {
     private static final String TAG = "SnippetService";
 
     Map<String, String> allSnippets;
-    CodeFragment fragment;
+    CallBackListener fragment;
 
     public SnippetService() {
         allSnippets = new HashMap<>();
@@ -27,7 +28,7 @@ public class SnippetService {
     public void getSnippets(String url, CodeFragment fragment) {
         this.fragment = fragment;
         if (allSnippets != null && allSnippets.containsKey(url)) {
-            fragment.onSnippetsLoaded(allSnippets.get(url));
+            fragment.onSnippetLoaded(allSnippets.get(url));
         } else {
             try {
                 URL urll = new URL(url);
@@ -60,7 +61,7 @@ public class SnippetService {
         @Override
         protected void onPostExecute(SnippetRequest request) {
             allSnippets.put(request.getUrl(), request.getSnippet());
-            fragment.onSnippetsLoaded(request.getSnippet());
+            fragment.onSnippetLoaded(request.getSnippet());
         }
     }
 }
