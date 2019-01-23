@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -19,7 +21,9 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.factory.MatchFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +46,7 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     SharedPreferences sharedPreferences;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,12 +63,13 @@ public class MatchesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
+        matchAdapter = new MatchAdapter(getActivity());
         loadMatches();
         recyclerView.setAdapter(matchAdapter);
+
     }
 
-    public void loadMatches(){
+    public void loadMatches() {
         Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
         call.enqueue(new Callback<Matches>() {

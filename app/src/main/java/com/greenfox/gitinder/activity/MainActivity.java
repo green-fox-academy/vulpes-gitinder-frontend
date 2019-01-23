@@ -3,14 +3,17 @@ package com.greenfox.gitinder.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.api.reciever.AlarmSetUp;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -27,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     SharedPreferences sharedPreferences;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,5 +73,9 @@ public class MainActivity extends AppCompatActivity {
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+        finish();
     }
+
+
+
 }
