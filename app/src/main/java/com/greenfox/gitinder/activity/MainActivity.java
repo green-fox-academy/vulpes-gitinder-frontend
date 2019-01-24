@@ -7,6 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -109,17 +116,20 @@ public class MainActivity extends AppCompatActivity {
                 .setContentText(getText(R.string.notification_new_match))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setLargeIcon(bitmap)
+                .setGroup(Constants.NEW_MATCH_GROUP)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
 
         NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
         manager.notify(1, mBuilder.build());
     }
+    
     private void getBitmap(final Match match) {
         Target target = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                pushNotificationMatches(match, bitmap);
+                Bitmap circularIcon = getCircleBitmap(bitmap);
+                pushNotificationMatches(match, circularIcon);
             }
 
             @Override
@@ -133,5 +143,28 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Picasso.get().load(match.getAvatarUrl()).resize(256, 256).into(target);
+    }
+
+    private Bitmap getCircleBitmap(Bitmap bitmap) {
+        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(output);
+
+        final int color = Color.RED;
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(color);
+        canvas.drawOval(rectF, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        bitmap.recycle();
+
+        return output;
     }
 }
