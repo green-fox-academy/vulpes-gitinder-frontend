@@ -17,9 +17,6 @@ public class AlarmSetUp {
     private PendingIntent pendingIntent;
 
 
-    @Inject
-    SharedPreferences sharedPreferences;
-
     public AlarmSetUp(Context context) {
         alarmContext = context;
     }
@@ -29,12 +26,15 @@ public class AlarmSetUp {
         Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, 0);
         if (BuildConfig.FLAVOR.equals("live")) {
-            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 600000, pendingIntent);
+            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 300000, pendingIntent);
         }
-        alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 30000, pendingIntent);
+        alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 60000, pendingIntent);
     }
 
-    public void stopAlarm() {
+    public void stopAlarm(Context context) {
+        alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, 0);
         alarm.cancel(pendingIntent);
     }
 }

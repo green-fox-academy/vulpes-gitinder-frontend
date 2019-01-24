@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        AlarmSetUp alarmSetUp = new AlarmSetUp(this);
         setContentView(R.layout.activity_main);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
@@ -57,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
 
-        if (sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC,true)){
-            alarmSetUp.startAlarm(this);
-        }
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
