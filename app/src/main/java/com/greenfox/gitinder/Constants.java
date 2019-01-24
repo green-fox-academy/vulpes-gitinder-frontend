@@ -12,4 +12,6 @@ public class Constants {
     public static final String ENABLE_BACKGROUNDSYNC = "enableBackgroundSync";
     public static final String MAX_DISTANCE = "maxDistance";
     public static final String NOTIFICATION_CHANNEL = "Notifications";
+    public static final String MATCHES_COUNT = "matchesCount";
+
 }

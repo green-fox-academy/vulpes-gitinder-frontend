@@ -10,15 +10,18 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -59,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     public void toLogin() {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
+        finish();
     }
 
     private void createNotificationChannel() {

@@ -53,6 +53,7 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);
                 intent.putExtra("profile", profile);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
             }
         });
