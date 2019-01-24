@@ -33,6 +33,7 @@ public class BackgroundReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        AndroidInjection.inject(this,context);
         Call<Matches> matchesCall = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
 
         matchesCall.enqueue(new Callback<Matches>() {
