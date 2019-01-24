@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.SnippetListener;
+import com.greenfox.gitinder.api.model.SnippetRequest;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Profile;
 
@@ -35,8 +36,7 @@ public class CodeFragment extends BaseFragment implements SnippetListener {
         View view = inflater.inflate(R.layout.code_fragment, container, false);
         profile = (Profile) getActivity().getIntent().getSerializableExtra("profile");
         codeView = view.findViewById(R.id.fragment_code_codeview);
-        codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode("").setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
-        service.getSnippets(profile.getSnippets().get(Integer.parseInt(getTitle())-1), this);
+        service.getSnippets(new SnippetRequest(profile.getSnippets().get(Integer.parseInt(getTitle())-1), null, this));
         Log.d(TAG, "onCreateView: created");
         return view;
     }
@@ -45,8 +45,7 @@ public class CodeFragment extends BaseFragment implements SnippetListener {
     public void onSnippetLoaded(String snippet) {
         Log.d(TAG, "onSnippetsLoaded: snippet loaded");
         Log.d(TAG, snippet);
-        codeView.setCode(snippet).apply();
-        codeView.getParent().requestLayout();
+        codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode(snippet).setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
     }
 }
 

@@ -41,6 +41,7 @@ import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.NonSwipeableViewPager;
 import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.service.NotificationService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    NotificationService notificationService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         createNotificationChannel();
         Match match = MatchFactory.createNewMatch();
-        getBitmap(match);
+        notificationService.pushNewMatchNotification(match, this);
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
             toLogin();
@@ -88,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     public void setupViewPager(NonSwipeableViewPager viewPager){
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
@@ -114,60 +116,5 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-    }
-
-    public void pushNotificationMatches(final Match match, Bitmap bitmap) {
-        Log.d(TAG, "pushNotificationMatches: Steped into the push method");
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(Constants.GO_TO_MATCHES, Constants.GO_TO_MATCHES);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL)
-                .setSmallIcon(R.mipmap.gitinder_icon)
-                .setContentTitle(match.getUsername())
-                .setContentText(getText(R.string.notification_new_match))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setLargeIcon(bitmap)
-                .setGroup(Constants.NEW_MATCH_GROUP)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-        Log.d(TAG, "pushNotificationMatches: Notification created");
-        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
-        manager.notify(1, mBuilder.build());
-        Log.d(TAG, "pushNotificationMatches: notification fired");
-    }
-
-    private void getBitmap(final Match match) {
-        Glide.with(this).asBitmap().load(match.getAvatarUrl()).into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                pushNotificationMatches(match, getCircleBitmap(resource));
-            }
-        });
-    }
-
-    private Bitmap getCircleBitmap(Bitmap bitmap) {
-        Log.d(TAG, "getCircleBitmap: entered");
-        final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        final Canvas canvas = new Canvas(output);
-
-        final int color = Color.RED;
-        final Paint paint = new Paint();
-        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        final RectF rectF = new RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawOval(rectF, paint);
-
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        bitmap.recycle();
-
-        return output;
     }
 }

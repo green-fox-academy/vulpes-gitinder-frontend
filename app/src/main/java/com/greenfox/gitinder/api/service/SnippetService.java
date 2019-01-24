@@ -19,49 +19,43 @@ public class SnippetService {
     private static final String TAG = "SnippetService";
 
     Map<String, String> allSnippets;
-    SnippetListener fragment;
 
     public SnippetService() {
         allSnippets = new HashMap<>();
     }
 
-    public void getSnippets(String url, CodeFragment fragment) {
-        this.fragment = fragment;
-        if (allSnippets != null && allSnippets.containsKey(url)) {
-            fragment.onSnippetLoaded(allSnippets.get(url));
+    public void getSnippets(SnippetRequest snippetRequest) {
+
+        if (allSnippets != null && allSnippets.containsKey(snippetRequest.getUrl())) {
+            snippetRequest.getFragment().onSnippetLoaded(allSnippets.get(snippetRequest.getUrl()));
         } else {
-            try {
-                URL urll = new URL(url);
-                DownloadSnippet dl = new DownloadSnippet();
-                dl.execute(urll);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            DownloadSnippet dl = new DownloadSnippet();
+            dl.execute(snippetRequest);
         }
     }
 
-    private class DownloadSnippet extends AsyncTask<URL, Integer, SnippetRequest> {
+    private class DownloadSnippet extends AsyncTask<SnippetRequest, Integer, SnippetRequest> {
         @Override
-        protected SnippetRequest doInBackground(URL... urls) {
+        protected SnippetRequest doInBackground(SnippetRequest... snippetRequests) {
             String snippet = "";
             try {
                 String line;
-                BufferedReader in = new BufferedReader(new InputStreamReader(urls[0].openStream()));
+                URL url = new URL(snippetRequests[0].getUrl());
+                BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
                 while ((line = in.readLine()) != null) {
                     snippet += line + "\n";
                 }
                 in.close();
-                return new SnippetRequest(urls[0].toString(), snippet);
+                return new SnippetRequest(snippetRequests[0].getUrl(), snippet, snippetRequests[0].getFragment());
             } catch (IOException e) {
-                return new SnippetRequest(urls[0].toString(), "Failed to load url");
+                return new SnippetRequest(snippetRequests[0].getUrl(), "Failed to load url", snippetRequests[0].getFragment());
             }
-
         }
 
         @Override
         protected void onPostExecute(SnippetRequest request) {
             allSnippets.put(request.getUrl(), request.getSnippet());
-            fragment.onSnippetLoaded(request.getSnippet());
+            request.getFragment().onSnippetLoaded(request.getSnippet());
         }
     }
 }
