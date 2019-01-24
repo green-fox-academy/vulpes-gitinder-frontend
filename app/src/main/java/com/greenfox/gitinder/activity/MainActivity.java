@@ -17,6 +17,8 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NotificationCompat;
@@ -25,6 +27,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
@@ -59,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
         Match match = MatchFactory.createNewMatch();
         getBitmap(match);
-
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
             toLogin();
@@ -107,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pushNotificationMatches(final Match match, Bitmap bitmap) {
+        Log.d(TAG, "pushNotificationMatches: Steped into the push method");
         Intent intent = new Intent(this, MatchesFragment.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.mipmap.gitinder_icon)
                 .setContentTitle(match.getUsername())
@@ -119,33 +125,23 @@ public class MainActivity extends AppCompatActivity {
                 .setGroup(Constants.NEW_MATCH_GROUP)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
-
+        Log.d(TAG, "pushNotificationMatches: Notification created");
         NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
         manager.notify(1, mBuilder.build());
+        Log.d(TAG, "pushNotificationMatches: notification fired");
     }
 
     private void getBitmap(final Match match) {
-        Target target = new Target() {
+        Glide.with(this).asBitmap().load(match.getAvatarUrl()).into(new SimpleTarget<Bitmap>() {
             @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Bitmap circularIcon = getCircleBitmap(bitmap);
-                pushNotificationMatches(match, circularIcon);
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                pushNotificationMatches(match, getCircleBitmap(resource));
             }
-
-            @Override
-            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-            }
-        };
-        Picasso.get().load(match.getAvatarUrl()).resize(256, 256).into(target);
+        });
     }
 
     private Bitmap getCircleBitmap(Bitmap bitmap) {
+        Log.d(TAG, "getCircleBitmap: entered");
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
