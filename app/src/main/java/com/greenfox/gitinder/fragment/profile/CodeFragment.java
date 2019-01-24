@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.SnippetListener;
 import com.greenfox.gitinder.api.service.SnippetService;
@@ -33,7 +34,7 @@ public class CodeFragment extends BaseFragment implements SnippetListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.code_fragment, container, false);
-        profile = (Profile) getActivity().getIntent().getSerializableExtra("profile");
+        profile = (Profile) getActivity().getIntent().getSerializableExtra(Constants.PROFILE);
         codeView = view.findViewById(R.id.fragment_code_codeview);
         codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode("").setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
         service.getSnippets(profile.getSnippets().get(Integer.parseInt(getTitle())-1), this);
