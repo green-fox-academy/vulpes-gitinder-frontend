@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.fragment.profile.CodeFragment;
@@ -21,7 +22,6 @@ public class ProfileActivity extends AppCompatActivity {
     private NonSwipeableViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
     private Profile profile;
-    private Toolbar mainToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setTitle(profile.getUsername());
 
         profilePic = findViewById(R.id.profile_details_layout_picture);
-        Picasso.get().load(profile.getAvatarUrl()).into(profilePic);
+        Glide.with(this).load(profile.getAvatarUrl()).into(profilePic);
 
         setSupportActionBar(toolbar);
         TabLayout tabLayout = findViewById(R.id.profile_details_layout_tabs);

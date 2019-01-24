@@ -51,7 +51,6 @@ import dagger.android.AndroidInjection;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
-    Context ctx = this;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Token is present.");
         }
-
         Log.d(TAG, "onCreate: Starting.");
 
         mViewPager = findViewById(R.id.container);
@@ -79,10 +77,18 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+
+
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
+            mViewPager.setCurrentItem(1);
+        }
     }
+
+
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
@@ -112,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void pushNotificationMatches(final Match match, Bitmap bitmap) {
         Log.d(TAG, "pushNotificationMatches: Steped into the push method");
-        Intent intent = new Intent(this, MatchesFragment.class);
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(Constants.GO_TO_MATCHES, Constants.GO_TO_MATCHES);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.mipmap.gitinder_icon)
@@ -126,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
         Log.d(TAG, "pushNotificationMatches: Notification created");
-        NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
         manager.notify(1, mBuilder.build());
         Log.d(TAG, "pushNotificationMatches: notification fired");
     }

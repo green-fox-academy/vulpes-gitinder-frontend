@@ -14,5 +14,6 @@ public class Constants {
     public static final String NOTIFICATION_CHANNEL = "Notifications";
     public static final String MATCHES_COUNT = "matchesCount";
     public static final String NEW_MATCH_GROUP = "newMatches";
+    public static final String GO_TO_MATCHES = "GoToMatches";
 
 }
