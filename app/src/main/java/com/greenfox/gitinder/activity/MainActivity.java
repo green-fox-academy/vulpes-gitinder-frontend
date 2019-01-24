@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createNotificationChannel();
         Match match = MatchFactory.createNewMatch();
+        notificationService.createNotificationChannel(this);
         notificationService.pushNewMatchNotification(match, this);
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
@@ -82,17 +82,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Matches";
-            String description = "Matches notifications";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(Constants.NOTIFICATION_CHANNEL, name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 }
