@@ -11,6 +11,7 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
 import com.greenfox.gitinder.fragment.profile.CodeFragment;
 import com.greenfox.gitinder.model.NonSwipeableViewPager;
+import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -19,20 +20,22 @@ public class ProfileActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private NonSwipeableViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
+    private Profile profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        profile = (Profile) getIntent().getSerializableExtra("profile");
 
         viewPager = findViewById(R.id.profile_details_layout_tab_viewpager);
         setupViewPager(viewPager);
 
         toolbar = (Toolbar) findViewById(R.id.profile_details_layout_name);
-        toolbar.setTitle("Tom Hanks");
+        toolbar.setTitle(profile.getUsername());
 
         profilePic = findViewById(R.id.profile_details_layout_picture);
-        Picasso.get().load("https://www.randomlists.com/img/people/tom_hanks.jpg").into(profilePic);
+        Picasso.get().load(profile.getAvatarUrl()).into(profilePic);
 
         setSupportActionBar(toolbar);
         TabLayout tabLayout = findViewById(R.id.profile_details_layout_tabs);
@@ -41,11 +44,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void setupViewPager(ViewPager viewPager){
         sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-        sectionsPageAdapter.addFragment(new CodeFragment(), "1");
-        sectionsPageAdapter.addFragment(new CodeFragment(), "2");
-        sectionsPageAdapter.addFragment(new CodeFragment(), "3");
-        sectionsPageAdapter.addFragment(new CodeFragment(), "4");
-        sectionsPageAdapter.addFragment(new CodeFragment(), "5");
+        for (int i = 0; i < profile.getSnippets().size()  ; i++) {
+            sectionsPageAdapter.addFragment(new CodeFragment(), String.valueOf(i+1));
+        }
         viewPager.setAdapter(sectionsPageAdapter);
     }
 }

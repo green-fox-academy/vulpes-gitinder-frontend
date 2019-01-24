@@ -43,17 +43,11 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     SharedPreferences sharedPreferences;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.matches_fragment, container, false);
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
     }
 
     @Override
@@ -63,7 +57,6 @@ public class MatchesFragment extends BaseFragment {
         matchAdapter = new MatchAdapter(getActivity());
         loadMatches();
         recyclerView.setAdapter(matchAdapter);
-
     }
 
     public void loadMatches() {

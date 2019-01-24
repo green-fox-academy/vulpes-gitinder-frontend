@@ -2,6 +2,7 @@ package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,14 +17,19 @@ import com.greenfox.gitinder.activity.ProfileActivity;
 import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<Profile> profiles;
-    private Intent intent;
 
     public CardStackAdapter(Context context) {
         this.inflater = LayoutInflater.from(context);
@@ -46,6 +52,8 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("profile", profile);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 v.getContext().startActivity(intent);
             }
         });
@@ -77,5 +85,4 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
     public void addProfiles(List<Profile> profileList){
         profiles.addAll(profileList);
     }
-
 }

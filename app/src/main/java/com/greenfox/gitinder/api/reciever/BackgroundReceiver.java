@@ -20,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
 public class BackgroundReceiver extends BroadcastReceiver {
     private static final String TAG = "BackgroundReceiver";
 

@@ -1,7 +1,11 @@
 package com.greenfox.gitinder.activity.fragment.main;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 
@@ -13,8 +17,13 @@ import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowSeekBar;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 public class SettingsFragmentTest {
@@ -28,6 +37,7 @@ public class SettingsFragmentTest {
     public void setUp(){
         settingsFragment = new SettingsFragment();
         SupportFragmentTestUtil.startFragment(settingsFragment);
+        pref = SharedPreferencesFactory.getSharedPref();
     }
 
     @Test
@@ -37,7 +47,6 @@ public class SettingsFragmentTest {
 
     @Test
     public void testIfNotificationsSettingsIsSaving() {
-        pref = SharedPreferencesFactory.getSharedPref();
         assertEquals(false, pref.getBoolean("enableNotifications", false));
         settingsFragment.notificationSwitch.performClick();
         assertEquals(true, pref.getBoolean("enableNotifications", false));
@@ -47,7 +56,6 @@ public class SettingsFragmentTest {
 
     @Test
     public void testIfBckSyncSettingsIsSaving() {
-        pref = SharedPreferencesFactory.getSharedPref();
         assertEquals(false, pref.getBoolean("enableBackgroundSync", false));
         settingsFragment.bSyncSwitch.performClick();
         assertEquals(true, pref.getBoolean("enableBackgroundSync", false));
@@ -76,11 +84,18 @@ public class SettingsFragmentTest {
 
     @Test
     public void testIfMaxDystanceIsSaving() {
-        pref = SharedPreferencesFactory.getSharedPref();
         settingsFragment.seekBar.setProgress(5);
         shadow = Shadows.shadowOf(settingsFragment.seekBar);
         shadow.getOnSeekBarChangeListener().onStopTrackingTouch(settingsFragment.seekBar);
         assertEquals(5, pref.getInt("maxDistance", 0));
+    }
+
+    @Test
+    public void logoutTest(){
+        pref.edit().putString(Constants.GITINDER_TOKEN, "MOJE MATKA JE PIVO PROSIM").apply();
+        settingsFragment.logout();
+
+        assertTrue(!pref.contains(Constants.GITINDER_TOKEN));
     }
 
 }

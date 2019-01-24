@@ -11,13 +11,13 @@ public class AvailableProfilesFactory {
 
     public static AvailableProfiles createAvailableProfiles() {
         List<Profile> profiles = new ArrayList<>();
-        profiles.add(ProfileFactory.createProfile("userOne"));
-        profiles.add(ProfileFactory.createProfile("userTwo"));
-        profiles.add(ProfileFactory.createProfile("UserThree"));
+        for (int i = 0; i < 10 ; i++) {
+            profiles.add(ProfileFactory.createProfile());
+        }
         AvailableProfiles availableProfiles = new AvailableProfiles();
         availableProfiles.setProfiles(profiles);
-        availableProfiles.setCount(3);
-        availableProfiles.setAll(3);
+        availableProfiles.setCount(profiles.size());
+        availableProfiles.setAll(profiles.size());
 
         return availableProfiles;
     }

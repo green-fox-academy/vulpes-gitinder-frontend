@@ -126,7 +126,7 @@ public class BackendMockAPI implements GitinderAPI {
             @Override
             public void enqueue(Callback<Profile> callback) {
 
-                Profile profile = ProfileFactory.createProfile("user");
+                Profile profile = ProfileFactory.createProfile();
 
                 if(gitinderToken == null || gitinderToken.isEmpty()) {
                     callback.onResponse(this, Response.<Profile>error(403,
