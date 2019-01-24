@@ -2,14 +2,12 @@ package com.greenfox.gitinder.api.service;
 
 import android.os.AsyncTask;
 
-import com.greenfox.gitinder.activity.SnippetListener;
+
 import com.greenfox.gitinder.api.model.SnippetRequest;
-import com.greenfox.gitinder.fragment.profile.CodeFragment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
