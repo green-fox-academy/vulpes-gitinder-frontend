@@ -59,7 +59,7 @@ public class MatchesFragment extends BaseFragment {
         recyclerView.setAdapter(matchAdapter);
     }
 
-    public void loadMatches(){
+    public void loadMatches() {
         Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
         call.enqueue(new Callback<Matches>() {

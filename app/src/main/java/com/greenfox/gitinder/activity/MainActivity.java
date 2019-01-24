@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
+        AlarmSetUp alarmSetUp = new AlarmSetUp(this);
         setContentView(R.layout.activity_main);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
+
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
@@ -53,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
+        if (sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC,true)){
+            alarmSetUp.startAlarm(this);
+        }
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager){
