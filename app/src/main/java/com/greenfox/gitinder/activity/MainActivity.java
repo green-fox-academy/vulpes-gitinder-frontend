@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         NotificationManagerCompat manager = NotificationManagerCompat.from(ctx);
         manager.notify(1, mBuilder.build());
     }
-    
+
     private void getBitmap(final Match match) {
         Target target = new Target() {
             @Override

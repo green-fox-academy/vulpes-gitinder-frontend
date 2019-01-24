@@ -21,6 +21,7 @@ public class ProfileActivity extends AppCompatActivity {
     private NonSwipeableViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
     private Profile profile;
+    private Toolbar mainToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
