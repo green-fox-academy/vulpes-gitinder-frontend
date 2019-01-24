@@ -15,5 +15,5 @@ public class Constants {
     public static final String MATCHES_COUNT = "matchesCount";
     public static final String NEW_MATCH_GROUP = "newMatches";
     public static final String GO_TO_MATCHES = "GoToMatches";
-
+    public static final String PROFILE = "profile";
 }

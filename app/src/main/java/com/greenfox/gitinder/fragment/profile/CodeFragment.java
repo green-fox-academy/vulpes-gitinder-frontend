@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.activity.SnippetListener;
 import com.greenfox.gitinder.api.model.SnippetRequest;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Profile;
@@ -22,7 +21,7 @@ import br.tiagohm.codeview.CodeView;
 import br.tiagohm.codeview.Language;
 import br.tiagohm.codeview.Theme;
 
-public class CodeFragment extends BaseFragment implements SnippetListener {
+public class CodeFragment extends BaseFragment implements SnippetService.SnippetListener {
 
     private static final String TAG = "CodeFragment";
     private CodeView codeView;
@@ -35,7 +34,7 @@ public class CodeFragment extends BaseFragment implements SnippetListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.code_fragment, container, false);
-        profile = (Profile) getActivity().getIntent().getSerializableExtra(Constants.);
+        profile = (Profile) getActivity().getIntent().getSerializableExtra(Constants.PROFILE);
         codeView = view.findViewById(R.id.fragment_code_codeview);
         service.getSnippets(new SnippetRequest(profile.getSnippets().get(Integer.parseInt(getTitle())-1), null, this));
         Log.d(TAG, "onCreateView: created");

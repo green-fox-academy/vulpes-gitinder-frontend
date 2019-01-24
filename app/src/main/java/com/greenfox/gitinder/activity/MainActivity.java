@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Log.d(TAG, "onCreate: Starting.");
 
+
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 

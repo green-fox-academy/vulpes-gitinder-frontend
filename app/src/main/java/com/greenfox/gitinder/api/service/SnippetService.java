@@ -56,4 +56,7 @@ public class SnippetService {
             request.getFragment().onSnippetLoaded(request.getSnippet());
         }
     }
+    public interface SnippetListener{
+        public void onSnippetLoaded(String snippet);
+    }
 }

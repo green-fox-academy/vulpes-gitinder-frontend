@@ -1,13 +1,13 @@
 package com.greenfox.gitinder.api.model;
 
-import com.greenfox.gitinder.activity.SnippetListener;
+import com.greenfox.gitinder.api.service.SnippetService;
 
 public class SnippetRequest {
     String url;
     String snippet;
-    SnippetListener fragment;
+    SnippetService.SnippetListener fragment;
 
-    public SnippetRequest(String url, String snippet, SnippetListener fragment) {
+    public SnippetRequest(String url, String snippet, SnippetService.SnippetListener fragment) {
         this.url = url;
         this.snippet = snippet;
         this.fragment = fragment;
@@ -29,11 +29,11 @@ public class SnippetRequest {
         this.snippet = snippet;
     }
 
-    public SnippetListener getFragment() {
+    public SnippetService.SnippetListener getFragment() {
         return fragment;
     }
 
-    public void setFragment(SnippetListener fragment) {
+    public void setFragment(SnippetService.SnippetListener fragment) {
         this.fragment = fragment;
     }
 }
