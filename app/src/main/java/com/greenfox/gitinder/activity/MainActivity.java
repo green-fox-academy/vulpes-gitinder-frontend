@@ -68,19 +68,6 @@ public class MainActivity extends AppCompatActivity {
             mViewPager.setCurrentItem(1);
         });
 
-
-//        if(sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("0") ||
-//           sharedPreferences.getString(Constants.MATCHES_COUNT, "").equals("") ||
-//          !sharedPreferences.contains(Constants.MATCHES_COUNT)){
-//
-//            floatingActionButton.hide();
-//            floatingActionButtonText.setText("");
-//        } else {
-//            floatingActionButton.show();
-//            floatingActionButtonText.setText(sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-//        }
-
-
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
