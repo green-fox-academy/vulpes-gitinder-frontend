@@ -17,7 +17,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MainActivity;
@@ -33,6 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.inject.Inject;
+
 public class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "SettingsFragment";
 
@@ -44,8 +45,10 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
 
     @Inject
     SharedPreferences sharedPreferences;
+
     @Inject
     public Settings settings;
+
     @Inject
     GitinderAPI gitinderAPI;
 
@@ -62,9 +65,11 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
+
         logoutButton.setOnClickListener(v -> {
             logout();
         });
+
         notificationSwitch.setOnCheckedChangeListener(this);
         notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
@@ -72,6 +77,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch.setChecked(sharedPreferences.getBoolean((String)notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
+        displayImage();
     }
 
     @Override
@@ -129,6 +135,6 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
                 Log.d(TAG, t.getMessage());
             }
         });
+        Picasso.get().load("https://i.snapbacks.cz/noRW_/eshop/items/wy/25709_full_34fa6261fcc6e7d1.jpg").into(imageView);
     }
-
 }

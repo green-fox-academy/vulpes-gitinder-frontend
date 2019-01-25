@@ -1,11 +1,8 @@
 package com.greenfox.gitinder.activity.fragment.main;
 
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.api.mock.BackendMockAPI;
-import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 
@@ -16,10 +13,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowSeekBar;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
