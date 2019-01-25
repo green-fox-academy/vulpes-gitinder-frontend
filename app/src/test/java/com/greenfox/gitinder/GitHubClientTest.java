@@ -2,18 +2,16 @@ package com.greenfox.gitinder;
 
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
-import com.greenfox.gitinder.api.model.SwipeResponse;
-import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
-import com.greenfox.gitinder.model.Matches;
-import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
-import com.greenfox.gitinder.model.factory.ProfileFactory;
-import com.greenfox.gitinder.model.factory.SettingsFactory;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.api.model.SwipeResponse;
+import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.SettingsFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public class GitHubClientTest {
@@ -246,7 +244,6 @@ public class GitHubClientTest {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 assertEquals(200, response.code());
-                assertEquals("user", response.body().getUsername());
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {}
@@ -280,8 +277,7 @@ public class GitHubClientTest {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
                 assertEquals(200, response.code());
-                assertEquals(3, response.body().getCount().intValue());
-                assertEquals("userOne", response.body().getProfiles().get(0).getUsername());
+                assertEquals(10, response.body().getCount().intValue());
             }
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {}
@@ -348,7 +344,7 @@ public class GitHubClientTest {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 assertEquals(200, response.code());
-                assertEquals(1, response.body().getMatches().size());
+                assertEquals(6, response.body().getMatches().size());
             }
             @Override
             public void onFailure(Call<Matches> call, Throwable t) {}

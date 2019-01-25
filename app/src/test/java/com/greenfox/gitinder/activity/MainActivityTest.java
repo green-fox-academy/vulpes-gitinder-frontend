@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.adapter.ShadowCardStackLayoutManager;
 import com.greenfox.gitinder.adapter.ShadowViewPager;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.squareup.picasso.MockPicasso;
@@ -21,13 +22,13 @@ import static org.junit.Assert.assertEquals;
 import static org.robolectric.Shadows.shadowOf;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(shadows = {ShadowViewPager.class})
+@Config(shadows = {ShadowViewPager.class, ShadowCardStackLayoutManager.class})
 public class MainActivityTest {
 
     MainActivity mainActivity;
 
     @Test
-    public void tokenIsPresentRedirectionTest() throws Exception{
+    public void tokenIsPresentRedirectionTest() {
         MockPicasso.init();
 
         SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();

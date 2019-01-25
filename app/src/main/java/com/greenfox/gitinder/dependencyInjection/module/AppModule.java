@@ -3,25 +3,29 @@ package com.greenfox.gitinder.dependencyInjection.module;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 
 import com.greenfox.gitinder.BuildConfig;
-import com.greenfox.gitinder.api.mock.BackendMockAPI;
-import com.greenfox.gitinder.api.service.GitinderAPI;
-import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.service.GithubAPI;
+import com.greenfox.gitinder.api.service.GithubTokenAPI;
+import com.greenfox.gitinder.api.service.GitinderAPI;
+
+
+import com.greenfox.gitinder.api.service.SnippetService;
+import com.greenfox.gitinder.model.Settings;
+import com.greenfox.gitinder.service.NotificationService;
+
 
 import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
-
 
 // create your dependency here. Provides annotation have to return object cannot be done on void methods.
 
@@ -43,15 +47,28 @@ public class AppModule {
         return new Settings();
     }
 
+    //TODO Create a new API. Something like "GET https://api.github.com/user?access_token=... "
+
     @Provides
     @Singleton
-    GithubAPI githubAPI(){
+    GithubAPI githubUserAPI(){
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("https://github.com/")
+                .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
         return retrofit.create(GithubAPI.class);
     }
+
+    @Provides
+    @Singleton
+    GithubTokenAPI githubAPI(){
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("https://github.com/")
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+        return retrofit.create(GithubTokenAPI.class);
+    }
+
     @Provides
     @Singleton
     GitinderAPI backendAPI() {
@@ -62,12 +79,21 @@ public class AppModule {
         } else {
             return new BackendMockAPI();
         }
-
+    }
+    @Provides
+    @Singleton
+    SnippetService snippetService() {
+        return new SnippetService();
     }
 
 
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
-}
 
+    @Provides
+    @Singleton
+    NotificationService notificationService() {
+        return new NotificationService();
+    }
+}

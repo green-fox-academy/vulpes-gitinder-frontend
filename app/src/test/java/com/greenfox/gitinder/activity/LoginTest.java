@@ -40,6 +40,7 @@ public class LoginTest {
         DialogFragment dialogFragment = (DialogFragment) login.getSupportFragmentManager().findFragmentByTag("loginDialog");
         assertNotNull(dialogFragment);
     }
+
     @Test
     public void testRedirectTrue() {
         preferences = SharedPreferencesFactory.getSharedPref();
@@ -50,6 +51,7 @@ public class LoginTest {
         Intent actual = IntentFactory.getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
     }
+
     @Test
     public void testRedirectFail() {
         preferences = SharedPreferencesFactory.getSharedPref();
@@ -58,14 +60,7 @@ public class LoginTest {
         Intent actual = IntentFactory.getNextStartedActivity();
         assertEquals(null, actual);
     }
-    @Test
-    public void testButtonWillRedirect() {
-        login = Robolectric.setupActivity(Login.class);
-        login.login.performClick();
-        Intent expectedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/login/oauth/authorize?client_id="+Constants.GITHUB_CLIENT_ID+"&redirect_uri="+Constants.GITHUB_CALLBACK));
-        Intent actual = IntentFactory.getNextStartedActivity();
-        assertEquals(expectedIntent.getComponent(), actual.getComponent());
-    }
+
     @Test
     public void testMockIsReturningAccessToken() {
         GitHubMock clientMock = new GitHubMock();
@@ -82,6 +77,7 @@ public class LoginTest {
             }
         });
     }
+
     @Test
     public void tokenIsSaving() {
         preferences = SharedPreferencesFactory.getSharedPref();
@@ -92,7 +88,8 @@ public class LoginTest {
         assertTrue(!preferences.contains(Constants.GITINDER_TOKEN));
         controller.resume();
         Uri uri = login.getIntent().getData();
-        ((Login) login).saveGitHubToken(uri, clientMock);
+        ((Login) login).saveGitHubToken(uri);
         assertTrue(preferences.contains(Constants.GITINDER_TOKEN));
     }
+
 }

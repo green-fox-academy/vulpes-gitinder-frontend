@@ -2,7 +2,6 @@ package com.greenfox.gitinder.dependencyInjection.module;
 
 import com.greenfox.gitinder.activity.Login;
 import com.greenfox.gitinder.activity.MainActivity;
-import com.greenfox.gitinder.activity.SettingsActivity;
 
 
 import dagger.Module;
@@ -16,10 +15,8 @@ public abstract class ActivityBuilder {
     abstract MainActivity bindMainActivity();
 
     @ContributesAndroidInjector()
-
-    abstract SettingsActivity bindSettingsActivity();
-
-    @ContributesAndroidInjector
     abstract Login bindLogin();
+
+
 
 }

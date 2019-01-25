@@ -4,7 +4,6 @@
     package="com.greenfox.gitinder">
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
-
     <application
         android:name=".GitinderApp"
         android:allowBackup="true"
@@ -21,13 +20,11 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.SettingsActivity"></activity>
-
-        <activity android:name=".activity.Login">
+        <activity android:name=".activity.Login"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -43,6 +40,17 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="ce4addb6cbbd5006ab46da12b345c98e178f7fd3" />
+
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="intent"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

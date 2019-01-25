@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GiTinder</string>
-    <string name="loginGitHub">Login with Github</string>
+    <string name="loginGitHub">Login with GitHub</string>
     <string name="title_activity_tabbed_to_delete">TabbedActivityToDelete</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -10,13 +10,15 @@
     <string name="image_description_profile_picture">Profile picture</string>
     <string name="like_button_text">Like</string>
     <string name="nope_button_text">Nope</string>
+    <string name="match_messages_button_text">Messages</string>
+    <string name="match_profile_button_text">Profile</string>
     <string name="main_settings_button_text">Settings</string>
     <string name="main_logout_button_text">Logout</string>
     <string name="Setting_Notification_Text">Allow Notifications</string>
     <string name="setting_background_sync_text">Allow Background Sync</string>
     <string name="max_distance_text">Set Maximum distance to match</string>
-    <string name="login_dialog_header">Login with Github</string>
-    <string name="login_dialog_body">In order to use GiTinder you need to login using your Github Account. Click login if you want to proceed.</string>
+    <string name="login_dialog_header">Login with GitHub</string>
+    <string name="login_dialog_body">In order to use GiTinder you need to login using your GitHub Account. Click login if you want to proceed.</string>
     <string name="login_dialog_login">login</string>
     <string name="login_dialog_exit">exit</string>
     <string name="main_nope">Nope</string>
@@ -26,4 +28,25 @@
     <string name="settings_bck_sync">Enable background sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
+    <string name="settings_logout_button">Logout</string>
+    <string name="title_activity_scrolling">aaa</string>
+    <string name="notification_new_match">You have a new match!</string>
+    <string name="floating_action_button_text_placeholder">42</string>
+
+
+
+
+    <!-- NavigationView -->
+    <string name="open_drawer">Open drawer</string>
+    <string name="close_drawer">Close drawer</string>
+    <string name="reload">Reload</string>
+    <string name="add_one_spot_at_first">Add one spot at first</string>
+    <string name="add_two_spots_at_first">Add two spots at first</string>
+    <string name="add_one_spot_at_last">Add one spot at last</string>
+    <string name="add_two_spots_at_last">Add two spots at last</string>
+    <string name="remove_one_spot_at_first">Remove one spot at first</string>
+    <string name="remove_two_spots_at_first">Remove two spots at first</string>
+    <string name="remove_one_spot_at_last">Remove one spot at last</string>
+    <string name="remove_two_spots_at_last">Remove two spots at last</string>
+
 </resources>
