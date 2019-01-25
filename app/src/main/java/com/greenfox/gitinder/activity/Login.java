@@ -48,12 +48,10 @@ public class Login extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         //checks the Shared preference for existing gitinder token
-
         if (sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-
         setContentView(R.layout.activity_login);
     }
 
@@ -62,7 +60,8 @@ public class Login extends AppCompatActivity {
         super.onResume();
         Uri uri = getIntent().getData();
         if (uri != null) {
-            saveGitHubToken(uri);
+            String code = uri.getQueryParameter("code");
+            saveGitHubToken(code);
         }
         if (sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -73,16 +72,12 @@ public class Login extends AppCompatActivity {
         }
 
     }
-
-    // After clicking the Github Oauth is started
-        public void loginWithGithub(View view) {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.GITHUB_URL + Constants.GITHUB_CLIENT_ID
-                                                                 + "&redirect_uri=" + Constants.GITHUB_CALLBACK));
-        startActivity(intent);
-    }
     // Calls the githubTokenAPI and saves the returned github token
-    public void saveGitHubToken(Uri uri) {
-        String code = uri.getQueryParameter("code");
+    // Calls the Github API to receive username
+    // Calls the Gitinder API to receive Gitinder token
+    // Saves the token
+    public void saveGitHubToken(String code) {
+
         Call<GitHubToken> call = githubTokenAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
 
         call.enqueue(new CustomCallback<GitHubToken>() {
