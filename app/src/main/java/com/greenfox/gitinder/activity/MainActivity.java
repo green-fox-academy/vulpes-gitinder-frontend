@@ -52,14 +52,11 @@ public class MainActivity extends AppCompatActivity {
         notificationService.pushNewMatchNotification(match, this);
         Log.d(TAG, "onCreate: Starting.");
 
-
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
