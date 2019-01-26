@@ -41,25 +41,22 @@ public class MainActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Match match = MatchFactory.createNewMatch();
-        notificationService.createNotificationChannel(this);
-        notificationService.pushNewMatchNotification(match, this);
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
             toLogin();
         } else {
             Log.d(TAG, "Token is present.");
         }
+        Match match = MatchFactory.createNewMatch();
+        notificationService.createNotificationChannel(this);
+        notificationService.pushNewMatchNotification(match, this);
         Log.d(TAG, "onCreate: Starting.");
-
 
         mViewPager = findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-
 
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
