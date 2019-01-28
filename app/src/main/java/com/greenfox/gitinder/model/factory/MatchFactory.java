@@ -32,7 +32,7 @@ public class MatchFactory {
 
     public static Match createNewMatch() {
         Match match = new Match("Splichus",
-                "https://www.biologicaldiversity.org/assets/img/species/mammals/BeardedSealFlickr_foilistpeter.jpg",
+                "https://i1.wp.com/www.creativeloop.co.zw/wp-content/uploads/2013/10/smiling-lady-baynham-goredema.jpg?ssl=1",
                 1, MessagesFactory.createMessages());
         return match;
     }

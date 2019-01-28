@@ -1,7 +1,10 @@
 package com.greenfox.gitinder.activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -16,7 +19,11 @@ import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.NonSwipeableViewPager;
+import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.service.NotificationService;
+
 
 import javax.inject.Inject;
 
@@ -34,45 +41,56 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButton;
     public TextView floatingActionButtonText;
 
+    @Inject
+    NotificationService notificationService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        AlarmSetUp alarmSetUp = new AlarmSetUp(this);
         setContentView(R.layout.activity_main);
 
         sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
-            Log.d(TAG, "Token is missing!");
-            toLogin();
-        } else {
-            Log.d(TAG, "Token is present.");
+
+            Match match = MatchFactory.createNewMatch();
+            notificationService.createNotificationChannel(this);
+            notificationService.pushNewMatchNotification(match, this);
+            if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
+                Log.d(TAG, "Token is missing!");
+                toLogin();
+            } else {
+                Log.d(TAG, "Token is present.");
+            }
+            Log.d(TAG, "onCreate: Starting.");
+
+            floatingActionButtonText = findViewById(R.id.floating_action_button_text);
+            floatingActionButton = findViewById(R.id.floating_action_button);
+
+            hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
+
+            Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+            Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
+
+            mViewPager = findViewById(R.id.container);
+            setupViewPager(mViewPager);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
+
+            floatingActionButton.setOnClickListener(v -> {
+                mViewPager.setCurrentItem(1);
+            });
+
+            getSupportActionBar().setElevation(0);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
+            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
+                mViewPager.setCurrentItem(1);
+            }
         }
-
-        Log.d(TAG, "onCreate: Starting.");
-
-        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
-        floatingActionButton = findViewById(R.id.floating_action_button);
-
-        hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
-
-        Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-        Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
-
-        mViewPager = findViewById(R.id.container);
-        setupViewPager(mViewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        floatingActionButton.setOnClickListener(v -> {
-            mViewPager.setCurrentItem(1);
-        });
-
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
 
     }
 
@@ -84,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPageAdapter);
     }
 
-    public void toLogin(){
+    public void toLogin () {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();

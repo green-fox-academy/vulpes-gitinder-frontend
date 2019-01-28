@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.main;
 
+import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MainActivity;
 import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Settings;
@@ -42,6 +44,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public TextView maximumDistance;
     public ImageView imageView;
     public Button logoutButton;
+    public AlarmSetUp alarmSetUp;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -74,19 +77,25 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
         bSyncSwitch.setTag(Constants.ENABLE_BACKGROUNDSYNC);
-        notificationSwitch.setChecked(sharedPreferences.getBoolean((String)notificationSwitch.getTag(), false));
+        notificationSwitch.setChecked(sharedPreferences.getBoolean((String) notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
         displayImage();
+        alarmSetUp = new AlarmSetUp(view.getContext());
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.isChecked() != sharedPreferences.getBoolean((String)buttonView.getTag(),false)){
+        if (buttonView.isChecked() != sharedPreferences.getBoolean((String) buttonView.getTag(), false)) {
             settings.setEnableNotifications(isChecked);
             settings.setEnableBackgroundSync(isChecked);
-            sharedPreferences.edit().putBoolean((String)buttonView.getTag(),isChecked).apply();
-            Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!",Toast.LENGTH_SHORT).show();
+            sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
+            Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
+            if (!bSyncSwitch.isChecked()) {
+                alarmSetUp.stopAlarm(getContext());
+            }else {
+                alarmSetUp.startAlarm(getContext());
+            }
         }
     }
 
@@ -125,7 +134,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
-                sharedPreferences.edit().clear().apply();
+                sharedPreferences.edit().remove(Constants.GITINDER_TOKEN).apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }

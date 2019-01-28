@@ -133,6 +133,9 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     // codeView
     implementation 'com.github.tiagohm:CodeView:0.4.0'
+    //Gide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
 
 
 }
