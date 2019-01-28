@@ -66,33 +66,22 @@ public class Login extends AppCompatActivity {
         if (sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        } else if (uri == null){
+        } else if (uri == null) {
             LoginDialog loginDialog = new LoginDialog();
             loginDialog.show(getSupportFragmentManager(), "loginDialog");
         }
 
     }
-    // Calls the githubTokenAPI and saves the returned github token
-    // Calls the Github API to receive username
-    // Calls the Gitinder API to receive Gitinder token
-    // Saves the token
+
     public void saveGitHubToken(String code) {
 
-        Call<GitHubToken> call = githubTokenAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code);
-
-        call.enqueue(new CustomCallback<GitHubToken>() {
-
+        githubTokenAPI.getToken(Constants.GITHUB_CLIENT_ID, Constants.GITHUB_CLIENT_SECRET, code).enqueue(new CustomCallback<GitHubToken>() {
             @Override
             public void onResponse(Call<GitHubToken> call, Response<GitHubToken> response) {
-                Call<GitHubUsername> gitHubUsernameCall = githubAPI.getGitHubUsername("token " + response.body().getToken());
-
-                gitHubUsernameCall.enqueue(new CustomCallback<GitHubUsername>() {
+                githubAPI.getGitHubUsername("token " + response.body().getToken()).enqueue(new CustomCallback<GitHubUsername>() {
                     @Override
                     public void onResponse(Call<GitHubUsername> call, Response<GitHubUsername> response2) {
-                        Call<LoginResponse> loginResponseCall = gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken()));
-
-                        loginResponseCall.enqueue(new CustomCallback<LoginResponse>() {
-
+                        gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken())).enqueue(new CustomCallback<LoginResponse>() {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
                                 sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken()).apply();
@@ -102,10 +91,8 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     }
-
                 });
             }
         });
     }
-
 }

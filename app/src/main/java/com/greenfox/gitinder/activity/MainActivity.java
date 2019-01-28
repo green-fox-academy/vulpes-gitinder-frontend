@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.activity;
 
+import android.app.FragmentTransaction;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.main_toolbar);
-        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
+        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Log.d(TAG, "Token is missing!");
             toLogin();
         } else {
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void setupViewPager(NonSwipeableViewPager viewPager){
+    public void setupViewPager(NonSwipeableViewPager viewPager) {
         SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
         sectionsPageAdapter.addFragment(new MatchesFragment(), getString(R.string.tab_title_matches));
@@ -90,8 +92,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.toolbar_refresh) {
-            Toast.makeText(this, "clicked", Toast.LENGTH_SHORT).show();
+            reloadCurrentFragment();
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    private void reloadCurrentFragment(Fragment fragment) {
+        Fragment frg = getSupportFragmentManager().findFragmentByTag(fragment.getTag());
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(frg).attach(frg).commit();
     }
 }
