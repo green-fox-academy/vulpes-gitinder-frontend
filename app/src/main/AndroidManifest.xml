@@ -15,7 +15,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,11 +45,11 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
 
         <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
             <intent-filter>
-                <action android:name="intent"></action>
+                <action android:name="intent"/>
             </intent-filter>
         </receiver>
     </application>
