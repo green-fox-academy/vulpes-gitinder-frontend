@@ -38,12 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
+//        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Match match = MatchFactory.createNewMatch();
         notificationService.createNotificationChannel(this);
         notificationService.pushNewMatchNotification(match, this);
+
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)){
             Log.d(TAG, "Token is missing!");
             toLogin();

@@ -1,6 +1,7 @@
 package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.MessagesActivity;
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -68,7 +72,17 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
 
-            messagesButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "PIVO PROSIM", Toast.LENGTH_SHORT).show());
+            messagesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
+                    intent.putExtra("profileUsername", matchList.get(getAdapterPosition()).getUsername());
+                    intent.putExtra("profileUrl", matchList.get(getAdapterPosition()).getAvatarUrl());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    v.getContext().startActivity(intent);
+                }
+            });
+
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
     }

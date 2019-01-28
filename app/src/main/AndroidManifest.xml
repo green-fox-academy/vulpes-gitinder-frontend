@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.greenfox.gitinder">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".GitinderApp"
@@ -12,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name">
@@ -22,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activity.Login"
+        <activity
+            android:name=".activity.Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -44,13 +44,17 @@
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
+        <receiver
+            android:name=".api.reciever.BackgroundReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="intent"></action>
+                <action android:name="intent" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".activity.MessagesActivity"></activity>
     </application>
 
 </manifest>
