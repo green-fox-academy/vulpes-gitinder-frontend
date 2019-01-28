@@ -34,21 +34,19 @@ public class MainActivityTest {
     @Before
     public void setUp(){
         sharedPreferences = SharedPreferencesFactory.getSharedPref();
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
+        MockPicasso.init();
     }
 
     @Test
     public void floatingButtonShowingCorrectNumberOfNewMatches(){
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
         assertEquals(sharedPreferences.getString(Constants.MATCHES_COUNT, ""), mainActivity.floatingActionButtonText.getText());
     }
 
     @Test
     public void tokenIsPresentRedirectionTest() {
-        MockPicasso.init();
-
-        SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(Constants.GITINDER_TOKEN, "abc123").apply();
+        sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, "abc123").apply();
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
 
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();
 
@@ -57,11 +55,8 @@ public class MainActivityTest {
 
     @Test
     public void tokenIsNotPresentRedirectionTest() {
-        MockPicasso.init();
-
-        SharedPreferences preferences = SharedPreferencesFactory.getSharedPref();
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+        sharedPreferences.edit().clear().apply();
+        mainActivity = Robolectric.setupActivity(MainActivity.class);
 
         Intent expectedIntent = new Intent(mainActivity, Login.class);
         Intent actualIntent = shadowOf((Application) ApplicationProvider.getApplicationContext()).getNextStartedActivity();

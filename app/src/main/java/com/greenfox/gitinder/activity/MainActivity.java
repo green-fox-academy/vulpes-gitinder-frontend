@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
 
-
     }
 
     public void setupViewPager (NonSwipeableViewPager viewPager){

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.factory.SharedPreferencesFactory;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
+import com.squareup.picasso.MockPicasso;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +29,10 @@ public class SettingsFragmentTest {
 
     @Before
     public void setUp(){
+        pref = SharedPreferencesFactory.getSharedPref();
+        MockPicasso.init();
         settingsFragment = new SettingsFragment();
         SupportFragmentTestUtil.startFragment(settingsFragment);
-        pref = SharedPreferencesFactory.getSharedPref();
     }
 
     @Test
