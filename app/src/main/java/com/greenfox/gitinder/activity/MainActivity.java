@@ -53,43 +53,42 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
+            Log.d(TAG, "Token is missing!");
+            toLogin();
+        } else {
+            Log.d(TAG, "Token is present.");
+        }
 
-            Match match = MatchFactory.createNewMatch();
-            notificationService.createNotificationChannel(this);
-            notificationService.pushNewMatchNotification(match, this);
-            if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
-                Log.d(TAG, "Token is missing!");
-                toLogin();
-            } else {
-                Log.d(TAG, "Token is present.");
-            }
-            Log.d(TAG, "onCreate: Starting.");
+        Match match = MatchFactory.createNewMatch();
+        notificationService.createNotificationChannel(this);
+        notificationService.pushNewMatchNotification(match, this);
 
-            floatingActionButtonText = findViewById(R.id.floating_action_button_text);
-            floatingActionButton = findViewById(R.id.floating_action_button);
+        Log.d(TAG, "onCreate: Starting.");
 
-            hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
+        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
+        floatingActionButton = findViewById(R.id.floating_action_button);
 
-            Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
-            Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
+        hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
 
-            mViewPager = findViewById(R.id.container);
-            setupViewPager(mViewPager);
+        Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+        Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
 
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(mViewPager);
+        mViewPager = findViewById(R.id.container);
+        setupViewPager(mViewPager);
 
-            floatingActionButton.setOnClickListener(v -> {
-                mViewPager.setCurrentItem(1);
-            });
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
 
-            getSupportActionBar().setElevation(0);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+        floatingActionButton.setOnClickListener(v -> {
+            mViewPager.setCurrentItem(1);
+        });
 
-            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
-                mViewPager.setCurrentItem(1);
-            }
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
+            mViewPager.setCurrentItem(1);
         }
 
     }
