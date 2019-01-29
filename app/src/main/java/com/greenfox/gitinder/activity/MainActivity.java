@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
     private Toolbar toolbar;
+    SectionsPageAdapter sectionsPageAdapter;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager) {
-        SectionsPageAdapter sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
+        sectionsPageAdapter = new SectionsPageAdapter(getSupportFragmentManager());
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
         sectionsPageAdapter.addFragment(new MatchesFragment(), getString(R.string.tab_title_matches));
         sectionsPageAdapter.addFragment(new SettingsFragment(), getString(R.string.tab_title_settings));
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.toolbar_refresh) {
-            reloadCurrentFragment();
+
+            sectionsPageAdapter.getItem(mViewPager.getCurrentItem()).reload();
         }
         return true;
     }
@@ -101,11 +103,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
-    }
-
-    private void reloadCurrentFragment(Fragment fragment) {
-        Fragment frg = getSupportFragmentManager().findFragmentByTag(fragment.getTag());
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(frg).attach(frg).commit();
     }
 }

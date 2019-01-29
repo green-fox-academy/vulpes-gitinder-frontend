@@ -9,6 +9,9 @@ public class SettingsFactory {
 
     public Settings createSettings(){
         List<String> languages = new ArrayList<>();
+        languages.add("Java");
+        languages.add("Kotlin");
+        languages.add("Android SDK");
         return new Settings(true, true, 0, languages);
     }
 }

@@ -78,4 +78,9 @@ public class MatchesFragment extends BaseFragment {
             }
         });
     }
+
+    @Override
+    public void reload() {
+        loadMatches();
+    }
 }

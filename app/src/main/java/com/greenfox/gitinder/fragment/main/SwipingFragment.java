@@ -63,6 +63,11 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     @Override
+    public void reload() {
+        loadProfiles();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setupButtons();
         setupCardStackView();
