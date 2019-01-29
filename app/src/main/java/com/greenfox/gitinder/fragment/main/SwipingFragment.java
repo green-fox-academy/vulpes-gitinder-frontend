@@ -44,6 +44,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
+    TextView extinctText;
+
     @Inject
     GitinderAPI gitinderAPI;
 
@@ -64,6 +66,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
+        extinctText.setVisibility(View.INVISIBLE);
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -71,6 +75,15 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
+        adapter.deleteProfile(adapter.getProfiles().get(manager.getTopPosition() - 1));
+        Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
+
+        if (manager.getItemCount() < 1){
+            extinctText.setVisibility(View.VISIBLE);
+            Log.d(TAG, "onCardSwiped: " + extinctText.getVisibility());
+        }
+        
+        Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
     }
 
     private void setupButtons(){
