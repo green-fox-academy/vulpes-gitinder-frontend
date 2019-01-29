@@ -6,11 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.greenfox.gitinder.activity.MessagesActivity">
 
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/messages_activity_recycler_view"
+        app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages_activity_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:background="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

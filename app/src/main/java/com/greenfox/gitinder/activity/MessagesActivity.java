@@ -4,16 +4,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
 import com.greenfox.gitinder.model.Message;
+import com.greenfox.gitinder.model.MessageWrapper;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MessagesActivity extends AppCompatActivity {
@@ -21,6 +23,8 @@ public class MessagesActivity extends AppCompatActivity {
     TextView usernameText;
     ImageView userPic;
     MessageAdapter messageAdapter;
+    EditText editText;
+    ImageButton sendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,8 @@ public class MessagesActivity extends AppCompatActivity {
 
         usernameText = findViewById(R.id.messages_activity_username);
         userPic = findViewById(R.id.messages_activity_picture);
+        sendButton = findViewById(R.id.messages_activity_send_button);
+        editText = findViewById(R.id.messages_activity_edit_text);
 
         usernameText.setText(getIntent().getStringExtra("profileUsername"));
         Picasso.get().load(getIntent().getStringExtra("profileUrl")).into(userPic);
@@ -38,14 +44,30 @@ public class MessagesActivity extends AppCompatActivity {
 
         messageAdapter = new MessageAdapter(this);
 
-        List<Message> messageList = new ArrayList<>();
-        messageList.add(new Message(0,"You","",0,"Toto"));
-        messageList.add(new Message(1,"Somebody","",0,"je"));
-        messageList.add(new Message(2,"You","",0,"moje"));
-        messageList.add(new Message(3,"Somebody","",0,"matka"));
-        messageAdapter.addMessages(messageList);
+        MessageWrapper messageWrapper = (MessageWrapper)getIntent().getSerializableExtra("profileMessages");
+        List<Message> messageList = messageWrapper.getMessageArrayList();
 
-//        recyclerView.setAdapter(messageAdapter);
+        for(Message currentMessage : messageList){
+            if(!currentMessage.getFrom().equals("You")){
+                currentMessage.setFrom(usernameText.getText().toString());
+            }
+        }
+
+        messageAdapter.addMessages(messageList);
+        recyclerView.setAdapter(messageAdapter);
+
+        sendButton.setOnClickListener(v -> {
+            if (editText.getText().length() > 0){
+                sendMessage(editText.getText().toString());
+                recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
+            }
+        });
+    }
+
+    public void sendMessage(String messageText){
+        Message newMessage = new Message(messageAdapter.getItemCount(), "You",
+                usernameText.getText().toString(), (int)System.currentTimeMillis(), messageText);
+        messageAdapter.addMessage(newMessage);
     }
 
 }

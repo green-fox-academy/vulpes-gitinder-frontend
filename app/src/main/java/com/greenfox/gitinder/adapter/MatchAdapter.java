@@ -2,6 +2,7 @@ package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,8 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MessagesActivity;
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Message;
+import com.greenfox.gitinder.model.MessageWrapper;
 import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
@@ -42,9 +45,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String username = matchList.get(position).getUsername();
-        String lastMessage = matchList.get(position).getMessages().get( matchList.get(position).getMessages().size() - 1).getMessage();
         String avatarUrl = matchList.get(position).getAvatarUrl();
 
+        String lastMessage = "";
+            if (matchList.get(position).getMessages().size() > 0){
+                lastMessage = matchList.get(position).getMessages().get( matchList.get(position).getMessages().size() - 1).getMessage();
+            }
 
         holder.messagesText.setText(lastMessage);
         holder.usernameText.setText(username);
@@ -75,9 +81,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             messagesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    MessageWrapper messageWrapper = new MessageWrapper(matchList.get(getAdapterPosition()).getMessages());
+
                     Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
                     intent.putExtra("profileUsername", matchList.get(getAdapterPosition()).getUsername());
                     intent.putExtra("profileUrl", matchList.get(getAdapterPosition()).getAvatarUrl());
+                    intent.putExtra("profileMessages", messageWrapper);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     v.getContext().startActivity(intent);
                 }

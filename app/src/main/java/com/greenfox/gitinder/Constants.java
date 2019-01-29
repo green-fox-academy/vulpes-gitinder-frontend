@@ -16,4 +16,7 @@ public class Constants {
     public static final String NEW_MATCH_GROUP = "newMatches";
     public static final String GO_TO_MATCHES = "GoToMatches";
     public static final String PROFILE = "profile";
+    public static final int SENT_MESSAGE = 1;
+    public static final int RECEIVED_MESSAGE = 2;
+
 }
