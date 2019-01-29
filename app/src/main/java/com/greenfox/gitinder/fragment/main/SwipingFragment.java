@@ -67,7 +67,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
-        extinctText.setVisibility(View.INVISIBLE);
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -79,17 +78,15 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
 
         if (manager.getItemCount() < 1){
-            extinctText.setVisibility(View.VISIBLE);
-            Log.d(TAG, "onCardSwiped: " + extinctText.getVisibility());
+            extinctText.setText("The cards have gone extinct.");
+        } else {
+            extinctText.setText("");
         }
-        
-        Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
     }
 
     private void setupButtons(){
         setupButtonSwipe(getView().findViewById(R.id.like_button), Direction.Right);
         setupButtonSwipe(getView().findViewById(R.id.skip_button), Direction.Left);
-        setupButtonRewind(getView().findViewById(R.id.rewind_button), Direction.Bottom);
     }
 
     private void setupButtonSwipe(View view, Direction direction){
@@ -101,18 +98,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                     .build();
             manager.setSwipeAnimationSetting(setting);
             cardStackView.swipe();
-        });
-    }
-
-    private void setupButtonRewind(View view, Direction direction){
-        view.setOnClickListener(v -> {
-            RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-                    .setDirection(direction)
-                    .setDuration(200)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .build();
-            manager.setRewindAnimationSetting(setting);
-            cardStackView.rewind();
         });
     }
 
