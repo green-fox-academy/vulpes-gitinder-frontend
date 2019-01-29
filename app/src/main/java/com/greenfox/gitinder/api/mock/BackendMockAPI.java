@@ -195,4 +195,24 @@ public class BackendMockAPI implements GitinderAPI {
             }
         };
     }
+
+    @Override
+    public Call<GitinderResponse> seenProfile(String gitinderToken, String username) {
+        return new CallMock<GitinderResponse>() {
+            @Override
+            public void enqueue(Callback<GitinderResponse> callback) {
+                GitinderResponse apiResponse = new GitinderResponse();
+                apiResponse.setStatus("ok");
+                apiResponse.setMessage("success");
+
+                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()){
+                    callback.onResponse(this, Response.<GitinderResponse>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                }else {
+                    callback.onResponse(this,Response.success(apiResponse));
+                }
+            }
+        };
+    }
 }
