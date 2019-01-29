@@ -12,6 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/swiping_fragment_extinct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_extinct"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/card_stack_view"
+            app:layout_constraintEnd_toEndOf="@+id/card_stack_view"
+            app:layout_constraintStart_toStartOf="@+id/card_stack_view"
+            app:layout_constraintTop_toTopOf="@+id/card_stack_view" />
+
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/card_stack_view"
             android:layout_width="match_parent"
