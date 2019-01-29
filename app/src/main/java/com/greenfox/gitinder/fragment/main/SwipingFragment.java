@@ -71,7 +71,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
+        if (manager.getTopPosition() == adapter.getItemCount() - 8) {
             loadProfiles();
         }
     }

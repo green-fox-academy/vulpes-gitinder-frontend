@@ -85,5 +85,6 @@ public class CardStackAdapter extends RecyclerView.Adapter<CardStackAdapter.View
 
     public void addProfiles(List<Profile> profileList){
         profiles.addAll(profileList);
+        notifyDataSetChanged();
     }
 }
