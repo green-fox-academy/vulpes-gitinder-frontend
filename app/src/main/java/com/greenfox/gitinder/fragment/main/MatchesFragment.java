@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
@@ -33,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MatchesFragment extends BaseFragment {
+public class MatchesFragment extends BaseFragment implements MatchService.MatchesListener {
     private static final String TAG = "MatchesFragment";
 
     @Inject
@@ -42,11 +40,13 @@ public class MatchesFragment extends BaseFragment {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    MatchService matchService;
+
     MatchAdapter matchAdapter;
 
     public Button addMatchesButton;
     Button clearMatchesButton;
-    MatchService matchService;
 
     @Nullable
     @Override
@@ -62,41 +62,22 @@ public class MatchesFragment extends BaseFragment {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         addMatchesButton = getView().findViewById(R.id.add_matches_button);
         clearMatchesButton = getView().findViewById(R.id.clear_matches_button);
-        matchService = new MatchService(sharedPreferences);
-
-        matchAdapter = new MatchAdapter(getActivity().getApplicationContext());
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(matchAdapter);
-
-        matchAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-            @Override
-            public void onChanged() {
-//                setupSharedPreferencesListener();
-                matchService.editNewMatchesCount(String.valueOf(matchAdapter.matchesWithNoMessage()));
-            }
-        });
-
-        addMatchesButton.setOnClickListener(v -> {
-            loadMatches();
-        });
-
-        clearMatchesButton.setOnClickListener(v ->{
-            matchAdapter.clearMatches();
-            matchAdapter.notifyDataSetChanged();
-            matchService.editNewMatchesCount(String.valueOf(matchAdapter.matchesWithNoMessage()));
-//            sharedPreferences.edit().putString(Constants.MATCHES_COUNT,
-//                                               String.valueOf(matchAdapter.matchesWithNoMessage())).apply();
-            Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount()
-                    + ",  MATCHES_COUNT: " + matchService.getNewMatchesCount());
-        });
+        matchService.setMatchesListener(this);
 
         if(!BuildConfig.FLAVOR.equals("dev")){
             addMatchesButton.setVisibility(View.GONE);
             clearMatchesButton.setVisibility(View.GONE);
         }
+
+        matchAdapter = new MatchAdapter(getActivity().getApplicationContext(), matchService);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(matchAdapter);
+
+        addMatchesButton.setOnClickListener(v -> updateMatches());
+        clearMatchesButton.setOnClickListener(v -> matchService.clearMatches());
     }
 
-    public void loadMatches(){
+    public void updateMatches(){
         Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<Matches>() {
@@ -104,15 +85,9 @@ public class MatchesFragment extends BaseFragment {
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 Log.d(TAG, "Getting matches - SUCCESS");
 
-                List<Match> matchList = response.body().getMatches();
+                List<Match> responseMatches = response.body().getMatches();
 
-                matchAdapter.addMatches(matchList);
-                matchAdapter.notifyDataSetChanged();
-//                setupSharedPreferencesListener();
-                matchService.editNewMatchesCount(String.valueOf(matchAdapter.matchesWithNoMessage()));
-                Log.d(TAG, "matchAdapter.getItemCount: " + matchAdapter.getItemCount()
-                        + ",  MATCHES_COUNT: " + matchService.getNewMatchesCount());
-
+                matchService.addMatches(responseMatches);
             }
 
             @Override
@@ -122,5 +97,10 @@ public class MatchesFragment extends BaseFragment {
         });
     }
 
-
+    @Override
+    public void onMatchesChanged(List<Match> updatedMatches) {
+        matchAdapter.clearMatches();
+        matchAdapter.addMatches(updatedMatches);
+        matchAdapter.notifyDataSetChanged();
+    }
 }

@@ -24,7 +24,7 @@ import com.greenfox.gitinder.service.NotificationService;
 import javax.inject.Inject;
 import dagger.android.AndroidInjection;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MatchService.NewMatchCountListener {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
 
@@ -49,11 +49,9 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
 
-        matchService = new MatchService(sharedPreferences);
-        setupSharedPreferencesListener();
-        matchService.removeNewMatchesCount();
+        matchService.setNewMatchCountListener(this);
 
-//        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
+        hideFloatingButtonWhenNoNewMatches();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Log.d(TAG, "Token is missing!");
@@ -109,14 +107,23 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(1);
     }
 
-    public void setupSharedPreferencesListener(){
-        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
-            if (key.equals(Constants.MATCHES_COUNT)){
-                floatingActionButtonText.setText(matchService.getNewMatchesCount());
 
-                matchService.hideFloatingButtonWhenNoNewMatches(floatingActionButton, floatingActionButtonText);
-            }
-        });
+    @Override
+    public void onMatchCountChanged(int newMatchCount) {
+        Log.d(TAG, "onMatchCountChanged: " + newMatchCount);
+        floatingActionButtonText.setText(String.valueOf(newMatchCount));
+        hideFloatingButtonWhenNoNewMatches();
     }
+
+    public void hideFloatingButtonWhenNoNewMatches(){
+        if(matchService.getNewMatchesCount() < 1){
+            floatingActionButton.hide();
+            floatingActionButtonText.setText("");
+        } else {
+            floatingActionButton.show();
+            floatingActionButtonText.setText(String.valueOf(matchService.getNewMatchesCount()));
+        }
+    }
+
 
 }

@@ -40,7 +40,7 @@ public class MainActivityTest {
     @Test
     public void floatingButtonShowingCorrectNumberOfNewMatches(){
         mainActivity = Robolectric.setupActivity(MainActivity.class);
-        assertEquals(sharedPreferences.getString(Constants.MATCHES_COUNT, ""), mainActivity.floatingActionButtonText.getText());
+        assertEquals("", mainActivity.floatingActionButtonText.getText());
     }
 
     @Test

@@ -12,6 +12,7 @@ import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 
 
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.service.NotificationService;
@@ -93,5 +94,11 @@ public class AppModule {
     @Singleton
     NotificationService notificationService() {
         return new NotificationService();
+    }
+
+    @Provides
+    @Singleton
+    MatchService matchService() {
+        return new MatchService();
     }
 }

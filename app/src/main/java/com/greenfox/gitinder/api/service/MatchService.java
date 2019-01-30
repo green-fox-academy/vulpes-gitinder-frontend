@@ -1,43 +1,74 @@
 package com.greenfox.gitinder.api.service;
 
 import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.widget.TextView;
 
-import com.greenfox.gitinder.Constants;
+import com.greenfox.gitinder.model.Match;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class MatchService {
 
+    @Inject
+    GitinderAPI gitinderAPI;
+
+    @Inject
     SharedPreferences sharedPreferences;
 
-    public MatchService(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+    List<Match> matchList;
+    NewMatchCountListener newMatchCountListener;
+    MatchesListener matchesListener;
+
+    public MatchService() {
+        this.matchList = new ArrayList<>();
     }
 
-    public void editNewMatchesCount(String count){
-        sharedPreferences.edit().putString(Constants.MATCHES_COUNT, count).apply();
+    public void addMatches(List<Match> matches){
+        matchList.addAll(matches);
+        matchesListener.onMatchesChanged(matchList);
+        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
-    public void removeNewMatchesCount(){
-        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
+    public void clearMatches(){
+        matchList.clear();
+        matchesListener.onMatchesChanged(matchList);
+        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
-    public String getNewMatchesCount(){
-        return sharedPreferences.getString(Constants.MATCHES_COUNT, "");
+    public void updateNewMatchesCount(){
+        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
-    public boolean containsNewMatchesCount(){
-        return sharedPreferences.contains(Constants.MATCHES_COUNT);
-    }
-
-    public void hideFloatingButtonWhenNoNewMatches(FloatingActionButton button, TextView buttonText){
-        if(getNewMatchesCount().equals("0") || getNewMatchesCount().equals("") || !containsNewMatchesCount()){
-            button.hide();
-            buttonText.setText("");
-        } else {
-            button.show();
-            buttonText.setText(getNewMatchesCount());
+    public int getNewMatchesCount(){
+        int counter = 0;
+        for(Match matchCurrent : matchList){
+            if(matchCurrent.isNew()){
+                counter++;
+            }
         }
+        return counter;
+    }
+
+    public List<Match> getMatchList() {
+        return matchList;
+    }
+
+    public void setNewMatchCountListener(NewMatchCountListener countListener){
+        this.newMatchCountListener = countListener;
+    }
+
+    public void setMatchesListener (MatchesListener matchesListener){
+        this.matchesListener = matchesListener;
+    }
+
+    public interface NewMatchCountListener {
+        public void onMatchCountChanged(int newMatchCount);
+    }
+
+    public interface MatchesListener {
+        public void onMatchesChanged(List<Match> updatedMatches);
     }
 
 }

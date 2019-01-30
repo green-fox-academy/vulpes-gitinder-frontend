@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.squareup.picasso.Picasso;
@@ -29,10 +30,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
 
     private LayoutInflater mInflater;
     private List<Match> matchList;
+    private MatchService matchService;
 
-    public MatchAdapter(Context context) {
+    public MatchAdapter(Context context, MatchService matchService) {
         this.mInflater = LayoutInflater.from(context);
         this.matchList = new ArrayList<>();
+        this.matchService = matchService;
     }
 
     @NonNull
@@ -71,9 +74,6 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        @Inject
-        SharedPreferences sharedPreferences;
 
         TextView usernameText;
         TextView messagesText;
@@ -119,15 +119,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
 
     public void setMessageToMatch(Match match){
         match.setMessages(MessagesFactory.createMessage());
+        matchService.updateNewMatchesCount();
     }
 
-    public int matchesWithNoMessage(){
-        int counter = 0;
-        for (Match match: getMatchList()){
-            if(match.getMessages().size() < 1){
-                counter++;
-            }
-        }
-        return counter;
-    }
 }
