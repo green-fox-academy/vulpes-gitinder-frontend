@@ -244,6 +244,7 @@ public class GitHubClientTest {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 assertEquals(200, response.code());
+                assertEquals("Splichus", response.body().getUsername());
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {}
@@ -278,6 +279,7 @@ public class GitHubClientTest {
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
                 assertEquals(200, response.code());
                 assertEquals(10, response.body().getCount().intValue());
+                assertEquals("userOne", response.body().getProfiles().get(0).getUsername());
             }
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {}
