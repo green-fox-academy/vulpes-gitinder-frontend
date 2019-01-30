@@ -47,8 +47,6 @@ public class AppModule {
         return new Settings();
     }
 
-    //TODO Create a new API. Something like "GET https://api.github.com/user?access_token=... "
-
     @Provides
     @Singleton
     GithubAPI githubUserAPI(){

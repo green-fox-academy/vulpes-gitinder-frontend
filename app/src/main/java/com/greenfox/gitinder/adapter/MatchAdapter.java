@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.model.Match;
@@ -50,10 +51,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         if(matchList.get(position).getMessages().size() == 0){
             lastMessage = "";
         } else {
-            lastMessage = matchList.get(position).getMessages().get(matchList.get(position).getMessages().size() - 1).getMessage();
+            lastMessage = matchList.get(position).getLastMessage();
         }
 
-        if(matchList.get(position).getMessages().size() < 1){
+        if(matchList.get(position).isNew()){
             holder.newText.setText("NEW");
         } else {
             holder.newText.setText("");
@@ -90,10 +91,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
 
-            messagesButton.setOnClickListener(v -> {
-                setMessageToMatch(matchList.get(getAdapterPosition()));
-                notifyDataSetChanged();
-            });
+            if (BuildConfig.FLAVOR.equals("dev")) {
+                messagesButton.setOnClickListener(v -> {
+                    setMessageToMatch(matchList.get(getAdapterPosition()));
+                    notifyDataSetChanged();
+                });
+            } else {
+                messagesButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "PIVO PROSIM", Toast.LENGTH_SHORT).show());
+            }
 
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
@@ -125,5 +130,4 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         }
         return counter;
     }
-
 }

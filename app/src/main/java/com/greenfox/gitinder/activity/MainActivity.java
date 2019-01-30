@@ -1,10 +1,7 @@
 package com.greenfox.gitinder.activity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -15,7 +12,7 @@ import android.widget.TextView;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
-import com.greenfox.gitinder.api.reciever.AlarmSetUp;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
 import com.greenfox.gitinder.fragment.main.SwipingFragment;
@@ -24,12 +21,8 @@ import com.greenfox.gitinder.model.NonSwipeableViewPager;
 import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.service.NotificationService;
 
-
 import javax.inject.Inject;
-
 import dagger.android.AndroidInjection;
-
-import static com.greenfox.gitinder.model.FloatingButtonHider.hideFloatingButtonWhenNoNewMatches;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -38,11 +31,14 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
-    FloatingActionButton floatingActionButton;
-    public TextView floatingActionButtonText;
-
     @Inject
     NotificationService notificationService;
+
+    @Inject
+    MatchService matchService;
+
+    FloatingActionButton floatingActionButton;
+    public TextView floatingActionButtonText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +46,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
+        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
+        floatingActionButton = findViewById(R.id.floating_action_button);
+
+        matchService = new MatchService(sharedPreferences);
+        setupSharedPreferencesListener();
+        matchService.removeNewMatchesCount();
+
+//        sharedPreferences.edit().remove(Constants.MATCHES_COUNT).apply();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Log.d(TAG, "Token is missing!");
@@ -65,12 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d(TAG, "onCreate: Starting.");
 
-        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
-        floatingActionButton = findViewById(R.id.floating_action_button);
-
-        hideFloatingButtonWhenNoNewMatches(sharedPreferences, floatingActionButton, floatingActionButtonText);
-
-        Log.d(TAG, "MATCHES_COUNT: " + sharedPreferences.getString(Constants.MATCHES_COUNT, ""));
+        Log.d(TAG, "MATCHES_COUNT: " + matchService.getNewMatchesCount());
         Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
 
         mViewPager = findViewById(R.id.container);
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         floatingActionButton.setOnClickListener(v -> {
-            mViewPager.setCurrentItem(1);
+            toMatchesFragment();
         });
 
         getSupportActionBar().setElevation(0);
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
-            mViewPager.setCurrentItem(1);
+            toMatchesFragment();
         }
 
     }
@@ -105,6 +103,20 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
         finish();
+    }
+
+    public void toMatchesFragment(){
+        mViewPager.setCurrentItem(1);
+    }
+
+    public void setupSharedPreferencesListener(){
+        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences, key) -> {
+            if (key.equals(Constants.MATCHES_COUNT)){
+                floatingActionButtonText.setText(matchService.getNewMatchesCount());
+
+                matchService.hideFloatingButtonWhenNoNewMatches(floatingActionButton, floatingActionButtonText);
+            }
+        });
     }
 
 }
