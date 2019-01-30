@@ -18,6 +18,7 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
@@ -75,6 +76,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         if (manager.getTopPosition() == adapter.getItemCount() - 5) {
             loadProfiles();
         }
+        profileDirection(manager.getTopPosition(),direction);
     }
 
     private void setupButtons(){
@@ -160,6 +162,23 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
             public void onFailure(Call<GitinderResponse> call, Throwable t) {
                 Log.d(TAG, "Profile seen - FAILURE");
 
+            }
+        });
+    }
+
+    private void profileDirection(int position,Direction direction){
+        Call<SwipeResponse> call = gitinderAPI.swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
+                adapter.getProfiles().get(position).getUsername(),direction.toString());
+
+        call.enqueue(new Callback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                Log.d(TAG, "Profile direction added - SUCCESS");
+            }
+
+            @Override
+            public void onFailure(Call<SwipeResponse> call, Throwable t) {
+                Log.d(TAG, "Profile direction added - FAILURE");
             }
         });
     }
