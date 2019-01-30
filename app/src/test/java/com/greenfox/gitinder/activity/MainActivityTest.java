@@ -3,6 +3,7 @@ package com.greenfox.gitinder.activity;
 import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.widget.Button;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.adapter.ShadowCardStackLayoutManager;

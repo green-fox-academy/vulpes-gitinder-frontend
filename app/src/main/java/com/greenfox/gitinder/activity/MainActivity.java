@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         floatingActionButton = findViewById(R.id.floating_action_button);
 
         matchService.setNewMatchCountListener(this);
-
         hideFloatingButtonWhenNoNewMatches();
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         notificationService.pushNewMatchNotification(match, this);
 
         Log.d(TAG, "onCreate: Starting.");
-
         Log.d(TAG, "MATCHES_COUNT: " + matchService.getNewMatchesCount());
         Log.d(TAG, "buttonText: " + floatingActionButtonText.getText());
 
