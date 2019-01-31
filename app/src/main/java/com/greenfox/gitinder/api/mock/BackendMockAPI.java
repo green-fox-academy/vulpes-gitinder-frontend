@@ -3,16 +3,19 @@ package com.greenfox.gitinder.api.mock;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.Message;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
 import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 
@@ -29,9 +32,9 @@ public class BackendMockAPI implements GitinderAPI {
     final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
 
     @Override
-    public CallMock<LoginResponse> login(final User user){
+    public CallMock<LoginResponse> login(final User user) {
 
-        return new CallMock<LoginResponse>(){
+        return new CallMock<LoginResponse>() {
 
             @Override
             public void enqueue(Callback<LoginResponse> callback) {
@@ -54,14 +57,14 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public CallMock<GitinderResponse> logoutUser(final String header){
+    public CallMock<GitinderResponse> logoutUser(final String header) {
 
-        return new CallMock<GitinderResponse>(){
+        return new CallMock<GitinderResponse>() {
 
             @Override
             public void enqueue(Callback<GitinderResponse> callback) {
                 GitinderResponse gitinderResponse = new GitinderResponse();
-                if(header == null || header.isEmpty()) {
+                if (header == null || header.isEmpty()) {
                     callback.onResponse(this, Response.<GitinderResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
@@ -75,9 +78,9 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public CallMock<Settings> getSettings(final String header){
+    public CallMock<Settings> getSettings(final String header) {
 
-        return new CallMock<Settings>(){
+        return new CallMock<Settings>() {
 
             @Override
             public void enqueue(Callback<Settings> callback) {
@@ -85,7 +88,7 @@ public class BackendMockAPI implements GitinderAPI {
 
                 Settings settings = settingsFactory.createSettings();
 
-                if(header == null || header.isEmpty()) {
+                if (header == null || header.isEmpty()) {
                     callback.onResponse(this, Response.<Settings>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
@@ -97,9 +100,9 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public CallMock<GitinderResponse> updateSettings(final String header, final Settings settings){
+    public CallMock<GitinderResponse> updateSettings(final String header, final Settings settings) {
 
-        return new CallMock<GitinderResponse>(){
+        return new CallMock<GitinderResponse>() {
 
             @Override
             public void enqueue(Callback<GitinderResponse> callback) {
@@ -107,7 +110,7 @@ public class BackendMockAPI implements GitinderAPI {
                 apiResponse.setStatus("ok");
                 apiResponse.setMessage("success");
 
-                if(header == null || header.isEmpty() || settings == null) {
+                if (header == null || header.isEmpty() || settings == null) {
                     callback.onResponse(this, Response.<GitinderResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
@@ -121,14 +124,14 @@ public class BackendMockAPI implements GitinderAPI {
     @Override
     public CallMock<Profile> getProfile(final String gitinderToken) {
 
-        return new CallMock<Profile>(){
+        return new CallMock<Profile>() {
 
             @Override
             public void enqueue(Callback<Profile> callback) {
 
                 Profile profile = ProfileFactory.createProfile();
 
-                if(gitinderToken == null || gitinderToken.isEmpty()) {
+                if (gitinderToken == null || gitinderToken.isEmpty()) {
                     callback.onResponse(this, Response.<Profile>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
@@ -205,12 +208,45 @@ public class BackendMockAPI implements GitinderAPI {
                 apiResponse.setStatus("ok");
                 apiResponse.setMessage("success");
 
-                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()){
+                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()) {
                     callback.onResponse(this, Response.<GitinderResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                }else {
-                    callback.onResponse(this,Response.success(apiResponse));
+                } else {
+                    callback.onResponse(this, Response.success(apiResponse));
+                }
+            }
+        };
+    }
+
+    @Override
+    public Call<MessageResponse> sendMessage(String gitinderToken, String username) {
+        return new CallMock<MessageResponse>() {
+            @Override
+            public void enqueue(Callback<MessageResponse> callback) {
+                MessageResponse messageResponse = new MessageResponse();
+                Message message = MessagesFactory.createNewMessage();
+                messageResponse.setStatus("ok");
+                messageResponse.setMessage(message);
+                List<Match> matchList = MatchFactory.createNewMatches();
+                boolean isMatched = false;
+
+                for (Match match : matchList) {
+                    if (match.getUsername().equals(username)) {
+                        isMatched = true;
+                    }
+                }
+
+                if (gitinderToken == null || gitinderToken.isEmpty()||username.isEmpty()) {
+                    callback.onResponse(this, Response.<MessageResponse>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else if (!isMatched) {
+                    callback.onResponse(this, Response.<MessageResponse>error(404,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
+                } else {
+                    callback.onResponse(this, Response.success(201,messageResponse));
                 }
             }
         };

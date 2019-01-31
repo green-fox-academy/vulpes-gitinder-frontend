@@ -13,4 +13,8 @@ public class MessagesFactory {
         messages.add(new Message(0, "me", "you", 0, "Beer"));
         return messages;
     }
+
+    public static Message createNewMessage(){
+        return new Message(0,"me","you",0,"Frantisek");
+    }
 }

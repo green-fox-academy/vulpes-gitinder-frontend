@@ -3,9 +3,9 @@ package com.greenfox.gitinder.api.service;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.model.Matches;
-import com.greenfox.gitinder.model.Messages;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
@@ -18,6 +18,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface GitinderAPI {
 
@@ -48,6 +49,9 @@ public interface GitinderAPI {
     @PUT("profiles/{username}/seen")
     Call<GitinderResponse> seenProfile (@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username);
 
-    @GET("match/{username}/messages")
-    Call<Messages> messages (@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username);
+//    @GET("match/{username}/messages")
+//    Call<> messages (@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username,@Query("page")int page);
+
+    @POST("match/{username}/message")
+    Call<MessageResponse> sendMessage(@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username);
 }

@@ -4,13 +4,16 @@ import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 
 import org.junit.Before;
@@ -19,6 +22,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -454,4 +459,87 @@ public class GitHubClientTest {
         });
     }
 
+    @Test
+    public void sendMessageAllParameters(){
+        Call<MessageResponse> call = client.sendMessage("abc","Franta");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(201, response.code());
+                assertEquals("ok", response.body().getStatus());
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
+
+    }
+
+    @Test
+    public void sendMessageHeaderMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("","test");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void sendMessageParameterMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("test","");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void sendMessageNoMatch(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("test","test");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(404,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Not matched with the user!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+
+            }
+        });
+    }
 }
