@@ -19,8 +19,11 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Profile;
+import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -51,6 +54,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Inject
     SharedPreferences sharedPreferences;
+
+    @Inject
+    MatchService matchService;
 
     int swipeCounter;
 
@@ -85,6 +91,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         } else {
             extinctText.setText("");
         }
+        newMatchIfSecond();
     }
 
     private void setupButtons(){
@@ -145,9 +152,12 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     public void newMatchIfSecond(){
+        Log.d(TAG, "newMatchIfSecond: 1/3 swipeCounter: " + swipeCounter);
         ++swipeCounter;
+        Log.d(TAG, "newMatchIfSecond: 2/3 swipeCounter: " + swipeCounter);
         if (swipeCounter == 2){
             swipeCounter = 0;
+            matchService.addMatch(MatchFactory.createNewMatch());
         }
     }
 

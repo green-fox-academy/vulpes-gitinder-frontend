@@ -31,6 +31,12 @@ public class MatchService {
         newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
+    public void addMatch(Match match){
+        matchList.add(match);
+        matchesListener.onMatchesChanged(matchList);
+        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+    }
+
     public void clearMatches(){
         matchList.clear();
         matchesListener.onMatchesChanged(matchList);
