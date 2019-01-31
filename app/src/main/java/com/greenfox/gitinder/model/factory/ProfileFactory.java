@@ -85,4 +85,9 @@ public class ProfileFactory {
         int ranNick = (int) (Math.random()*allUsernames.size());
         return allUsernames.get(ranNick);
     }
+
+    public static List<String> getAllUsernames(){
+     return new ArrayList<>(Arrays.asList("Danny", "Maara", "Splichus", "Aze", "Magda", "Matka", "Ondrej", "Fox", "Greenfox", "Jablko", "IloveJAVA",
+                "Android123", "Destroyer99", "GitinderUser1", "MrHashtag", "TheKotlinLover", "SwiftIsMyLife"));
+    }
 }

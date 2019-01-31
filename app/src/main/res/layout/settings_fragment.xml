@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SettingsActivity"
+    tools:context=".activity.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
     <android.support.constraint.ConstraintLayout
@@ -204,7 +204,7 @@
             android:background="@android:color/darker_gray"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />/>
+            app:layout_constraintStart_toStartOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -230,9 +230,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/LanguageList" /><![CDATA[
+        app:layout_constraintTop_toBottomOf="@+id/LanguageList" />
 
-    tools:layout_editor_absoluteX="8dp" />
-
-]]>
 </android.support.constraint.ConstraintLayout>
