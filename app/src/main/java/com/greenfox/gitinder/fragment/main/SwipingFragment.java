@@ -52,6 +52,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Inject
     SharedPreferences sharedPreferences;
 
+    int swipeCounter;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
+        swipeCounter = 0;
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -102,7 +105,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void setupCardStackView() {
-        manager = new CardStackLayoutManager(getActivity().getApplicationContext(), this);
+        manager = new CardStackLayoutManager(getActivity(), this);
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
         manager.setTranslationInterval(8.0f);
@@ -112,7 +115,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setCanScrollVertical(true);
-        adapter = new CardStackAdapter(getActivity().getApplicationContext());
+        adapter = new CardStackAdapter(getActivity());
         cardStackView = getView().findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
@@ -139,6 +142,13 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });
+    }
+
+    public void newMatchIfSecond(){
+        ++swipeCounter;
+        if (swipeCounter == 2){
+            swipeCounter = 0;
+        }
     }
 
     @Override
