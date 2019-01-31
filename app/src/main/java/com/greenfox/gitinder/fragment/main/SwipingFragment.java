@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
@@ -23,15 +22,11 @@ import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
-import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.model.factory.MatchFactory;
-import com.greenfox.gitinder.service.DirectionService;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
-import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
@@ -95,7 +90,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         Call<SwipeResponse> call = gitinderAPI.swipe(
                 sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                 sharedPreferences.getString(Constants.USERNAME, ""),
-                DirectionService.directionToString(direction));
+                direction.toString().toLowerCase());
 
         call.enqueue(new CustomCallback<SwipeResponse>() {
             @Override
