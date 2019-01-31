@@ -20,6 +20,7 @@ import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,6 +28,7 @@ import retrofit2.Response;
 public class BackendMockAPI implements GitinderAPI {
 
     final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+    private int swipeCounter = 0;
 
     @Override
     public CallMock<LoginResponse> login(final User user){
@@ -159,18 +161,25 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public Call<SwipeResponse> swipe(final String gitinderToken, String username, String leftorright) {
+    public Call<SwipeResponse> swipe(final String gitinderToken, String username, String direction) {
         return new CallMock<SwipeResponse>() {
             @Override
             public void enqueue(Callback<SwipeResponse> callback) {
-                SwipeResponse swipeResponse = new SwipeResponse("ok", "success", MatchFactory.createNewMatch());
+                if(direction.equals("right")){
+                    ++swipeCounter;
+                    if(swipeCounter == 2){
+                        swipeCounter = 0;
 
-                if (gitinderToken == null || gitinderToken.isEmpty()) {
-                    callback.onResponse(this, Response.<SwipeResponse>error(403,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                } else {
-                    callback.onResponse(this, Response.success(swipeResponse));
+                        SwipeResponse swipeResponse = new SwipeResponse("ok", "success", MatchFactory.createNewMatch());
+
+                        if (gitinderToken == null || gitinderToken.isEmpty()) {
+                            callback.onResponse(this, Response.<SwipeResponse>error(403,
+                                    ResponseBody.create(MediaType.parse("application/json"),
+                                            errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                        } else {
+                            callback.onResponse(this, Response.success(swipeResponse));
+                        }
+                    }
                 }
             }
         };

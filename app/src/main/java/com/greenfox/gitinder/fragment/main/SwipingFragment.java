@@ -18,12 +18,15 @@ import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
+import com.greenfox.gitinder.api.model.CustomCallback;
+import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.service.DirectionService;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -58,8 +61,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Inject
     MatchService matchService;
 
-    int swipeCounter;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +76,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
-        swipeCounter = 0;
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -91,7 +91,18 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         } else {
             extinctText.setText("");
         }
-        newMatchIfSecond();
+
+        Call<SwipeResponse> call = gitinderAPI.swipe(
+                sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                sharedPreferences.getString(Constants.USERNAME, ""),
+                DirectionService.directionToString(direction));
+
+        call.enqueue(new CustomCallback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                matchService.addMatch(response.body().getMatch());
+            }
+        });
     }
 
     private void setupButtons(){
@@ -149,16 +160,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 Log.d(TAG, "Getting available profiles - FAILURE");
             }
         });
-    }
-
-    public void newMatchIfSecond(){
-        Log.d(TAG, "newMatchIfSecond: 1/3 swipeCounter: " + swipeCounter);
-        ++swipeCounter;
-        Log.d(TAG, "newMatchIfSecond: 2/3 swipeCounter: " + swipeCounter);
-        if (swipeCounter == 2){
-            swipeCounter = 0;
-            matchService.addMatch(MatchFactory.createNewMatch());
-        }
     }
 
     @Override

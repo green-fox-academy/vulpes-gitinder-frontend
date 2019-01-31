@@ -99,6 +99,7 @@ public class Login extends AppCompatActivity {
 
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
+                                sharedPreferences.edit().putString(Constants.USERNAME, response2.body().getLogin()).apply();
                                 sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken()).apply();
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
