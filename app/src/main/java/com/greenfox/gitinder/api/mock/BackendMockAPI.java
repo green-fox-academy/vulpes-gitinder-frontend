@@ -10,6 +10,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Message;
+import com.greenfox.gitinder.model.Messages;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
@@ -220,6 +221,40 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
+    public Call<Messages> messages(String gitinderToken, String username, int page) {
+        return new CallMock<Messages>() {
+            @Override
+            public void enqueue(Callback<Messages> callback) {
+                Messages messages = new Messages();
+                messages.setMessage(MessagesFactory.createMessages());
+                messages.setCount(messages.getMessage().size());
+                messages.setAll(messages.getMessage().size());
+                List<Match> matchList = MatchFactory.createNewMatches();
+                boolean isMatched = false;
+
+                for (Match match : matchList) {
+                    if (match.getUsername().equals(username)) {
+                        isMatched = true;
+                    }
+                }
+
+                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()) {
+                    callback.onResponse(this, Response.<Messages>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else if (!isMatched) {
+                    callback.onResponse(this, Response.<Messages>error(404,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
+
+                } else {
+                    callback.onResponse(this, Response.success(messages));
+                }
+            }
+        };
+    }
+
+    @Override
     public Call<MessageResponse> sendMessage(String gitinderToken, String username) {
         return new CallMock<MessageResponse>() {
             @Override
@@ -237,7 +272,7 @@ public class BackendMockAPI implements GitinderAPI {
                     }
                 }
 
-                if (gitinderToken == null || gitinderToken.isEmpty()||username.isEmpty()) {
+                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()) {
                     callback.onResponse(this, Response.<MessageResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
