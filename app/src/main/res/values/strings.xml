@@ -34,9 +34,10 @@
     <string name="clear_matches_button_text">clear</string>
     <string name="match_new_text">new</string>
     <string name="match_username_placeholder">Username</string>
-    <string name="match_last_msg_placeholder">java, ruby, js...</string>
+    <string name="match_last_msg_placeholder">java, ruby, js…</string>
     <string name="notification_new_match">You have a new match!</string>
     <string name="floating_action_button_text_placeholder">42</string>
+    <st0ring name="card_extinct">The cards have gone extinct.</st0ring>
 
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>
