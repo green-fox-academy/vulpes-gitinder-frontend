@@ -1,22 +1,17 @@
 package com.greenfox.gitinder.activity;
 
-import android.app.FragmentTransaction;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
-import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
@@ -37,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private NonSwipeableViewPager mViewPager;
     private Toolbar toolbar;
-    SectionsPageAdapter sectionsPageAdapter;
+    private SectionsPageAdapter sectionsPageAdapter;
+    private Animation animation;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -91,17 +87,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.toolbar_refresh) {
-
-            sectionsPageAdapter.getItem(mViewPager.getCurrentItem()).reload();
-        }
-        return true;
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        animation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        ImageView rotateButton = (ImageView) menu.findItem(R.id.toolbar_refresh).getActionView();
+        if (rotateButton != null) {
+            rotateButton.setImageResource(R.drawable.button_refresh);
+            rotateButton.setOnClickListener(v -> {
+                v.startAnimation(animation);
+                    sectionsPageAdapter.getItem(mViewPager.getCurrentItem()).reload();
+                });
+        }
         return true;
     }
 }

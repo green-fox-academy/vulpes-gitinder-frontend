@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -76,4 +77,5 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     public void addMatches(List<Match> matches){
         matchList.addAll(matches);
     }
+
 }

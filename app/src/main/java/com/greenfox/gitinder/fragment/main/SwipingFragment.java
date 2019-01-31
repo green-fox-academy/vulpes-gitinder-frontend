@@ -63,11 +63,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     @Override
-    public void reload() {
-        loadProfiles();
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setupButtons();
         setupCardStackView();
@@ -76,8 +71,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-            loadProfiles();
+        if(manager.getItemCount() > 0) {
+            adapter.deleteProfile(adapter.getProfiles().get(manager.getTopPosition()-1));
         }
     }
 
@@ -130,15 +125,13 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void loadProfiles() {
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
-        showProgressBar();
+
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
-                showProgressBar();
                 Log.d(TAG, "Getting available profiles - SUCCESS");
                 List<Profile> profiles = response.body().getProfiles();
-
                 adapter.addProfiles(profiles);
                 hideProgressBar();
             }
@@ -170,5 +163,15 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardDisappeared(View view, int position) {
+    }
+
+    @Override
+    public void reload() {
+        if (adapter.getItemCount() == 0) {
+            showProgressBar();
+            loadProfiles();
+        } else {
+            loadProfiles();
+        }
     }
 }

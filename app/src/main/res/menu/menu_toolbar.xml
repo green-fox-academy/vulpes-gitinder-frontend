@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!-- "Mark Favorite", should appear as action button if possible -->
+
     <item
         android:id="@+id/toolbar_refresh"
-        android:icon="@drawable/ic_autorenew_black_24dp"
+        android:icon="@drawable/button_refresh"
         android:title="@string/toolbar_refresh"
+        app:actionViewClass="android.widget.ImageView"
         app:showAsAction="ifRoom" />
-    
+
 </menu>

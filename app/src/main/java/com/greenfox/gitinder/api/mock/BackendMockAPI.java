@@ -81,9 +81,8 @@ public class BackendMockAPI implements GitinderAPI {
 
             @Override
             public void enqueue(Callback<Settings> callback) {
-                SettingsFactory settingsFactory = new SettingsFactory();
 
-                Settings settings = settingsFactory.createSettings();
+                Settings settings = SettingsFactory.createSettings();
 
                 if(header == null || header.isEmpty()) {
                     callback.onResponse(this, Response.<Settings>error(403,

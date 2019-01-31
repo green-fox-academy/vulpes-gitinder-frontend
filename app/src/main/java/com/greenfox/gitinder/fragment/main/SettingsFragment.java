@@ -144,7 +144,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
             public void onResponse(Call<Settings> call, Response<Settings> response) {
                 notificationSwitch.setChecked(response.body().isEnableNotifications());
                 bSyncSwitch.setChecked(response.body().isEnableBackgroundSync());
-                maximumDistance.setText(response.body().getMaxDistance());
+                maximumDistance.setText(Integer.toString(response.body().getMaxDistance()));
                 seekBar.setProgress(response.body().getMaxDistance());
             }
         });
