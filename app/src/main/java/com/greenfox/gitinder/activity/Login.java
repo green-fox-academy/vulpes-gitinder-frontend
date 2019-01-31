@@ -30,7 +30,6 @@ import retrofit2.Response;
 public class Login extends AppCompatActivity {
     private static final String TAG = "Login";
 
-
     @Inject
     SharedPreferences sharedPreferences;
 

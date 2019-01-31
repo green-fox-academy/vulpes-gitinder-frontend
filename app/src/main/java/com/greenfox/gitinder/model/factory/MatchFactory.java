@@ -11,22 +11,22 @@ public class MatchFactory {
         List<Match> matches = new ArrayList<>();
         matches.add(new Match("Splichus",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         matches.add(new Match("Trojebus",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         matches.add(new Match("Milos",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         matches.add(new Match("Petrtyl",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         matches.add(new Match("Franta",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         matches.add(new Match("Markus",
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMgPU9FD3ro1rFqB2tyaIcm8Z48KTH1yB5awtQG1YVK-0svqy4",
-                1, MessagesFactory.createMessages()));
+                1, MessagesFactory.createEmptyMessages()));
         return matches;
     }
 
