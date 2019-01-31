@@ -14,6 +14,10 @@ public class SwipeResponse extends GitinderResponse {
         this.match = match;
     }
 
+    public SwipeResponse(String status, String message) {
+        super(status, message);
+    }
+
     public Match getMatch() {
         return match;
     }

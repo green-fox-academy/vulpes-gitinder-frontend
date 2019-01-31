@@ -165,22 +165,22 @@ public class BackendMockAPI implements GitinderAPI {
         return new CallMock<SwipeResponse>() {
             @Override
             public void enqueue(Callback<SwipeResponse> callback) {
-                if(direction.equals("right")){
-                    ++swipeCounter;
-                    if(swipeCounter == 2){
-                        swipeCounter = 0;
+                    SwipeResponse swipeResponse = new SwipeResponse("ok", "success");
 
-                        SwipeResponse swipeResponse = new SwipeResponse("ok", "success", MatchFactory.createNewMatch());
-
-                        if (gitinderToken == null || gitinderToken.isEmpty()) {
-                            callback.onResponse(this, Response.<SwipeResponse>error(403,
-                                    ResponseBody.create(MediaType.parse("application/json"),
-                                            errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                        } else {
-                            callback.onResponse(this, Response.success(swipeResponse));
+                    if (gitinderToken == null || gitinderToken.isEmpty()) {
+                        callback.onResponse(this, Response.<SwipeResponse>error(403,
+                                ResponseBody.create(MediaType.parse("application/json"),
+                                        errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                    } else {
+                        if(direction.equals("right")){
+                            ++swipeCounter;
+                            if(swipeCounter == 2){
+                                swipeCounter = 0;
+                                swipeResponse.setMatch(MatchFactory.createNewMatch());
+                            }
                         }
+                        callback.onResponse(this, Response.success(swipeResponse));
                     }
-                }
             }
         };
     }
