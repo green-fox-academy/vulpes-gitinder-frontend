@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -44,6 +45,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
+    TextView extinctText;
 
     @Inject
     GitinderAPI gitinderAPI;
@@ -65,6 +67,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -72,15 +75,19 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-            loadProfiles();
+        adapter.deleteProfile(adapter.getProfiles().get(manager.getTopPosition() - 1));
+        Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
+
+        if (manager.getItemCount() < 1){
+            extinctText.setText("The cards have gone extinct.");
+        } else {
+            extinctText.setText("");
         }
     }
 
     private void setupButtons(){
         setupButtonSwipe(getView().findViewById(R.id.like_button), Direction.Right);
         setupButtonSwipe(getView().findViewById(R.id.skip_button), Direction.Left);
-        setupButtonRewind(getView().findViewById(R.id.rewind_button), Direction.Bottom);
     }
 
     private void setupButtonSwipe(View view, Direction direction){
@@ -92,18 +99,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                     .build();
             manager.setSwipeAnimationSetting(setting);
             cardStackView.swipe();
-        });
-    }
-
-    private void setupButtonRewind(View view, Direction direction){
-        view.setOnClickListener(v -> {
-            RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-                    .setDirection(direction)
-                    .setDuration(200)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .build();
-            manager.setRewindAnimationSetting(setting);
-            cardStackView.rewind();
         });
     }
 

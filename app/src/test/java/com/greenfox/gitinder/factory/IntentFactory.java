@@ -25,4 +25,6 @@ public class IntentFactory {
         intent.setComponent(ComponentName.createRelative("com.greenfox.gitinder", ".activities.Login"));
         return intent;
     }
+
+
 }

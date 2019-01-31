@@ -14,9 +14,10 @@ import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
-import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.model.factory.ProfileFactory;
 import com.greenfox.gitinder.model.factory.SettingsFactory;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,16 +31,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
+import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isOneOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 @RunWith(RobolectricTestRunner.class)
 public class GitHubClientTest {
 
     GitinderAPI client;
+    List<String> usernameList;
 
     @Before
     public void setUp() {
         client = new BackendMockAPI();
+        usernameList = ProfileFactory.getAllUsernames();
     }
 
     @Test
@@ -250,6 +258,15 @@ public class GitHubClientTest {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 assertEquals(200, response.code());
+
+                assertThat(response.body().getUsername(), anyOf(equalTo(usernameList.get(0)),
+                        equalTo(usernameList.get(1)), equalTo(usernameList.get(2)), equalTo(usernameList.get(3)),
+                        equalTo(usernameList.get(3)), equalTo(usernameList.get(4)), equalTo(usernameList.get(5)),
+                        equalTo(usernameList.get(6)), equalTo(usernameList.get(7)), equalTo(usernameList.get(8)),
+                        equalTo(usernameList.get(9)), equalTo(usernameList.get(10)), equalTo(usernameList.get(11)),
+                        equalTo(usernameList.get(12)), equalTo(usernameList.get(13)), equalTo(usernameList.get(14)),
+                        equalTo(usernameList.get(15)), equalTo(usernameList.get(16))));
+
             }
             @Override
             public void onFailure(Call<Profile> call, Throwable t) {}
@@ -284,6 +301,13 @@ public class GitHubClientTest {
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
                 assertEquals(200, response.code());
                 assertEquals(10, response.body().getCount().intValue());
+                assertThat(response.body().getProfiles().get(0).getUsername(), anyOf(equalTo(usernameList.get(0)),
+                        equalTo(usernameList.get(1)), equalTo(usernameList.get(2)), equalTo(usernameList.get(3)),
+                        equalTo(usernameList.get(3)), equalTo(usernameList.get(4)), equalTo(usernameList.get(5)),
+                        equalTo(usernameList.get(6)), equalTo(usernameList.get(7)), equalTo(usernameList.get(8)),
+                        equalTo(usernameList.get(9)), equalTo(usernameList.get(10)), equalTo(usernameList.get(11)),
+                        equalTo(usernameList.get(12)), equalTo(usernameList.get(13)), equalTo(usernameList.get(14)),
+                        equalTo(usernameList.get(15)), equalTo(usernameList.get(16))));
             }
             @Override
             public void onFailure(Call<AvailableProfiles> call, Throwable t) {}

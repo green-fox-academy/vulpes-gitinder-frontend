@@ -15,6 +15,7 @@
 
         <activity
             android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,7 @@
         </activity>
 
         <activity android:name=".activity.Login"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -43,6 +45,7 @@
 
         <activity
             android:name=".activity.ProfileActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
