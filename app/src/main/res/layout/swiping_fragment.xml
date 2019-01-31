@@ -12,6 +12,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/swiping_fragment_extinct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/card_extinct"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/card_stack_view"
+            app:layout_constraintEnd_toEndOf="@+id/card_stack_view"
+            app:layout_constraintStart_toStartOf="@+id/card_stack_view"
+            app:layout_constraintTop_toTopOf="@+id/card_stack_view" />
+
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/card_stack_view"
             android:layout_width="match_parent"
@@ -115,25 +128,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/rewind_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:hapticFeedbackEnabled="true"
-                android:src="@drawable/rewind_blue_24dp"
-                app:backgroundTint="@android:color/white"
-                app:fabSize="mini"
-                app:layout_constraintBottom_toBottomOf="@+id/skip_button"
-                app:layout_constraintEnd_toStartOf="@+id/like_button"
-                app:layout_constraintStart_toEndOf="@+id/skip_button"
-                app:layout_constraintTop_toTopOf="@+id/skip_button"
-                app:rippleColor="#225BC9FA" />
 
         </android.support.constraint.ConstraintLayout>
 

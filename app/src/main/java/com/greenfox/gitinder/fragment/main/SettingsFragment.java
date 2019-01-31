@@ -18,7 +18,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MainActivity;
@@ -36,6 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.inject.Inject;
+
 public class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "SettingsFragment";
 
@@ -48,8 +49,10 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
 
     @Inject
     SharedPreferences sharedPreferences;
+
     @Inject
     public Settings settings;
+
     @Inject
     GitinderAPI gitinderAPI;
 
@@ -66,9 +69,11 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
+
         logoutButton.setOnClickListener(v -> {
             logout();
         });
+
         notificationSwitch.setOnCheckedChangeListener(this);
         notificationSwitch.setTag(Constants.ENABLE_NOTIFICATIONS);
         bSyncSwitch.setOnCheckedChangeListener(this);
@@ -76,6 +81,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch.setChecked(sharedPreferences.getBoolean((String) notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
+        displayImage();
         alarmSetUp = new AlarmSetUp(view.getContext());
     }
 
@@ -117,6 +123,12 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         });
     }
 
+    //Hardcoded image
+    public void displayImage() {
+        imageView = (ImageView) getView().findViewById(R.id.imageView);
+        Picasso.get().load("https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg").into(imageView);
+    }
+
     public void logout() {
         Call<GitinderResponse> call = gitinderAPI.logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
@@ -133,6 +145,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
                 Log.d(TAG, t.getMessage());
             }
         });
+        Picasso.get().load("https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg").into(imageView);
     }
 
     @Override
