@@ -18,10 +18,16 @@ import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.service.NotificationService;
 
 
+import java.io.IOException;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -85,6 +91,15 @@ public class AppModule {
         return new SnippetService();
     }
 
+    private OkHttpClient createClientWithInterceptor() {
+        OkHttpClient client = new OkHttpClient();
+        client.interceptors().add(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+
+            }
+        })
+    }
 
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
