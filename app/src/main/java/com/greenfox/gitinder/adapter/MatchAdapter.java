@@ -113,6 +113,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
                     intent.putExtra("profileUrl", matchList.get(getAdapterPosition()).getAvatarUrl());
                     intent.putExtra("profileMessages", messageWrapper);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     v.getContext().startActivity(intent);
                 }
             });

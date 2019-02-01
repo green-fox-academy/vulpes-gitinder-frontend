@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter {
 
+    String currentUserUsername;
     Context context;
     List<Message> messageList;
 
@@ -33,7 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         Message currentMessage = messageList.get(position);
 
-        if(currentMessage.getFrom().equals("You")){
+        if(currentMessage.getFrom().equals(currentUserUsername)){
             return Constants.SENT_MESSAGE;
         } else {
             return Constants.RECEIVED_MESSAGE;
@@ -81,6 +82,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public void addMessage(Message message){
         this.messageList.add(message);
         notifyDataSetChanged();
+    }
+
+    public void setCurrentUserUsername(String currentUserUsername) {
+        this.currentUserUsername = currentUserUsername;
     }
 
     @Override

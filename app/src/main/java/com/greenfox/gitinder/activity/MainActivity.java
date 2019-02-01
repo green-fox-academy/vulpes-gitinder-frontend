@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
 
+        hideFloatingButtonWhenNoNewMatches();
         matchService.setNewMatchCountListener(this);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {

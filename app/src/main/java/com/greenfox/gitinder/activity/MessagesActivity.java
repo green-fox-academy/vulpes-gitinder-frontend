@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.activity;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
 import com.greenfox.gitinder.model.Message;
@@ -17,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class MessagesActivity extends AppCompatActivity {
 
     TextView usernameText;
@@ -24,6 +28,9 @@ public class MessagesActivity extends AppCompatActivity {
     MessageAdapter messageAdapter;
     EditText editText;
     ImageButton sendButton;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +49,13 @@ public class MessagesActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         messageAdapter = new MessageAdapter(this);
+        messageAdapter.setCurrentUserUsername(sharedPreferences.getString(Constants.USERNAME, ""));
 
         MessageWrapper messageWrapper = (MessageWrapper)getIntent().getSerializableExtra("profileMessages");
         List<Message> messageList = messageWrapper.getMessageArrayList();
 
         for(Message currentMessage : messageList){
-            if(!currentMessage.getFrom().equals("You")){
+            if(!currentMessage.getFrom().equals(sharedPreferences.getString(Constants.USERNAME, ""))){
                 currentMessage.setFrom(usernameText.getText().toString());
             }
         }
@@ -64,7 +72,7 @@ public class MessagesActivity extends AppCompatActivity {
     }
 
     public void sendMessage(String messageText){
-        Message newMessage = new Message(messageAdapter.getItemCount(), "You",
+        Message newMessage = new Message(messageAdapter.getItemCount(), sharedPreferences.getString(Constants.USERNAME, ""),
                 usernameText.getText().toString(), (int)System.currentTimeMillis(), messageText);
         messageAdapter.addMessage(newMessage);
     }
