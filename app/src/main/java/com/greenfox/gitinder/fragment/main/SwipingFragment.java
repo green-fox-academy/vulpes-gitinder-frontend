@@ -97,7 +97,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         call.enqueue(new CustomCallback<SwipeResponse>() {
             @Override
             public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
-                matchService.addMatch(response.body().getMatch());
+                if (!(response.body().getMatch() == null)){
+                    matchService.addMatch(response.body().getMatch());
+                }
             }
         });
         
