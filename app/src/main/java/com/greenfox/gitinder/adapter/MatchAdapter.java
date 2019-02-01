@@ -109,6 +109,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
                     MessageWrapper messageWrapper = new MessageWrapper(matchList.get(getAdapterPosition()).getMessages());
 
                     Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
+                    intent.putExtra("profile", matchList.get(getAdapterPosition()));
                     intent.putExtra("profileUsername", matchList.get(getAdapterPosition()).getUsername());
                     intent.putExtra("profileUrl", matchList.get(getAdapterPosition()).getAvatarUrl());
                     intent.putExtra("profileMessages", messageWrapper);
