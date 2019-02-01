@@ -162,7 +162,7 @@ public class BackendMockAPI implements GitinderAPI {
             }
         };
     }
-
+    
     @Override
     public Call<SwipeResponse> swipe(final String gitinderToken, String username, String direction) {
         return new CallMock<SwipeResponse>() {
