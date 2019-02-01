@@ -129,5 +129,4 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         match.setMessages(MessagesFactory.createMessage());
         matchService.updateNewMatchesCount();
     }
-
 }

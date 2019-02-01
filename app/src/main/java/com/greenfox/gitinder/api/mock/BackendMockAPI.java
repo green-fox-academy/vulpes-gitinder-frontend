@@ -83,9 +83,8 @@ public class BackendMockAPI implements GitinderAPI {
 
             @Override
             public void enqueue(Callback<Settings> callback) {
-                SettingsFactory settingsFactory = new SettingsFactory();
 
-                Settings settings = settingsFactory.createSettings();
+                Settings settings = SettingsFactory.createSettings();
 
                 if(header == null || header.isEmpty()) {
                     callback.onResponse(this, Response.<Settings>error(403,
@@ -200,6 +199,26 @@ public class BackendMockAPI implements GitinderAPI {
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
                 } else {
                     callback.onResponse(this, Response.success(matches));
+                }
+            }
+        };
+    }
+
+    @Override
+    public Call<GitinderResponse> seenProfile(String gitinderToken, String username) {
+        return new CallMock<GitinderResponse>() {
+            @Override
+            public void enqueue(Callback<GitinderResponse> callback) {
+                GitinderResponse apiResponse = new GitinderResponse();
+                apiResponse.setStatus("ok");
+                apiResponse.setMessage("success");
+
+                if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()){
+                    callback.onResponse(this, Response.<GitinderResponse>error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                }else {
+                    callback.onResponse(this,Response.success(apiResponse));
                 }
             }
         };

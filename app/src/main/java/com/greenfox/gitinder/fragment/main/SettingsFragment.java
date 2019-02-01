@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MainActivity;
+import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GitinderAPI;
@@ -145,5 +146,20 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
             }
         });
         Picasso.get().load("https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg").into(imageView);
+    }
+
+    @Override
+    public void reload() {
+
+        gitinderAPI.getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
+
+            @Override
+            public void onResponse(Call<Settings> call, Response<Settings> response) {
+                notificationSwitch.setChecked(response.body().isEnableNotifications());
+                bSyncSwitch.setChecked(response.body().isEnableBackgroundSync());
+                maximumDistance.setText(Integer.toString(response.body().getMaxDistance()));
+                seekBar.setProgress(response.body().getMaxDistance());
+            }
+        });
     }
 }

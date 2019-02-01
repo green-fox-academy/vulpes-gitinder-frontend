@@ -15,8 +15,10 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,11 +49,11 @@
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme"/>
 
         <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
             <intent-filter>
-                <action android:name="intent"></action>
+                <action android:name="intent"/>
             </intent-filter>
         </receiver>
     </application>

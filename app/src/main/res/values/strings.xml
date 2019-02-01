@@ -29,6 +29,10 @@
     <string name="settings_preferred_languages">Preferred languages</string>
     <string name="settings_maximum_distance">Maximum distance :</string>
     <string name="settings_logout_button">Logout</string>
+    <string name="title_activity_scrolling">GiTinder</string>
+    <string name="notification_new_match">You have a new match!</string>
+    <string name="floating_action_button_text_placeholder">42</string>
+    <string name="toolbar_refresh">Refresh</string>
     <string name="title_activity_scrolling">aaa</string>
     <string name="add_matches_button_text">add</string>
     <string name="clear_matches_button_text">clear</string>
@@ -51,5 +55,6 @@
     <string name="remove_two_spots_at_first">Remove two spots at first</string>
     <string name="remove_one_spot_at_last">Remove one spot at last</string>
     <string name="remove_two_spots_at_last">Remove two spots at last</string>
+    <string name="toolbar_menu_debug_settings">Settings</string>
 
 </resources>

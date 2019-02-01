@@ -43,4 +43,7 @@ public interface GitinderAPI {
 
     @GET("matches")
     Call<Matches> matches (@Header("X-Gitinder-Token") String gitinderToken);
+
+    @PUT("profiles/{username}/seen")
+    Call<GitinderResponse> seenProfile (@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username);
 }
