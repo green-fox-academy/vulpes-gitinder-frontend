@@ -57,4 +57,13 @@ public class Match {
     public void setMessages(List<Message> messages) {
         this.messages = messages;
     }
+
+    public String getLastMessage(){
+        return messages.get(messages.size() - 1).getMessage();
+    }
+
+    public boolean isNew(){
+        return messages.size() < 1;
+    }
+
 }

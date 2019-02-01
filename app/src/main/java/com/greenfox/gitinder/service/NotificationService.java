@@ -30,7 +30,6 @@ import com.greenfox.gitinder.model.Match;
 public class NotificationService {
 
 
-
     public NotificationService() {
     }
 
@@ -40,10 +39,11 @@ public class NotificationService {
         intent.putExtra(Constants.GO_TO_MATCHES, Constants.GO_TO_MATCHES);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(ctx, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(ctx, Constants.NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.mipmap.gitinder_icon)
                 .setContentTitle(match.getUsername())
-                .setContentText("You have a new match!")
+                .setContentText(ctx.getText(R.string.notification_new_match))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setLargeIcon(bitmap)
                 .setGroup(Constants.NEW_MATCH_GROUP)
@@ -67,7 +67,6 @@ public class NotificationService {
         final Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(output);
-
         final int color = Color.RED;
         final Paint paint = new Paint();
         final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());

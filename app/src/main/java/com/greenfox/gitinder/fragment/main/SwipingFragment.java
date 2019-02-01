@@ -11,21 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
+import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
+import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
 import com.yuyakaido.android.cardstackview.Direction;
-import com.yuyakaido.android.cardstackview.RewindAnimationSetting;
 import com.yuyakaido.android.cardstackview.StackFrom;
 import com.yuyakaido.android.cardstackview.SwipeAnimationSetting;
 
@@ -44,12 +46,16 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     private CardStackAdapter adapter;
     private CardStackView cardStackView;
 
+    TextView extinctText;
 
     @Inject
     GitinderAPI gitinderAPI;
 
     @Inject
     SharedPreferences sharedPreferences;
+
+    @Inject
+    MatchService matchService;
 
     @Nullable
     @Override
@@ -65,6 +71,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
         setupButtons();
         setupCardStackView();
         loadProfiles();
@@ -72,15 +79,34 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        if (manager.getTopPosition() == adapter.getItemCount() - 5) {
-            loadProfiles();
+
+        adapter.deleteProfile(adapter.getProfiles().get(manager.getTopPosition() - 1));
+        Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
+
+        if (manager.getItemCount() < 1){
+            extinctText.setText("The cards have gone extinct.");
+        } else {
+            extinctText.setText("");
         }
+
+        Call<SwipeResponse> call = gitinderAPI.swipe(
+                sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                sharedPreferences.getString(Constants.USERNAME, ""),
+                direction.toString().toLowerCase());
+
+        call.enqueue(new CustomCallback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                matchService.addMatch(response.body().getMatch());
+            }
+        });
+        
+        profileDirection(manager.getTopPosition(),direction);
     }
 
     private void setupButtons(){
         setupButtonSwipe(getView().findViewById(R.id.like_button), Direction.Right);
         setupButtonSwipe(getView().findViewById(R.id.skip_button), Direction.Left);
-        setupButtonRewind(getView().findViewById(R.id.rewind_button), Direction.Bottom);
     }
 
     private void setupButtonSwipe(View view, Direction direction){
@@ -95,20 +121,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         });
     }
 
-    private void setupButtonRewind(View view, Direction direction){
-        view.setOnClickListener(v -> {
-            RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
-                    .setDirection(direction)
-                    .setDuration(200)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .build();
-            manager.setRewindAnimationSetting(setting);
-            cardStackView.rewind();
-        });
-    }
-
     private void setupCardStackView() {
-        manager = new CardStackLayoutManager(getActivity().getApplicationContext(), this);
+        manager = new CardStackLayoutManager(getActivity(), this);
         manager.setStackFrom(StackFrom.None);
         manager.setVisibleCount(3);
         manager.setTranslationInterval(8.0f);
@@ -118,7 +132,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         manager.setDirections(Direction.HORIZONTAL);
         manager.setCanScrollHorizontal(true);
         manager.setCanScrollVertical(true);
-        adapter = new CardStackAdapter(getActivity().getApplicationContext());
+        adapter = new CardStackAdapter(getActivity());
         cardStackView = getView().findViewById(R.id.card_stack_view);
         cardStackView.setLayoutManager(manager);
         cardStackView.setAdapter(adapter);
@@ -126,15 +140,13 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void loadProfiles() {
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
-        showProgressBar();
+
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
-                showProgressBar();
                 Log.d(TAG, "Getting available profiles - SUCCESS");
                 List<Profile> profiles = response.body().getProfiles();
-
                 adapter.addProfiles(profiles);
                 hideProgressBar();
             }
@@ -164,6 +176,23 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         });
     }
 
+    private void profileDirection(int position,Direction direction){
+        Call<SwipeResponse> call = gitinderAPI.swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
+                adapter.getProfiles().get(position).getUsername(),direction.toString());
+
+        call.enqueue(new Callback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                Log.d(TAG, "Profile direction added - SUCCESS");
+            }
+
+            @Override
+            public void onFailure(Call<SwipeResponse> call, Throwable t) {
+                Log.d(TAG, "Profile direction added - FAILURE");
+            }
+        });
+    }
+
     @Override
     public void onCardDragging(Direction direction, float ratio) {
     }
@@ -184,5 +213,15 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardDisappeared(View view, int position) {
+    }
+
+    @Override
+    public void reload() {
+        if (adapter.getItemCount() == 0) {
+            showProgressBar();
+            loadProfiles();
+        } else {
+            loadProfiles();
+        }
     }
 }

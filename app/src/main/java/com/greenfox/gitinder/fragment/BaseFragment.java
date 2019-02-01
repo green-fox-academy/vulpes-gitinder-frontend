@@ -11,7 +11,7 @@ import com.greenfox.gitinder.R;
 
 import dagger.android.support.DaggerFragment;
 
-public class BaseFragment extends DaggerFragment {
+public abstract class BaseFragment extends DaggerFragment {
 
     String title;
     protected ProgressBar progressBar;
@@ -55,4 +55,5 @@ public class BaseFragment extends DaggerFragment {
         getView().setVisibility(View.VISIBLE);
 
     }
+    public abstract void reload();
 }
