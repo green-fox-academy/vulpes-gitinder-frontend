@@ -81,7 +81,6 @@ public class LoginTest {
     @Test
     public void tokenIsSaving() {
         preferences = SharedPreferencesFactory.getSharedPref();
-        GitHubMock clientMock = new GitHubMock();
         Intent intent = IntentFactory.getGitHubCallBackIntent();
         ActivityController<Login> controller = Robolectric.buildActivity(Login.class, intent).create().start();
         Activity login = controller.get();

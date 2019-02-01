@@ -7,8 +7,11 @@ import java.util.List;
 
 public class SettingsFactory {
 
-    public Settings createSettings(){
+    public static Settings createSettings(){
         List<String> languages = new ArrayList<>();
-        return new Settings(true, true, 0, languages);
+        languages.add("Java");
+        languages.add("Kotlin");
+        languages.add("Android SDK");
+        return new Settings(true, true, 50, languages);
     }
 }
