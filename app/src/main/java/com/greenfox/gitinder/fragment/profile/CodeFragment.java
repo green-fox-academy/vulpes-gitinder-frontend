@@ -47,6 +47,11 @@ public class CodeFragment extends BaseFragment implements SnippetService.Snippet
         Log.d(TAG, snippet);
         codeView.setTheme(Theme.ATOM_ONE_LIGHT).setCode(snippet).setLanguage(Language.JAVA).setShowLineNumber(true).setFontSize(8).setWrapLine(false).apply();
     }
+
+    @Override
+    public void reload() {
+
+    }
 }
 
 

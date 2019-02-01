@@ -31,7 +31,7 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public BaseFragment getItem(int position) {
         return mFragmentList.get(position);
     }
 
@@ -39,4 +39,6 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
+
+
 }

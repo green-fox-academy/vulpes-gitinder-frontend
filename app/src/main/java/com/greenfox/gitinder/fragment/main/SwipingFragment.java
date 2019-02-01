@@ -19,6 +19,7 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
+import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
@@ -75,6 +76,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
+
         adapter.deleteProfile(adapter.getProfiles().get(manager.getTopPosition() - 1));
         Log.d(TAG, "onCardSwiped: " + manager.getItemCount());
 
@@ -83,6 +85,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         } else {
             extinctText.setText("");
         }
+        profileDirection(manager.getTopPosition(),direction);
     }
 
     private void setupButtons(){
@@ -121,15 +124,13 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void loadProfiles() {
         Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
-        showProgressBar();
+
 
         call.enqueue(new Callback<AvailableProfiles>() {
             @Override
             public void onResponse(Call<AvailableProfiles> call, Response<AvailableProfiles> response) {
-                showProgressBar();
                 Log.d(TAG, "Getting available profiles - SUCCESS");
                 List<Profile> profiles = response.body().getProfiles();
-
                 adapter.addProfiles(profiles);
                 hideProgressBar();
             }
@@ -159,6 +160,23 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
         });
     }
 
+    private void profileDirection(int position,Direction direction){
+        Call<SwipeResponse> call = gitinderAPI.swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
+                adapter.getProfiles().get(position).getUsername(),direction.toString());
+
+        call.enqueue(new Callback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                Log.d(TAG, "Profile direction added - SUCCESS");
+            }
+
+            @Override
+            public void onFailure(Call<SwipeResponse> call, Throwable t) {
+                Log.d(TAG, "Profile direction added - FAILURE");
+            }
+        });
+    }
+
     @Override
     public void onCardDragging(Direction direction, float ratio) {
     }
@@ -179,5 +197,15 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardDisappeared(View view, int position) {
+    }
+
+    @Override
+    public void reload() {
+        if (adapter.getItemCount() == 0) {
+            showProgressBar();
+            loadProfiles();
+        } else {
+            loadProfiles();
+        }
     }
 }

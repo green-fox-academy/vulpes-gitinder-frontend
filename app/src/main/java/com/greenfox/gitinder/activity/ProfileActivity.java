@@ -22,6 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     private NonSwipeableViewPager viewPager;
     private SectionsPageAdapter sectionsPageAdapter;
     private Profile profile;
+    private Toolbar mainToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +39,12 @@ public class ProfileActivity extends AppCompatActivity {
         profilePic = findViewById(R.id.profile_details_layout_picture);
         Glide.with(this).load(profile.getAvatarUrl()).into(profilePic);
 
-        setSupportActionBar(toolbar);
         TabLayout tabLayout = findViewById(R.id.profile_details_layout_tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        getSupportActionBar().setElevation(0);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
     }
 
     public void setupViewPager(ViewPager viewPager){
