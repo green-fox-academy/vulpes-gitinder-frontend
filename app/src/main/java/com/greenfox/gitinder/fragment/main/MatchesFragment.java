@@ -31,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MatchesFragment extends BaseFragment implements MatchService.MatchesListener {
+public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
     @Inject
@@ -62,7 +62,6 @@ public class MatchesFragment extends BaseFragment implements MatchService.Matche
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
         addMatchesButton = getView().findViewById(R.id.add_matches_button);
         clearMatchesButton = getView().findViewById(R.id.clear_matches_button);
-        matchService.setMatchesListener(this);
 
         if(!BuildConfig.FLAVOR.equals("dev")){
             addMatchesButton.setVisibility(View.GONE);
