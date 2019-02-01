@@ -12,25 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MessagesActivity;
 import com.greenfox.gitinder.model.Match;
-import com.greenfox.gitinder.model.Message;
-import com.greenfox.gitinder.model.MessageWrapper;
-import com.greenfox.gitinder.model.Profile;
-import com.greenfox.gitinder.BuildConfig;
-import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.api.service.MatchService;
-import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> {
@@ -106,13 +96,8 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             messagesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MessageWrapper messageWrapper = new MessageWrapper(matchList.get(getAdapterPosition()).getMessages());
-
                     Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
-                    intent.putExtra("profile", matchList.get(getAdapterPosition()));
-                    intent.putExtra("profileUsername", matchList.get(getAdapterPosition()).getUsername());
-                    intent.putExtra("profileUrl", matchList.get(getAdapterPosition()).getAvatarUrl());
-                    intent.putExtra("profileMessages", messageWrapper);
+                    intent.putExtra("match", matchList.get(getAdapterPosition()));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     v.getContext().startActivity(intent);

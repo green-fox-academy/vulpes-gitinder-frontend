@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
-import com.greenfox.gitinder.model.MessageWrapper;
+import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,22 +38,28 @@ public class MessagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages_old);
 
-        usernameText = findViewById(R.id.messages_activity_username);
-        userPic = findViewById(R.id.messages_activity_picture);
-        sendButton = findViewById(R.id.messages_activity_send_button);
-        editText = findViewById(R.id.messages_activity_edit_text);
+        usernameText = findViewById(R.id.messages_activity_username_old);
+        userPic = findViewById(R.id.messages_activity_picture_old);
+        sendButton = findViewById(R.id.messages_activity_send_button_old);
+        editText = findViewById(R.id.messages_activity_edit_text_old);
 
-        usernameText.setText(getIntent().getStringExtra("profileUsername"));
-        Picasso.get().load(getIntent().getStringExtra("profileUrl")).into(userPic);
+        Match matchCurrent = getIntent().getParcelableExtra("match");
+        usernameText.setText(matchCurrent.getUsername());
+//        usernameText.setText(getIntent().getStringExtra("profileUsername"));
+        Picasso.get().load(matchCurrent.getAvatarUrl()).into(userPic);
+//        Picasso.get().load(getIntent().getStringExtra("profileUrl")).into(userPic);
 
-        RecyclerView recyclerView = findViewById(R.id.messages_activity_recycler_view);
+
+
+        RecyclerView recyclerView = findViewById(R.id.messages_activity_recycler_view_old);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         messageAdapter = new MessageAdapter(this);
         messageAdapter.setCurrentUserUsername(sharedPreferences.getString(Constants.USERNAME, ""));
 
-        MessageWrapper messageWrapper = (MessageWrapper)getIntent().getSerializableExtra("profileMessages");
-        List<Message> messageList = messageWrapper.getMessageArrayList();
+        List<Message> messageList = matchCurrent.getMessages();
+//        MessageWrapper messageWrapper = (MessageWrapper)getIntent().getSerializableExtra("profileMessages");
+//        List<Message> messageList = messageWrapper.getMessageArrayList();
 
         for(Message currentMessage : messageList){
             if(!currentMessage.getFrom().equals(sharedPreferences.getString(Constants.USERNAME, ""))){

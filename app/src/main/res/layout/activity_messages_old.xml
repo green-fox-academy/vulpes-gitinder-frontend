@@ -12,10 +12,10 @@
         android:layout_height="0dp"
         android:background="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/messages_activity_recycler_view"
-        app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture" />
+        app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture_old" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/messages_activity_recycler_view"
+        android:id="@+id/messages_activity_recycler_view_old"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
@@ -23,7 +23,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture" />
+        app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture_old" />
 
     <ImageView
         android:id="@+id/messages_activity_picture_old"
@@ -39,7 +39,7 @@
         app:srcCompat="@color/design_default_color_primary" />
 
     <TextView
-        android:id="@+id/messages_activity_username"
+        android:id="@+id/messages_activity_username_old"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -48,8 +48,8 @@
         android:text="Username"
         android:textColor="@color/colorWhite"
         android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="@+id/messages_activity_picture"
-        app:layout_constraintStart_toStartOf="@+id/messages_activity_picture" />
+        app:layout_constraintBottom_toBottomOf="@+id/messages_activity_picture_old"
+        app:layout_constraintStart_toStartOf="@+id/messages_activity_picture_old" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/linearLayout"
@@ -62,7 +62,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <EditText
-            android:id="@+id/messages_activity_edit_text"
+            android:id="@+id/messages_activity_edit_text_old"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -74,7 +74,7 @@
             android:text="" />
 
         <ImageButton
-            android:id="@+id/messages_activity_send_button"
+            android:id="@+id/messages_activity_send_button_old"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

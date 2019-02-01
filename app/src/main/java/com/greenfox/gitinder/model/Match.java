@@ -1,10 +1,14 @@
 package com.greenfox.gitinder.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Match {
+public class Match implements Parcelable {
 
     String username;
 
@@ -25,6 +29,25 @@ public class Match {
         this.matchedAt = matchedAt;
         this.messages = messages;
     }
+
+    protected Match(Parcel in) {
+        username = in.readString();
+        avatarUrl = in.readString();
+        matchedAt = in.readInt();
+        in.readList(messages, Message.class.getClassLoader());
+    }
+
+    public static final Creator<Match> CREATOR = new Creator<Match>() {
+        @Override
+        public Match createFromParcel(Parcel in) {
+            return new Match(in);
+        }
+
+        @Override
+        public Match[] newArray(int size) {
+            return new Match[size];
+        }
+    };
 
     public String getUsername() {
         return username;
@@ -66,4 +89,16 @@ public class Match {
         return messages.size() < 1;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(avatarUrl);
+        dest.writeInt(matchedAt);
+        dest.writeList(messages);
+    }
 }

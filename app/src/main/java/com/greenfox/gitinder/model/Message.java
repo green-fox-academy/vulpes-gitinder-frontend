@@ -1,11 +1,14 @@
 package com.greenfox.gitinder.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Message implements Parcelable{
+
 
     int id;
     String from;
@@ -26,6 +29,26 @@ public class Message implements Serializable {
         this.createdAt = createdAt;
         this.message = message;
     }
+
+    protected Message(Parcel in) {
+        id = in.readInt();
+        from = in.readString();
+        to = in.readString();
+        createdAt = in.readInt();
+        message = in.readString();
+    }
+
+    public static final Creator<Message> CREATOR = new Creator<Message>() {
+        @Override
+        public Message createFromParcel(Parcel in) {
+            return new Message(in);
+        }
+
+        @Override
+        public Message[] newArray(int size) {
+            return new Message[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -65,5 +88,19 @@ public class Message implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(from);
+        dest.writeString(to);
+        dest.writeInt(createdAt);
+        dest.writeString(message);
     }
 }
