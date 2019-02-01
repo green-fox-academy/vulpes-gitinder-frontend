@@ -33,7 +33,7 @@ public class MatchFactory {
     public static Match createNewMatch() {
         Match match = new Match("Splichus",
                 "https://i1.wp.com/www.creativeloop.co.zw/wp-content/uploads/2013/10/smiling-lady-baynham-goredema.jpg?ssl=1",
-                1, MessagesFactory.createMessages());
+                1, MessagesFactory.createEmptyMessages());
         return match;
     }
 }
