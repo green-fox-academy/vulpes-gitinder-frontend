@@ -398,5 +398,87 @@ public class GitHubClientTest {
         });
     }
 
+    @Test
+    public void seenProfilesAllParameters(){
+        Call<GitinderResponse> call = client.seenProfile("abcd","bbb");
+        call.enqueue(new Callback<GitinderResponse>() {
+            @Override
+            public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                assertEquals(200, response.code());
+                assertEquals("ok", response.body().getStatus());
+                assertEquals("success", response.body().getMessage());
+            }
+
+            @Override
+            public void onFailure(Call<GitinderResponse> call, Throwable t) {
+            }
+        });
+    }
+
+    @Test
+    public void seenProfilesHeaderMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<GitinderResponse> call = client.seenProfile("","aaa");
+        call.enqueue(new Callback<GitinderResponse>() {
+            @Override
+            public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GitinderResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void seenProfilesUsernameMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<GitinderResponse> call = client.seenProfile("12sds","");
+        call.enqueue(new Callback<GitinderResponse>() {
+            @Override
+            public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GitinderResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void seenProfilesHeaderAndUsernameBothMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<GitinderResponse> call = client.seenProfile("","");
+        call.enqueue(new Callback<GitinderResponse>() {
+            @Override
+            public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GitinderResponse> call, Throwable t) {
+
+            }
+        });
+    }
 
 }
