@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
@@ -48,11 +49,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         Match matchCurrent = getIntent().getParcelableExtra("match");
         usernameText.setText(matchCurrent.getUsername());
-//        usernameText.setText(getIntent().getStringExtra("profileUsername"));
         Picasso.get().load(matchCurrent.getAvatarUrl()).into(userPic);
-//        Picasso.get().load(getIntent().getStringExtra("profileUrl")).into(userPic);
-
-
 
         RecyclerView recyclerView = findViewById(R.id.messages_activity_recycler_view_old);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -61,8 +58,6 @@ public class MessagesActivity extends AppCompatActivity {
         messageAdapter.setCurrentUserUsername(sharedPreferences.getString(Constants.USERNAME, ""));
 
         List<Message> messageList = matchCurrent.getMessages();
-//        MessageWrapper messageWrapper = (MessageWrapper)getIntent().getSerializableExtra("profileMessages");
-//        List<Message> messageList = messageWrapper.getMessageArrayList();
 
         for(Message currentMessage : messageList){
             if(!currentMessage.getFrom().equals(sharedPreferences.getString(Constants.USERNAME, ""))){
@@ -77,8 +72,10 @@ public class MessagesActivity extends AppCompatActivity {
             if (editText.getText().length() > 0){
                 sendMessage(editText.getText().toString());
                 recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
-                messageAdapter.addMessage(new Message(0, usernameText.getText().toString(), sharedPreferences.getString(Constants.USERNAME, ""),
-                        (int)System.currentTimeMillis(), "That is just ridiculous..."));
+                if (BuildConfig.FLAVOR.equals("dev")){
+                    messageAdapter.addMessage(new Message(0, usernameText.getText().toString(), sharedPreferences.getString(Constants.USERNAME, ""),
+                            (int)System.currentTimeMillis(), "That is just ridiculous..."));
+                }
             }
         });
     }

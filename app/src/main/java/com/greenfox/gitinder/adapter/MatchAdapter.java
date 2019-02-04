@@ -16,12 +16,10 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MessagesActivity;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.api.service.MatchService;
-import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> {
 
@@ -47,17 +45,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         String username = matchList.get(position).getUsername();
         String avatarUrl = matchList.get(position).getAvatarUrl();
 
-//        String lastMessage = "";
-//            if (matchList.get(position).getMessages().size() > 0){
-//                lastMessage = matchList.get(position).getMessages().get( matchList.get(position).getMessages().size() - 1).getMessage();
-//            }
-
-        String lastMessage;
-        if(matchList.get(position).getMessages().size() == 0){
-            lastMessage = "";
-        } else {
-            lastMessage = matchList.get(position).getLastMessage();
-        }
+        String lastMessage = getLastMessage(position);
 
         if(matchList.get(position).isNew()){
             holder.newText.setText("NEW");
@@ -93,25 +81,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
 
-            messagesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
-                    intent.putExtra("match", matchList.get(getAdapterPosition()));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                    v.getContext().startActivity(intent);
-                }
+            messagesButton.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
+                intent.putExtra("match", matchList.get(getAdapterPosition()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
             });
-
-//            if (BuildConfig.FLAVOR.equals("dev")) {
-//                messagesButton.setOnClickListener(v -> {
-//                    setMessageToMatch(matchList.get(getAdapterPosition()));
-//                    notifyDataSetChanged();
-//                });
-//            } else {
-//                messagesButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "PIVO PROSIM", Toast.LENGTH_SHORT).show());
-//            }
 
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
@@ -130,8 +105,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         matchList.clear();
     }
 
-    public void setMessageToMatch(Match match){
-        match.setMessages(MessagesFactory.createMessage());
-        matchService.updateNewMatchesCount();
+    public String getLastMessage(int viewHolderPosition){
+        String last;
+        if(matchList.get(viewHolderPosition).getMessages().size() == 0){
+            last = "";
+        } else {
+            last = matchList.get(viewHolderPosition).getLastMessage();
+        }
+        return last;
     }
+
 }
