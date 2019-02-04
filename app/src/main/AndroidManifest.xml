@@ -59,7 +59,14 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.MessagesActivity"></activity>
+        <activity
+            android:name=".activity.MessagesActivity"
+            android:icon="@mipmap/ic_launcher_round"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

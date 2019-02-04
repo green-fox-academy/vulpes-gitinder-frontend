@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf="@+id/messages_activity_recycler_view"
+        app:layout_constraintBottom_toTopOf="@+id/messages_activity_recycler_view_old"
         app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture_old" />
 
     <android.support.v7.widget.RecyclerView

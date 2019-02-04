@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
 import com.greenfox.gitinder.model.Profile;
@@ -36,11 +38,14 @@ public class MessagesActivity extends AppCompatActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    MatchService matchService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_messages_old);
+        setContentView(R.layout.activity_messages_collapsing);
 
         usernameText = findViewById(R.id.messages_activity_username_old);
         userPic = findViewById(R.id.messages_activity_picture_old);
@@ -54,7 +59,7 @@ public class MessagesActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.messages_activity_recycler_view_old);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        messageAdapter = new MessageAdapter(this);
+        messageAdapter = new MessageAdapter(this, matchService);
         messageAdapter.setCurrentUserUsername(sharedPreferences.getString(Constants.USERNAME, ""));
 
         List<Message> messageList = matchCurrent.getMessages();

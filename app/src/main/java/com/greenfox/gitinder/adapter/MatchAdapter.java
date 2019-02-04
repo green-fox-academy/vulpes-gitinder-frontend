@@ -45,7 +45,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         String username = matchList.get(position).getUsername();
         String avatarUrl = matchList.get(position).getAvatarUrl();
 
-        String lastMessage = getLastMessage(position);
+        String lastMessage = getLastMatchMessage(position);
 
         if(matchList.get(position).isNew()){
             holder.newText.setText("NEW");
@@ -105,7 +105,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         matchList.clear();
     }
 
-    public String getLastMessage(int viewHolderPosition){
+    public String getLastMatchMessage(int viewHolderPosition){
         String last;
         if(matchList.get(viewHolderPosition).getMessages().size() == 0){
             last = "";

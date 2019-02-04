@@ -12,12 +12,16 @@ import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.holder.ReceivedMessageHolder;
 import com.greenfox.gitinder.holder.SentMessageHolder;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class MessageAdapter extends RecyclerView.Adapter {
 
@@ -25,9 +29,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
     Context context;
     List<Message> messageList;
 
-    public MessageAdapter(Context context) {
+    MatchService matchService;
+
+    public MessageAdapter(Context context, MatchService matchService) {
         this.context = context;
         this.messageList = new ArrayList<>();
+        this.matchService = matchService;
     }
 
     @Override
@@ -76,11 +83,22 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     public void addMessages(List<Message> messages){
         this.messageList.addAll(messages);
+        matchService.updateNewMatchesCount();
         notifyDataSetChanged();
     }
 
     public void addMessage(Message message){
         this.messageList.add(message);
+
+        // Should probably call the backend here.
+        for (Match current : matchService.getMatchList()){
+            if(current.getUsername().equals(currentUserUsername)){
+                current.getMessages().add(message);
+                matchService.updateNewMatchesCount();
+            }
+        }
+        //
+
         notifyDataSetChanged();
     }
 
@@ -92,5 +110,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return messageList.size();
     }
+
 
 }

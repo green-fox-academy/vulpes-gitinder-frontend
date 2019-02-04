@@ -38,6 +38,7 @@ public class MatchService {
     }
 
     public void updateNewMatchesCount(){
+        matchesListener.onMatchesChanged(matchList);
         newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
