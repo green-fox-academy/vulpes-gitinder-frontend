@@ -1,14 +1,11 @@
 package com.greenfox.gitinder.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -20,8 +17,6 @@ import com.greenfox.gitinder.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 public class MessageAdapter extends RecyclerView.Adapter {
 
@@ -83,21 +78,17 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     public void addMessages(List<Message> messages){
         this.messageList.addAll(messages);
-        matchService.updateNewMatchesCount();
         notifyDataSetChanged();
     }
 
     public void addMessage(Message message){
-        this.messageList.add(message);
 
-        // Should probably call the backend here.
         for (Match current : matchService.getMatchList()){
             if(current.getUsername().equals(currentUserUsername)){
                 current.getMessages().add(message);
-                matchService.updateNewMatchesCount();
+                matchService.updateMatches();
             }
         }
-        //
 
         notifyDataSetChanged();
     }

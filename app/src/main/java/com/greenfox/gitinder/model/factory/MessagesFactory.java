@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 public class MessagesFactory {
 
-    public static List<Message> createMessages(){
+    public static List<Message> createMessages() {
         List<Message> messages = new ArrayList<>();
         messages.add(new Message(0, "Daniel", "dwgasfg", 0, "Hello from the other side."));
         messages.add(new Message(1, "LOOL", "you", 0, "Very long afternoon."));
@@ -24,12 +24,16 @@ public class MessagesFactory {
         return messages;
     }
 
-    public static List<Message> createEmptyMessages(){
+    public static Message createNewMessage() {
+        return new Message(0, "me", "you", 0, "Frantisek");
+    }
+
+    public static List<Message> createEmptyMessages() {
         List<Message> messages = new ArrayList<>();
         return messages;
     }
 
-    public static List<Message> createMessage(){
+    public static List<Message> createMessage() {
         List<Message> message = new ArrayList<>();
         message.add(new Message(0, "me", "you", 0, "What is love?"));
         return message;

@@ -4,9 +4,12 @@ import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
+import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.Messages;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
@@ -481,4 +484,169 @@ public class GitHubClientTest {
         });
     }
 
+    @Test
+    public void sendMessageAllParameters(){
+        Call<MessageResponse> call = client.sendMessage("abc","Franta");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(201, response.code());
+                assertEquals("ok", response.body().getStatus());
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
+
+    }
+
+    @Test
+    public void sendMessageHeaderMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("","test");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Test
+    public void sendMessageParameterMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("test","");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+            }
+        });
+    }
+
+    @Test
+    public void sendMessageNoMatch(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<MessageResponse> call = client.sendMessage("test","test");
+        call.enqueue(new Callback<MessageResponse>() {
+            @Override
+            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
+                assertEquals(404,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Not matched with the user!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MessageResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void messagesAllParameters(){
+        Call<Messages> call = client.messages("aaa","Franta",1);
+        call.enqueue(new Callback<Messages>() {
+            @Override
+            public void onResponse(Call<Messages> call, Response<Messages> response) {
+                assertEquals(200, response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Messages> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void messagesHeaderMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<Messages> call = client.messages("","test",1);
+        call.enqueue(new Callback<Messages>() {
+            @Override
+            public void onResponse(Call<Messages> call, Response<Messages> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Messages> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void messagesAllParametersMissing(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<Messages> call = client.messages("","test",1);
+        call.enqueue(new Callback<Messages>() {
+            @Override
+            public void onResponse(Call<Messages> call, Response<Messages> response) {
+                assertEquals(403,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Unauthorized request!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Messages> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Test
+    public void messagesNoMatch(){
+        final ErrorMessageFactory errorMessageFactory = new ErrorMessageFactory();
+        Call<Messages> call = client.messages("test","test",1);
+        call.enqueue(new Callback<Messages>() {
+            @Override
+            public void onResponse(Call<Messages> call, Response<Messages> response) {
+                assertEquals(404,response.code());
+                try {
+                    assertEquals(errorMessageFactory.getErrorJSON("Not matched with the user!"),response.errorBody().string());
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Messages> call, Throwable t) {
+
+            }
+        });
+
+    }
 }

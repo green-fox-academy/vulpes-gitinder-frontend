@@ -38,8 +38,11 @@
     <string name="match_new_text">new</string>
     <string name="match_username_placeholder">Username</string>
     <string name="match_last_msg_placeholder">java, ruby, js…</string>
+<<<<<<< HEAD
     <string name="message_sent_you_text">You</string>
     <string name="message_receceived_sender_palceholder">Jesus</string>
+=======
+>>>>>>> week5
     <string name="card_extinct">The cards have gone extinct.</string>
 
     <!-- NavigationView -->

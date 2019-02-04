@@ -21,7 +21,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> {
+public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> implements MatchService.MatchesListener{
 
     private LayoutInflater mInflater;
     private List<Match> matchList;
@@ -31,6 +31,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         this.mInflater = LayoutInflater.from(context);
         this.matchList = new ArrayList<>();
         this.matchService = matchService;
+        matchService.setMatchesListener(this);
     }
 
     @NonNull
@@ -61,6 +62,13 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     @Override
     public int getItemCount() {
         return matchList.size();
+    }
+
+    @Override
+    public void onMatchesChanged(List<Match> updatedMatches) {
+        clearMatches();
+        addMatches(updatedMatches);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

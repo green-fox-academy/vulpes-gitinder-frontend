@@ -84,6 +84,7 @@ public class Login extends AppCompatActivity {
                         gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken())).enqueue(new CustomCallback<LoginResponse>() {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
+                                sharedPreferences.edit().putString(Constants.USERNAME, response2.body().getLogin()).apply();
                                 sharedPreferences.edit().putString(Constants.GITINDER_TOKEN, response3.body().getGitinderToken()).apply();
                                 Intent intent = new Intent(Login.this, MainActivity.class);
                                 startActivity(intent);
