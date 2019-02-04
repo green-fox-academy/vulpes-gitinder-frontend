@@ -18,6 +18,10 @@ public class MessagesFactory {
         return new Message(0, "me", "you", 0, "Frantisek");
     }
 
+    public static Message createNewMessageWithText(String messageText){
+        return new Message(0, "me", "you", 0, messageText);
+    }
+
     public static List<Message> createEmptyMessages() {
         List<Message> messages = new ArrayList<>();
         return messages;

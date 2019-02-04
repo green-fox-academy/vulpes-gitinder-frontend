@@ -263,12 +263,12 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public Call<MessageResponse> sendMessage(String gitinderToken, String username) {
+    public Call<MessageResponse> sendMessage(String gitinderToken, String username, String messageText) {
         return new CallMock<MessageResponse>() {
             @Override
             public void enqueue(Callback<MessageResponse> callback) {
                 MessageResponse messageResponse = new MessageResponse();
-                Message message = MessagesFactory.createNewMessage();
+                Message message = MessagesFactory.createNewMessageWithText(messageText);
                 messageResponse.setStatus("ok");
                 messageResponse.setMessage(message);
                 List<Match> matchList = MatchFactory.createNewMatches();
