@@ -54,4 +54,11 @@ public class ProfileActivity extends AppCompatActivity {
         }
         viewPager.setAdapter(sectionsPageAdapter);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
 }

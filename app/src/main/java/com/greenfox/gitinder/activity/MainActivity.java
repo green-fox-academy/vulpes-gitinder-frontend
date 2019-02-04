@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;

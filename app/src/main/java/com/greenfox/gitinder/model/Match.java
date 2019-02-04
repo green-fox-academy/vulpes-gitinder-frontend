@@ -34,6 +34,7 @@ public class Match implements Parcelable {
         username = in.readString();
         avatarUrl = in.readString();
         matchedAt = in.readInt();
+        messages = new ArrayList<>();
         in.readList(messages, Message.class.getClassLoader());
     }
 

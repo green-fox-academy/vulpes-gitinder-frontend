@@ -22,6 +22,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import dagger.android.AndroidInjection;
+
 public class MessagesActivity extends AppCompatActivity {
 
     TextView usernameText;
@@ -35,6 +37,7 @@ public class MessagesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messages_old);
 
@@ -74,6 +77,8 @@ public class MessagesActivity extends AppCompatActivity {
             if (editText.getText().length() > 0){
                 sendMessage(editText.getText().toString());
                 recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
+                messageAdapter.addMessage(new Message(0, usernameText.getText().toString(), sharedPreferences.getString(Constants.USERNAME, ""),
+                        (int)System.currentTimeMillis(), "That is just ridiculous..."));
             }
         });
     }
@@ -83,5 +88,4 @@ public class MessagesActivity extends AppCompatActivity {
                 usernameText.getText().toString(), (int)System.currentTimeMillis(), messageText);
         messageAdapter.addMessage(newMessage);
     }
-
 }
