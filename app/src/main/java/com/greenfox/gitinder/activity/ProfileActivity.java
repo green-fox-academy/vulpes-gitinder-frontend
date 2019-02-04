@@ -42,9 +42,9 @@ public class ProfileActivity extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.profile_details_layout_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+//        getSupportActionBar().setElevation(0);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
     }
 
     public void setupViewPager(ViewPager viewPager){
