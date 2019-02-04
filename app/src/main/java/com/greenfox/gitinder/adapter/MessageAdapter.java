@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.api.service.MessageService;
 import com.greenfox.gitinder.holder.ReceivedMessageHolder;
 import com.greenfox.gitinder.holder.SentMessageHolder;
 import com.greenfox.gitinder.model.Match;
@@ -18,18 +19,25 @@ import com.greenfox.gitinder.model.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter {
+public class MessageAdapter extends RecyclerView.Adapter implements MessageService.MessagesListener {
 
     String currentUserUsername;
     Context context;
     List<Message> messageList;
 
-    MatchService matchService;
+    private MessageService messageService;
 
-    public MessageAdapter(Context context, MatchService matchService) {
+    public MessageAdapter(Context context, MessageService messageService) {
         this.context = context;
         this.messageList = new ArrayList<>();
-        this.matchService = matchService;
+        this.messageService = messageService;
+        messageService.setMessagesListener(this);
+    }
+
+    @Override
+    public void onMessagesChanged(List<Message> updatedMessages) {
+        clearMessages();
+        addMessages(updatedMessages);
     }
 
     @Override
@@ -81,16 +89,13 @@ public class MessageAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    public void addMessage(Message message){
+//    public void addMessage(Message message){
+//        this.messageList.add(message)
+//        notifyDataSetChanged();
+//    }
 
-        for (Match current : matchService.getMatchList()){
-            if(current.getUsername().equals(currentUserUsername)){
-                current.getMessages().add(message);
-                matchService.updateMatches();
-            }
-        }
-
-        notifyDataSetChanged();
+    public void clearMessages(){
+        messageList.clear();
     }
 
     public void setCurrentUserUsername(String currentUserUsername) {
@@ -101,6 +106,5 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return messageList.size();
     }
-
 
 }

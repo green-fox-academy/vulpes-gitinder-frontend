@@ -11,16 +11,15 @@ import javax.inject.Inject;
 
 public class MessagesFactory {
 
-    public static List<Message> createMessages() {
+    public static List<Message> createMessages(String currentUserUsername) {
         List<Message> messages = new ArrayList<>();
-        messages.add(new Message(0, "Daniel", "dwgasfg", 0, "Hello from the other side."));
-        messages.add(new Message(1, "LOOL", "you", 0, "Very long afternoon."));
-        messages.add(new Message(2, "Daniel", "gdfssfhs", 0, "Majestic cup holder."));
-        messages.add(new Message(3, "LOOsafasdgvaL", "you", 0, "Lava bunjee jumping."));
-        messages.add(new Message(4, "Daniel", "dsgbsfb", 0, "Electrifying experiences."));
-        messages.add(new Message(5, "LOOADGBASDUOBPEL", "you", 0, "Once pony, once horse."));
-        messages.add(new Message(6, "Daniel", "sfsdfbsf", 0, "All applies are liars."));
-        messages.add(new Message(6, "ASVADVEGQGH", "you", 0, "Amazing dog."));
+        messages.add(new Message(1, "LOOL", currentUserUsername, 0, "Very long afternoon."));
+        messages.add(new Message(2, currentUserUsername, "gdfssfhs", 0, "Majestic cup holder."));
+        messages.add(new Message(3, "LOOsafasdgvaL", currentUserUsername, 0, "Lava bunjee jumping."));
+        messages.add(new Message(4, currentUserUsername, "dsgbsfb", 0, "Electrifying experiences."));
+        messages.add(new Message(5, "LOOADGBASDUOBPEL", currentUserUsername, 0, "Once pony, once horse."));
+        messages.add(new Message(6, currentUserUsername, "sfsdfbsf", 0, "All applies are liars."));
+        messages.add(new Message(6, "ASVADVEGQGH", currentUserUsername, 0, "Amazing dog."));
         return messages;
     }
 

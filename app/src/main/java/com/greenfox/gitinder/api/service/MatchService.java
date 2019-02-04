@@ -1,12 +1,14 @@
 package com.greenfox.gitinder.api.service;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
+import com.greenfox.gitinder.model.Messages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +18,9 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import static io.fabric.sdk.android.Fabric.TAG;
+
 public class MatchService {
-
-    @Inject
-    GitinderAPI gitinderAPI;
-
-    @Inject
-    SharedPreferences sharedPreferences;
-
     List<Match> matchList;
     NewMatchCountListener newMatchCountListener;
     MatchesListener matchesListener;
@@ -42,20 +39,6 @@ public class MatchService {
         matchList.add(match);
         matchesListener.onMatchesChanged(matchList);
         newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
-    }
-
-    public void sendNewMessage(Message message){
-        gitinderAPI.sendMessage(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
-                                message.getTo(), message).enqueue(new CustomCallback<MessageResponse>() {
-            @Override
-            public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
-
-            }
-        });
-
-
-
-        updateMatches();
     }
 
     public void clearMatches(){

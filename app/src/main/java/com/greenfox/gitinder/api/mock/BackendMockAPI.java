@@ -1,5 +1,7 @@
 package com.greenfox.gitinder.api.mock;
 
+import android.util.Log;
+
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
@@ -28,6 +30,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static io.fabric.sdk.android.Fabric.TAG;
 
 public class BackendMockAPI implements GitinderAPI {
 
@@ -234,9 +238,9 @@ public class BackendMockAPI implements GitinderAPI {
             @Override
             public void enqueue(Callback<Messages> callback) {
                 Messages messages = new Messages();
-                messages.setMessage(MessagesFactory.createMessages());
-                messages.setCount(messages.getMessage().size());
-                messages.setAll(messages.getMessage().size());
+                messages.setMessages(MessagesFactory.createMessages(username));
+                messages.setCount(messages.getMessages().size());
+                messages.setAll(messages.getMessages().size());
                 List<Match> matchList = MatchFactory.createNewMatches();
                 boolean isMatched = false;
 
@@ -250,12 +254,14 @@ public class BackendMockAPI implements GitinderAPI {
                     callback.onResponse(this, Response.<Messages>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                } else if (!isMatched) {
-                    callback.onResponse(this, Response.<Messages>error(404,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
-
-                } else {
+                }
+//                else if (!isMatched) {
+//                    callback.onResponse(this, Response.<Messages>error(404,
+//                            ResponseBody.create(MediaType.parse("application/json"),
+//                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
+//
+//                }
+                else {
                     callback.onResponse(this, Response.success(messages));
                 }
             }
@@ -284,11 +290,13 @@ public class BackendMockAPI implements GitinderAPI {
                     callback.onResponse(this, Response.<MessageResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                } else if (!isMatched) {
-                    callback.onResponse(this, Response.<MessageResponse>error(404,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
-                } else {
+                }
+//                else if (!isMatched) {
+//                    callback.onResponse(this, Response.<MessageResponse>error(404,
+//                            ResponseBody.create(MediaType.parse("application/json"),
+//                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
+//                }
+                else {
                     callback.onResponse(this, Response.success(201,messageResponse));
                 }
             }

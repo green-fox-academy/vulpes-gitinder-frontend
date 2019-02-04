@@ -13,6 +13,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 
 
 import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.api.service.MessageService;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.service.NotificationService;
@@ -105,5 +106,11 @@ public class AppModule {
     @Singleton
     MatchService matchService() {
         return new MatchService();
+    }
+
+    @Provides
+    @Singleton
+    MessageService messageService(){
+        return new MessageService();
     }
 }
