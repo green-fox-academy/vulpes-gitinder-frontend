@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,7 +55,7 @@ public class MessagesActivity extends AppCompatActivity implements MatchService.
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_messages_collapsing);
+        setContentView(R.layout.activity_messages);
 
         usernameText = findViewById(R.id.messages_activity_username_old);
         userPic = findViewById(R.id.messages_activity_picture_old);
