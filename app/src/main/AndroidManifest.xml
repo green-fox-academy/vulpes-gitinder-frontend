@@ -51,6 +51,12 @@
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme"/>
 
+        <activity
+            android:name=".activity.SettingsTestingActivity"
+            android:screenOrientation="portrait"
+            android:label="GiTinder"
+            android:theme="@style/AppTheme"/>
+
         <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="intent"/>

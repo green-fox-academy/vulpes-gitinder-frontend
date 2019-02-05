@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.greenfox.gitinder.activity.SettingsTestingActivity">
+
+    <TextView
+        android:id="@+id/testing_settings_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/testing_settings_header"
+        android:textSize="@dimen/text_large"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/testing_settings_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_small"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_header"/>
+
+    <TextView
+        android:id="@+id/testing_settings_get_profiles_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_get_profiles"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_divider"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_swiping_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_swiping"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_get_profiles_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_get_matches_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_get_matches"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_swiping_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_get_messages_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_get_messages"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_get_matches_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_send_message_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_send_message"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_get_messages_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_get_settings_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_get_settings"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_send_message_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/testing_settings_save_settings_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testing_settings_save_settings"
+        android:textSize="@dimen/text_large"
+        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginLeft="@dimen/margin_large"
+        app:layout_constraintTop_toBottomOf="@+id/testing_settings_get_settings_textview"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Switch
+        android:id="@+id/testing_settings_get_profiles_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_get_profiles_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_swiping_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_swiping_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_get_matches_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_get_matches_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_get_messages_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_get_messages_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_send_message_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_send_message_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_get_setting_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_get_settings_textview"/>
+
+    <Switch
+        android:id="@+id/testing_settings_save_settings_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/testing_settings_save_settings_textview"/>
+
+</android.support.constraint.ConstraintLayout>

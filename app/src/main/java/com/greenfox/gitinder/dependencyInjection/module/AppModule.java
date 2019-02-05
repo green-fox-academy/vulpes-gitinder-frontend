@@ -91,16 +91,6 @@ public class AppModule {
         return new SnippetService();
     }
 
-//    private OkHttpClient createClientWithInterceptor() {
-//        OkHttpClient client = new OkHttpClient();
-//        client.interceptors().add(new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//
-//            }
-//        })
-//    }
-
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
@@ -116,4 +106,6 @@ public class AppModule {
     MatchService matchService() {
         return new MatchService();
     }
+
+    
 }
