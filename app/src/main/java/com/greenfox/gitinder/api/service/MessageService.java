@@ -1,6 +1,5 @@
 package com.greenfox.gitinder.api.service;
 
-import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
 
 import java.util.ArrayList;

@@ -20,7 +20,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:background="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/messages_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messages_activity_picture_old" />
@@ -52,7 +52,7 @@
         app:layout_constraintStart_toStartOf="@+id/messages_activity_picture_old" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linearLayout"
+        android:id="@+id/messages_linear_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#fff"

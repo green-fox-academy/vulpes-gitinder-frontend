@@ -24,8 +24,8 @@ import java.util.List;
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> implements MatchService.MatchesListener{
 
     private LayoutInflater mInflater;
-    private List<Match> matchList;
-    private MatchService matchService;
+    List<Match> matchList;
+    MatchService matchService;
 
     public MatchAdapter(Context context, MatchService matchService) {
         this.mInflater = LayoutInflater.from(context);

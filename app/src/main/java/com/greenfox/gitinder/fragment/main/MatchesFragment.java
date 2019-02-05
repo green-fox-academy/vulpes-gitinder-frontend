@@ -97,15 +97,7 @@ public class MatchesFragment extends BaseFragment {
     }
 
     @Override
-
     public void reload() {
         updateMatches();
-    }
-
-    public void onMatchesChanged(List<Match> updatedMatches) {
-        matchAdapter.clearMatches();
-        matchAdapter.addMatches(updatedMatches);
-        matchAdapter.notifyDataSetChanged();
-
     }
 }

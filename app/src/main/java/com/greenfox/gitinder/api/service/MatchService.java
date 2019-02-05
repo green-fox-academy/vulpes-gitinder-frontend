@@ -1,24 +1,10 @@
 package com.greenfox.gitinder.api.service;
 
-import android.content.SharedPreferences;
-import android.util.Log;
-
-import com.greenfox.gitinder.Constants;
-import com.greenfox.gitinder.api.model.CustomCallback;
-import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
-import com.greenfox.gitinder.model.Messages;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Response;
-
-import static io.fabric.sdk.android.Fabric.TAG;
 
 public class MatchService {
     List<Match> matchList;
@@ -31,20 +17,17 @@ public class MatchService {
 
     public void addMatches(List<Match> matches){
         matchList.addAll(matches);
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
     public void addMatch(Match match){
         matchList.add(match);
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
     public void clearMatches(){
         matchList.clear();
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
     public void updateMatches(){
@@ -72,6 +55,25 @@ public class MatchService {
 
     public void setMatchesListener (MatchesListener matchesListener){
         this.matchesListener = matchesListener;
+    }
+
+    public List<Message> getMessagesByUsername(String username){
+        List<Message> messageList = new ArrayList<>();
+        for(Match currentMatch : matchList){
+            if(currentMatch.getUsername().equals(username)){
+                messageList = currentMatch.getMessages();
+            }
+        }
+        return messageList;
+    }
+
+    public void setMessagesByUsername(String username, List<Message> messageList){
+        for(Match currentMatch : matchList){
+            if(currentMatch.getUsername().equals(username)){
+                currentMatch.setMessages(messageList);
+            }
+        }
+        updateMatches();
     }
 
     public interface NewMatchCountListener {

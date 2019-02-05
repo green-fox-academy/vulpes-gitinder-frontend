@@ -10,33 +10,30 @@ import android.view.ViewGroup;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.api.service.MatchService;
-import com.greenfox.gitinder.api.service.MessageService;
 import com.greenfox.gitinder.holder.ReceivedMessageHolder;
 import com.greenfox.gitinder.holder.SentMessageHolder;
-import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter implements MessageService.MessagesListener {
+public class MessageAdapter extends RecyclerView.Adapter {
 
-    String currentUserUsername;
     Context context;
     List<Message> messageList;
+    String recipient;
 
-    private MessageService messageService;
+    private MatchService matchService;
 
-    public MessageAdapter(Context context, MessageService messageService) {
+    public MessageAdapter(Context context, MatchService matchService, String recipient) {
         this.context = context;
         this.messageList = new ArrayList<>();
-        this.messageService = messageService;
-        messageService.setMessagesListener(this);
+        this.matchService = matchService;
+        this.recipient = recipient;
     }
 
-    @Override
-    public void onMessagesChanged(List<Message> updatedMessages) {
-        clearMessages();
+    public void updateMessages(List<Message> updatedMessages) {
+        messageList.clear();
         addMessages(updatedMessages);
     }
 
@@ -44,10 +41,10 @@ public class MessageAdapter extends RecyclerView.Adapter implements MessageServi
     public int getItemViewType(int position) {
         Message currentMessage = messageList.get(position);
 
-        if(currentMessage.getFrom().equals(currentUserUsername)){
-            return Constants.SENT_MESSAGE;
-        } else {
+        if(currentMessage.getFrom().equals(recipient)){
             return Constants.RECEIVED_MESSAGE;
+        } else {
+            return Constants.SENT_MESSAGE;
         }
     }
 
@@ -67,7 +64,6 @@ public class MessageAdapter extends RecyclerView.Adapter implements MessageServi
         } else {
             return null;
         }
-
     }
 
     @Override
@@ -81,25 +77,11 @@ public class MessageAdapter extends RecyclerView.Adapter implements MessageServi
             case Constants.RECEIVED_MESSAGE:
                 ((ReceivedMessageHolder) viewHolder).bind(message);
         }
-
     }
 
     public void addMessages(List<Message> messages){
         this.messageList.addAll(messages);
         notifyDataSetChanged();
-    }
-
-//    public void addMessage(Message message){
-//        this.messageList.add(message)
-//        notifyDataSetChanged();
-//    }
-
-    public void clearMessages(){
-        messageList.clear();
-    }
-
-    public void setCurrentUserUsername(String currentUserUsername) {
-        this.currentUserUsername = currentUserUsername;
     }
 
     @Override
