@@ -39,6 +39,10 @@
     <string name="match_username_placeholder">Username</string>
     <string name="match_last_msg_placeholder">java, ruby, js…</string>
     <string name="card_extinct">The cards have gone extinct.</string>
+    <string name="matches_dialog_header">It\'s a match!</string>
+    <string name="matches_dialog_body">You can start chatting with your partner, or you can keep swiping</string>
+    <string name="matches_dialog_message">START CHATTING</string>
+    <string name="matches_dialog_swiping">KEEP SWIPING</string>
 
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>
