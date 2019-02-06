@@ -17,14 +17,11 @@ public class GitinderAPIService {
 
     public GitinderAPI provide(String endpoint) {
         if (BuildConfig.FLAVOR.equals("dev")) {
-            if (settings.getEndpoints().containsKey(endpoint)) {
-                if (settings.getStatus(endpoint)) {
-                    return realAPI;
-                }
+            if (settings.getEndpoints().containsKey(endpoint) && settings.getStatus(endpoint)) {
+                return realAPI;
             }
-        } else {
-            return realAPI;
+            return mockAPI;
         }
-        return mockAPI;
+        return realAPI;
     }
 }
