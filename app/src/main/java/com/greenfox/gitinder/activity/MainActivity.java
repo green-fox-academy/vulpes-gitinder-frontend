@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
         sectionsPageAdapter.addFragment(new MatchesFragment(), getString(R.string.tab_title_matches));
         sectionsPageAdapter.addFragment(new SettingsFragment(), getString(R.string.tab_title_settings));
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(sectionsPageAdapter);
     }
 
@@ -131,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     public void toMatchesFragment(){
         mViewPager.setCurrentItem(1);
     }
-
 
     @Override
     public void onMatchCountChanged(int newMatchCount) {

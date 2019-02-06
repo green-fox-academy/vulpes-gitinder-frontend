@@ -65,11 +65,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
  
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         extinctText = getView().findViewById(R.id.swiping_fragment_extinct);
         setupButtons();
