@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
@@ -54,23 +55,24 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = findViewById(R.id.main_toolbar);
 
+        Match match = MatchFactory.createNewMatch();
+        notificationService.createNotificationChannel(this);
+        notificationService.pushNewMatchNotification(match, this);
+
+        toolbar = findViewById(R.id.main_toolbar);
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
 
-        matchService.setNewMatchCountListener(this);
         hideFloatingButtonWhenNoNewMatches();
+        matchService.setNewMatchCountListener(this);
+
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
             Log.d(TAG, "Token is missing!");
             toLogin();
         } else {
             Log.d(TAG, "Token is present.");
         }
-
-        Match match = MatchFactory.createNewMatch();
-        notificationService.createNotificationChannel(this);
-        notificationService.pushNewMatchNotification(match, this);
 
         Log.d(TAG, "onCreate: Starting.");
         Log.d(TAG, "MATCHES_COUNT: " + matchService.getNewMatchesCount());
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         tabLayout.setupWithViewPager(mViewPager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.mipmap.gitinder_icon);
+
         floatingActionButton.setOnClickListener(v -> {
             toMatchesFragment();
         });
@@ -90,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
             toMatchesFragment();
         }
-
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager) {

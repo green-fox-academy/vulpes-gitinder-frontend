@@ -6,6 +6,7 @@ import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.model.Message;
 import com.greenfox.gitinder.model.Messages;
 import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
@@ -54,5 +55,5 @@ public interface GitinderAPI {
     Call<Messages> messages (@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username, @Query("page")int page);
 
     @POST("match/{username}/message")
-    Call<MessageResponse> sendMessage(@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username);
+    Call<MessageResponse> sendMessage(@Header("X-Gitinder-Token")String gitinderToken, @Path("username")String username, @Body String message);
 }

@@ -1,22 +1,12 @@
 package com.greenfox.gitinder.api.service;
 
-import android.content.SharedPreferences;
-
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class MatchService {
-
-    @Inject
-    GitinderAPI gitinderAPI;
-
-    @Inject
-    SharedPreferences sharedPreferences;
-
     List<Match> matchList;
     NewMatchCountListener newMatchCountListener;
     MatchesListener matchesListener;
@@ -27,23 +17,21 @@ public class MatchService {
 
     public void addMatches(List<Match> matches){
         matchList.addAll(matches);
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
     public void addMatch(Match match){
         matchList.add(match);
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
     public void clearMatches(){
         matchList.clear();
-        matchesListener.onMatchesChanged(matchList);
-        newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
+        updateMatches();
     }
 
-    public void updateNewMatchesCount(){
+    public void updateMatches(){
+        matchesListener.onMatchesChanged(matchList);
         newMatchCountListener.onMatchCountChanged(getNewMatchesCount());
     }
 
@@ -67,6 +55,25 @@ public class MatchService {
 
     public void setMatchesListener (MatchesListener matchesListener){
         this.matchesListener = matchesListener;
+    }
+
+    public List<Message> getMessagesByUsername(String username){
+        List<Message> messageList = new ArrayList<>();
+        for(Match currentMatch : matchList){
+            if(currentMatch.getUsername().equals(username)){
+                messageList = currentMatch.getMessages();
+            }
+        }
+        return messageList;
+    }
+
+    public void setMessagesByUsername(String username, List<Message> messageList){
+        for(Match currentMatch : matchList){
+            if(currentMatch.getUsername().equals(username)){
+                currentMatch.setMessages(messageList);
+            }
+        }
+        updateMatches();
     }
 
     public interface NewMatchCountListener {
