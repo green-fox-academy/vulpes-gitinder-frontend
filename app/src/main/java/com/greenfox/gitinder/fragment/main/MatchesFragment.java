@@ -10,9 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MatchAdapter;
@@ -45,9 +43,6 @@ public class MatchesFragment extends BaseFragment {
 
     MatchAdapter matchAdapter;
 
-    public Button addMatchesButton;
-    Button clearMatchesButton;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,20 +53,10 @@ public class MatchesFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
-        addMatchesButton = getView().findViewById(R.id.add_matches_button);
-        clearMatchesButton = getView().findViewById(R.id.clear_matches_button);
-
-        if(!BuildConfig.FLAVOR.equals("dev")){
-            addMatchesButton.setVisibility(View.GONE);
-            clearMatchesButton.setVisibility(View.GONE);
-        }
 
         matchAdapter = new MatchAdapter(getActivity().getApplicationContext(), matchService);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(matchAdapter);
-
-        addMatchesButton.setOnClickListener(v -> updateMatches());
-        clearMatchesButton.setOnClickListener(v -> matchService.clearMatches());
     }
 
     public void updateMatches(){
