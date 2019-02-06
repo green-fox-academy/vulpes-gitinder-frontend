@@ -7,11 +7,13 @@ import android.content.SharedPreferences;
 import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
+import com.greenfox.gitinder.api.model.TestSetting;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 
 
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
@@ -20,6 +22,7 @@ import com.greenfox.gitinder.service.NotificationService;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -76,23 +79,20 @@ public class AppModule {
 
     @Provides
     @Singleton
-    GitinderAPI backendAPI() {
-        if (BuildConfig.FLAVOR.equals("live")) {
-            return getApi("https://gitinder.azurewebsites.net");
-        } else if (BuildConfig.FLAVOR.equals("staging")) {
-            return getApi("https://gitinder-staging.azurewebsites.net");
-        } else {
-            return new BackendMockAPI();
-        }
-    }
-    @Provides
-    @Singleton
     SnippetService snippetService() {
         return new SnippetService();
     }
 
-    private GitinderAPI getApi(String baseUrl) {
-        return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
+    @Provides
+    @Singleton
+    GitinderAPI realApi() {
+        return new Retrofit.Builder().baseUrl(Constants.GITINDER_API_URL).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
+    }
+
+    @Provides
+    @Singleton
+    BackendMockAPI mockApi() {
+        return new BackendMockAPI();
     }
 
     @Provides
@@ -107,5 +107,16 @@ public class AppModule {
         return new MatchService();
     }
 
-    
+    @Provides
+    @Singleton
+    TestSetting testSettings() {
+        return new TestSetting();
+    }
+
+    @Provides
+    @Singleton
+    @Inject
+    GitinderAPIService gitinderAPIService(GitinderAPI realAPI, BackendMockAPI mockAPI, TestSetting testSettings) {
+        return new GitinderAPIService(realAPI, mockAPI, testSettings);
+    }
 }

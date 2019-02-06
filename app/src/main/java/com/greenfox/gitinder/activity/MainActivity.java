@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
@@ -111,9 +113,24 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.toolbar_debug_settings) {
+            Intent intent = new Intent(this, SettingsTestingActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        MenuItem build = menu.findItem(R.id.toolbar_debug_settings);
+        if (!BuildConfig.FLAVOR.equals("dev")) {
+            build.setVisible(false);
+        } else {
+            build.setVisible(true);
+        }
         ImageView rotateButton = (ImageView) menu.findItem(R.id.toolbar_refresh).getActionView();
         if (rotateButton != null) {
             rotateButton.setImageResource(R.drawable.button_refresh);

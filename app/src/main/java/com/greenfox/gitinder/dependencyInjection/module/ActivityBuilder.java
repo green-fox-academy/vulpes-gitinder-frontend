@@ -18,6 +18,6 @@ public abstract class ActivityBuilder {
     abstract Login bindLogin();
 
     @ContributesAndroidInjector()
-    abstract SettingsTestingActivity bindSettingTestingActivity();
+    abstract SettingsTestingActivity bindSettingsTestingActivity();
 
 }
