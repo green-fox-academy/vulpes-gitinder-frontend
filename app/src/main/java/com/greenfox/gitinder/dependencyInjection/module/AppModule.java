@@ -13,6 +13,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 
 
 import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.api.service.MessageService;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.service.NotificationService;
@@ -91,16 +92,6 @@ public class AppModule {
         return new SnippetService();
     }
 
-//    private OkHttpClient createClientWithInterceptor() {
-//        OkHttpClient client = new OkHttpClient();
-//        client.interceptors().add(new Interceptor() {
-//            @Override
-//            public Response intercept(Chain chain) throws IOException {
-//
-//            }
-//        })
-//    }
-
     private GitinderAPI getApi(String baseUrl) {
         return new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
@@ -115,5 +106,11 @@ public class AppModule {
     @Singleton
     MatchService matchService() {
         return new MatchService();
+    }
+
+    @Provides
+    @Singleton
+    MessageService messageService(){
+        return new MessageService();
     }
 }

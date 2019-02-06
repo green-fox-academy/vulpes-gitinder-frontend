@@ -80,6 +80,7 @@ public class Login extends AppCompatActivity {
                 githubAPI.getGitHubUsername("token " + response.body().getToken()).enqueue(new CustomCallback<GitHubUsername>() {
                     @Override
                     public void onResponse(Call<GitHubUsername> call, Response<GitHubUsername> response2) {
+                        sharedPreferences.edit().putString(Constants.USERNAME, response2.body().getLogin()).apply();
                         gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken())).enqueue(new CustomCallback<LoginResponse>() {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
