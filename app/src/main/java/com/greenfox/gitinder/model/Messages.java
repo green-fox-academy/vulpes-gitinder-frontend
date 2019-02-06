@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Messages {
 
-    List<Message> message;
+    List<Message> messages;
     int count;
     int all;
 
@@ -12,17 +12,17 @@ public class Messages {
     }
 
     public Messages(List<Message> message, int count, int all) {
-        this.message = message;
+        this.messages = message;
         this.count = count;
         this.all = all;
     }
 
-    public List<Message> getMessage() {
-        return message;
+    public List<Message> getMessages() {
+        return messages;
     }
 
-    public void setMessage(List<Message> message) {
-        this.message = message;
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
     }
 
     public int getCount() {

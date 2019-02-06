@@ -229,67 +229,42 @@ public class BackendMockAPI implements GitinderAPI {
     }
 
     @Override
-    public Call<Messages> messages(String gitinderToken, String username, int page) {
-        return new CallMock<Messages>() {
+    public Call<MessageResponse> sendMessage(String gitinderToken, String username, String messageText) {
+        return new CallMock<MessageResponse>() {
             @Override
-            public void enqueue(Callback<Messages> callback) {
-                Messages messages = new Messages();
-                messages.setMessage(MessagesFactory.createMessages());
-                messages.setCount(messages.getMessage().size());
-                messages.setAll(messages.getMessage().size());
-                List<Match> matchList = MatchFactory.createNewMatches();
-                boolean isMatched = false;
-
-                for (Match match : matchList) {
-                    if (match.getUsername().equals(username)) {
-                        isMatched = true;
-                    }
-                }
+            public void enqueue(Callback<MessageResponse> callback) {
+                MessageResponse messageResponse = new MessageResponse();
+                Message message = MessagesFactory.createNewMessageWithText(messageText);
+                messageResponse.setStatus("ok");
+                messageResponse.setMessage(message);
 
                 if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()) {
-                    callback.onResponse(this, Response.<Messages>error(403,
+                    callback.onResponse(this, Response.<MessageResponse>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                } else if (!isMatched) {
-                    callback.onResponse(this, Response.<Messages>error(404,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
-
                 } else {
-                    callback.onResponse(this, Response.success(messages));
+                    callback.onResponse(this, Response.success(201,messageResponse));
                 }
             }
         };
     }
 
     @Override
-    public Call<MessageResponse> sendMessage(String gitinderToken, String username) {
-        return new CallMock<MessageResponse>() {
+    public Call<Messages> messages(String gitinderToken, String username, int page) {
+        return new CallMock<Messages>() {
             @Override
-            public void enqueue(Callback<MessageResponse> callback) {
-                MessageResponse messageResponse = new MessageResponse();
-                Message message = MessagesFactory.createNewMessage();
-                messageResponse.setStatus("ok");
-                messageResponse.setMessage(message);
-                List<Match> matchList = MatchFactory.createNewMatches();
-                boolean isMatched = false;
-
-                for (Match match : matchList) {
-                    if (match.getUsername().equals(username)) {
-                        isMatched = true;
-                    }
-                }
+            public void enqueue(Callback<Messages> callback) {
+                Messages messages = new Messages();
+                messages.setMessages(MessagesFactory.createMessages(username));
+                messages.setCount(messages.getMessages().size());
+                messages.setAll(messages.getMessages().size());
 
                 if (gitinderToken == null || gitinderToken.isEmpty() || username.isEmpty()) {
-                    callback.onResponse(this, Response.<MessageResponse>error(403,
+                    callback.onResponse(this, Response.<Messages>error(403,
                             ResponseBody.create(MediaType.parse("application/json"),
                                     errorMessageFactory.getErrorJSON("Unauthorized request!"))));
-                } else if (!isMatched) {
-                    callback.onResponse(this, Response.<MessageResponse>error(404,
-                            ResponseBody.create(MediaType.parse("application/json"),
-                                    errorMessageFactory.getErrorJSON("Not matched with the user!"))));
                 } else {
-                    callback.onResponse(this, Response.success(201,messageResponse));
+                    callback.onResponse(this, Response.success(messages));
                 }
             }
         };

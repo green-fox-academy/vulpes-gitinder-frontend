@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.greenfox.gitinder">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".GitinderApp"
@@ -12,7 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
@@ -49,19 +49,30 @@
             android:name=".activity.ProfileActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/AppTheme"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
+        
         <activity
             android:name=".activity.SettingsTestingActivity"
             android:screenOrientation="portrait"
             android:label="GiTinder"
             android:theme="@style/AppTheme"/>
 
-        <receiver android:name=".api.reciever.BackgroundReceiver" android:exported="true">
+        <receiver
+            android:name=".api.reciever.BackgroundReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="intent"/>
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".activity.MessagesActivity"
+            android:icon="@mipmap/ic_launcher_round"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

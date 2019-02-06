@@ -80,7 +80,10 @@ public class NotificationService {
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
-        bitmap.recycle();
+//        if(bitmap != null && !bitmap.isRecycled()){
+//            bitmap.recycle();
+//            bitmap = null;
+//        }
 
         return output;
     }

@@ -14,7 +14,6 @@ public class Constants {
     public static final String ENABLE_BACKGROUNDSYNC = "enableBackgroundSync";
     public static final String MAX_DISTANCE = "maxDistance";
     public static final String NOTIFICATION_CHANNEL = "Notifications";
-    public static final String MATCHES_COUNT = "matchesCount";
     public static final String NEW_MATCH_GROUP = "newMatches";
     public static final String GO_TO_MATCHES = "GoToMatches";
     public static final String PROFILE = "profile";
@@ -27,5 +26,6 @@ public class Constants {
     public static final String GET_SETTINGS = "Get Settings";
     public static final String SAVE_SETTINGS = "Save Settings";
     public static final String GITINDER_API_URL = "https://gitinder.azurewebsites.net";
-
+    public static final int SENT_MESSAGE = 1;
+    public static final int RECEIVED_MESSAGE = 2;
 }

@@ -15,6 +15,7 @@ import com.greenfox.gitinder.api.service.GitinderAPI;
 
 import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.api.service.MessageService;
 import com.greenfox.gitinder.api.service.SnippetService;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.service.NotificationService;
