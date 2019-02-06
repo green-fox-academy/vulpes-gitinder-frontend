@@ -57,6 +57,6 @@ public class SnippetService {
         }
     }
     public interface SnippetListener{
-        public void onSnippetLoaded(String snippet);
+        void onSnippetLoaded(String snippet);
     }
 }
