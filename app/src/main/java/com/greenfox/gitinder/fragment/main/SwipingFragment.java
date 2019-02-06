@@ -236,6 +236,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void reload() {
+        disableButtonsAndSwiping();
         if (adapter.getItemCount() == 0) {
             showProgressBar();
             loadProfiles();
