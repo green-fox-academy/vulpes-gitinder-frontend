@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     SharedPreferences sharedPreferences;
 
     @Inject
-    NotificationService notificationService;
-
-    @Inject
     MatchService matchService;
 
     FloatingActionButton floatingActionButton;
@@ -56,13 +53,9 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Match match = MatchFactory.createNewMatch();
-        notificationService.createNotificationChannel(this);
-        notificationService.pushNewMatchNotification(match, this);
-
         toolbar = findViewById(R.id.main_toolbar);
-        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
+        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
 
         hideFloatingButtonWhenNoNewMatches();
         matchService.setNewMatchCountListener(this);

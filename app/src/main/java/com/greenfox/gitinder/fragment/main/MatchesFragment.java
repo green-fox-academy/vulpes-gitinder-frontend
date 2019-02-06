@@ -19,6 +19,7 @@ import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.service.NotificationService;
 
 import java.util.List;
 

@@ -22,7 +22,10 @@ import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.service.GitinderAPI;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Profile;
+import com.greenfox.gitinder.model.factory.MatchFactory;
+import com.greenfox.gitinder.service.NotificationService;
 import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
 import com.yuyakaido.android.cardstackview.CardStackListener;
 import com.yuyakaido.android.cardstackview.CardStackView;
@@ -55,6 +58,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Inject
     MatchService matchService;
+
+    @Inject
+    NotificationService notificationService;
 
     Button likeButton;
     Button nopeButton;
@@ -192,6 +198,8 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 Log.d(TAG, "Profile direction added - SUCCESS");
                 if (!(response.body().getMatch() == null)){
                     matchService.addMatch(response.body().getMatch());
+                    notificationService.createNotificationChannel(getActivity());
+                    notificationService.pushNewMatchNotification(response.body().getMatch(), getActivity());
                 }
             }
 
