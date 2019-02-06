@@ -24,7 +24,7 @@ import com.greenfox.gitinder.activity.MainActivity;
 import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.reciever.AlarmSetUp;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Settings;
 import com.squareup.picasso.Picasso;
@@ -54,7 +54,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public Settings settings;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
 
     @Nullable
@@ -130,7 +130,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     }
 
     public void logout() {
-        Call<GitinderResponse> call = gitinderAPI.logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
+        Call<GitinderResponse> call = gitinderAPI.provide(Constants.LOGOUT_ENDPOINT).logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
@@ -151,7 +151,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     @Override
     public void reload() {
 
-        gitinderAPI.getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
+        gitinderAPI.provide(Constants.GET_SETTINGS__ENDPOINT).getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
 
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {

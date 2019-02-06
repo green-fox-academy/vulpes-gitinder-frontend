@@ -50,7 +50,7 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
-        
+
         <activity
             android:name=".activity.SettingsTestingActivity"
             android:screenOrientation="portrait"

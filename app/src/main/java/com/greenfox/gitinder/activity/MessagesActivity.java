@@ -16,7 +16,7 @@ import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MessageAdapter;
 import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.MessageResponse;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Message;
@@ -46,7 +46,7 @@ public class MessagesActivity extends AppCompatActivity implements MatchService.
     SharedPreferences sharedPreferences;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
     @Inject
     MatchService matchService;
@@ -96,13 +96,13 @@ public class MessagesActivity extends AppCompatActivity implements MatchService.
     }
 
     public void sendNewMessage(String message, String recipient){
-        gitinderAPI.sendMessage(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+        gitinderAPI.provide(Constants.SEND_MESSAGE_ENDPOINT).sendMessage(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                 recipient, message).enqueue(new CustomCallback<MessageResponse>() {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 Log.d(TAG, "API.sendMessage: onResponse: Success");
 
-                gitinderAPI.messages(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                gitinderAPI.provide(Constants.GET_MESSAGES_ENDPOINT).messages(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                         recipient, 0).enqueue(new CustomCallback<Messages>() {
                     @Override
                     public void onResponse(Call<Messages> call, Response<Messages> response) {

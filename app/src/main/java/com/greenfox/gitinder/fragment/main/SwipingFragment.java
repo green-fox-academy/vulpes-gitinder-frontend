@@ -20,7 +20,7 @@ import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.CustomCallback;
 import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Profile;
@@ -49,7 +49,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     TextView extinctText;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -89,7 +89,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
             extinctText.setText("");
         }
 
-        Call<SwipeResponse> call = gitinderAPI.swipe(
+        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING_ENDPOINT).swipe(
                 sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                 sharedPreferences.getString(Constants.USERNAME, ""),
                 direction.toString().toLowerCase());
@@ -141,7 +141,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
-        Call<AvailableProfiles> call = gitinderAPI.getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
+        Call<AvailableProfiles> call = gitinderAPI.provide(Constants.GET_PROFILES_ENDPOINT).getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
 
         call.enqueue(new Callback<AvailableProfiles>() {
@@ -162,7 +162,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void seenProfile(int position){
-        Call<GitinderResponse> call = gitinderAPI.seenProfile(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),adapter.getProfiles().get(position).getUsername());
+        Call<GitinderResponse> call = gitinderAPI.provide(Constants.SEEN_ENDPOINT).seenProfile(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),adapter.getProfiles().get(position).getUsername());
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
@@ -179,7 +179,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void profileDirection(int position,Direction direction){
-        Call<SwipeResponse> call = gitinderAPI.swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
+        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING_ENDPOINT).swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
                 adapter.getProfiles().get(position).getUsername(),direction.toString());
 
         call.enqueue(new Callback<SwipeResponse>() {

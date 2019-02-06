@@ -7,8 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.greenfox.gitinder.Constants;
-
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.model.Matches;
 
 
@@ -28,13 +27,13 @@ public class BackgroundReceiver extends BroadcastReceiver {
     SharedPreferences sharedPreferences;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         AndroidInjection.inject(this,context);
-        Call<Matches> matchesCall = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
+        Call<Matches> matchesCall = gitinderAPI.provide(Constants.GET_MATCHES_ENDPOINT).matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
 
         matchesCall.enqueue(new Callback<Matches>() {
             @Override
