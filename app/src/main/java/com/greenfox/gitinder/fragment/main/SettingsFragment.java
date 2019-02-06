@@ -1,6 +1,5 @@
 package com.greenfox.gitinder.fragment.main;
 
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,8 +33,6 @@ import javax.inject.Inject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import javax.inject.Inject;
 
 public class SettingsFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "SettingsFragment";
@@ -130,7 +127,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     }
 
     public void logout() {
-        Call<GitinderResponse> call = gitinderAPI.provide(Constants.LOGOUT_ENDPOINT).logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
+        Call<GitinderResponse> call = gitinderAPI.provide(Constants.LOGOUT).logoutUser(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
@@ -151,7 +148,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     @Override
     public void reload() {
 
-        gitinderAPI.provide(Constants.GET_SETTINGS__ENDPOINT).getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
+        gitinderAPI.provide(Constants.GET_SETTINGS).getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
 
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {

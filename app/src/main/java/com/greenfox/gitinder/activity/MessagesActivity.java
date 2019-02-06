@@ -96,13 +96,13 @@ public class MessagesActivity extends AppCompatActivity implements MatchService.
     }
 
     public void sendNewMessage(String message, String recipient){
-        gitinderAPI.provide(Constants.SEND_MESSAGE_ENDPOINT).sendMessage(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+        gitinderAPI.provide(Constants.SEND_MESSAGE).sendMessage(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                 recipient, message).enqueue(new CustomCallback<MessageResponse>() {
             @Override
             public void onResponse(Call<MessageResponse> call, Response<MessageResponse> response) {
                 Log.d(TAG, "API.sendMessage: onResponse: Success");
 
-                gitinderAPI.provide(Constants.GET_MESSAGES_ENDPOINT).messages(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                gitinderAPI.provide(Constants.GET_MESSAGES).messages(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                         recipient, 0).enqueue(new CustomCallback<Messages>() {
                     @Override
                     public void onResponse(Call<Messages> call, Response<Messages> response) {

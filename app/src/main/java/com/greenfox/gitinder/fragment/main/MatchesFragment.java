@@ -77,7 +77,7 @@ public class MatchesFragment extends BaseFragment {
     }
 
     public void updateMatches(){
-        Call<Matches> call = gitinderAPI.provide(Constants.GET_MATCHES_ENDPOINT).matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
+        Call<Matches> call = gitinderAPI.provide(Constants.GET_MATCHES).matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<Matches>() {
             @Override

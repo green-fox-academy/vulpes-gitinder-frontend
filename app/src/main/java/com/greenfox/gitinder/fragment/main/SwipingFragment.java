@@ -89,7 +89,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
             extinctText.setText("");
         }
 
-        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING_ENDPOINT).swipe(
+        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING).swipe(
                 sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
                 sharedPreferences.getString(Constants.USERNAME, ""),
                 direction.toString().toLowerCase());
@@ -141,7 +141,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void loadProfiles() {
-        Call<AvailableProfiles> call = gitinderAPI.provide(Constants.GET_PROFILES_ENDPOINT).getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
+        Call<AvailableProfiles> call = gitinderAPI.provide(Constants.GET_PROFILES).getAvailable(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa"));
 
 
         call.enqueue(new Callback<AvailableProfiles>() {
@@ -162,7 +162,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void seenProfile(int position){
-        Call<GitinderResponse> call = gitinderAPI.provide(Constants.SEEN_ENDPOINT).seenProfile(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),adapter.getProfiles().get(position).getUsername());
+        Call<GitinderResponse> call = gitinderAPI.provide(Constants.SEEN).seenProfile(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),adapter.getProfiles().get(position).getUsername());
 
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
@@ -179,7 +179,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
     }
 
     private void profileDirection(int position,Direction direction){
-        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING_ENDPOINT).swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
+        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING).swipe(sharedPreferences.getString(Constants.GITINDER_TOKEN,"aaa"),
                 adapter.getProfiles().get(position).getUsername(),direction.toString());
 
         call.enqueue(new Callback<SwipeResponse>() {
