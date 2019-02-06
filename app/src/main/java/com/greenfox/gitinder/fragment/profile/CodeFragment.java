@@ -1,5 +1,6 @@
 package com.greenfox.gitinder.fragment.profile;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,13 +38,6 @@ public class CodeFragment extends BaseFragment implements SnippetService.Snippet
         profile = (Profile) getActivity().getIntent().getSerializableExtra(Constants.PROFILE);
         codeView = view.findViewById(R.id.fragment_code_codeview);
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        showProgressBar();
-        service.getSnippets(new SnippetRequest(profile.getSnippets().get(Integer.parseInt(getTitle())-1), null, this));
-        super.onResume();
     }
 
     @Override

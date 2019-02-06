@@ -69,10 +69,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         matchService.setNewMatchCountListener(this);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
-            Log.d(TAG, "Token is missing!");
             toLogin();
-        } else {
-            Log.d(TAG, "Token is present.");
         }
 
         Log.d(TAG, "onCreate: Starting.");
