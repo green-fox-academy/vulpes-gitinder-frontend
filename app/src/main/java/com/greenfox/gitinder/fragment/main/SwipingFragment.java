@@ -101,6 +101,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
                 if (!(response.body().getMatch() == null)){
                     matchService.addMatch(response.body().getMatch());
                     MatchesDialog matchesDialog = new MatchesDialog();
+                    matchesDialog.setMatch(response.body().getMatch());
                     matchesDialog.show(getFragmentManager(), "matchesDialog");
                 }
             }
