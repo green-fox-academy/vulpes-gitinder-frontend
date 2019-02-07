@@ -53,8 +53,6 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     @Inject
     GitinderAPIService gitinderAPI;
 
-// TODO: To test with backend - available, settings, matches, logout
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -67,6 +65,8 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
+
+        reload();
 
         logoutButton.setOnClickListener(v -> {
             logout();
