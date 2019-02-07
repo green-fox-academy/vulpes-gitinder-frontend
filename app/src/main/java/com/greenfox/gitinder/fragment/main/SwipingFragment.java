@@ -254,7 +254,7 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardAppeared(View view, int position) {
-        Log.d(TAG, "onCardAppeared: adapter.getProfiles().size() " + adapter.getProfiles().size());
+        Log.d(TAG, "onCardAppeared: adapter.getProfiles().size(): " + adapter.getProfiles().size());
         if (position > 1){
             seenProfile(position);
         }
