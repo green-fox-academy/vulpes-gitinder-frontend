@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
@@ -17,14 +14,13 @@ import com.greenfox.gitinder.api.model.GitHubUsername;
 import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GithubTokenAPI;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.model.User;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjection;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
@@ -37,7 +33,7 @@ public class Login extends AppCompatActivity {
     GithubTokenAPI githubTokenAPI;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
     @Inject
     GithubAPI githubAPI;
@@ -81,7 +77,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<GitHubUsername> call, Response<GitHubUsername> response2) {
                         sharedPreferences.edit().putString(Constants.USERNAME, response2.body().getLogin()).apply();
-                        gitinderAPI.login(new User(response2.body().getLogin(), response.body().getToken())).enqueue(new CustomCallback<LoginResponse>() {
+                        gitinderAPI.provide(Constants.LOGIN).login(new User(response2.body().getLogin(), response.body().getToken())).enqueue(new CustomCallback<LoginResponse>() {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response3) {
                                 sharedPreferences.edit().putString(Constants.USERNAME, response2.body().getLogin()).apply();
