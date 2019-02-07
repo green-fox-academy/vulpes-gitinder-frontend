@@ -18,6 +18,7 @@ public class MatchService {
 
     public MatchService(NotificationService notificationService) {
         this.notificationService = notificationService;
+        matchList = new ArrayList<>();
     }
 
     public MatchService() {
@@ -52,21 +53,6 @@ public class MatchService {
             }
         }
         return counter;
-    }
-
-    public void newMatchesForReceiver(List<Match> matches, Context context){
-        for (int i = 0; i < matchList.size(); i++) {
-            for (int j = 0; j < matches.size() ; j++) {
-                if (!matchList.get(i).getUsername().equals(matches.get(j).getUsername())){
-                    matchList.add(matches.get(j));
-                    notificationService.pushNewMatchNotification(matches.get(j),context);
-                }
-
-            }
-
-        }
-
-
     }
 
     public List<Match> getMatchList() {
