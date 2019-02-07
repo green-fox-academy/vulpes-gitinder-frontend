@@ -41,6 +41,14 @@
     <string name="message_sent_you_text">You</string>
     <string name="message_receceived_sender_palceholder">Jesus</string>
     <string name="card_extinct">The cards have gone extinct.</string>
+    <string name="testing_settings_header">Please select what live endpoints should be used</string>
+    <string name="testing_settings_get_profiles">Get Profiles</string>
+    <string name="testing_settings_swiping">Swiping</string>
+    <string name="testing_settings_get_matches">Get Matches</string>
+    <string name="testing_settings_get_messages">Get Messages</string>
+    <string name="testing_settings_send_message">Send Message</string>
+    <string name="testing_settings_get_settings">Get Settings</string>
+    <string name="testing_settings_save_settings">Save Settings</string>
 
     <!-- NavigationView -->
     <string name="open_drawer">Open drawer</string>

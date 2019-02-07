@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -68,10 +69,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         matchService.setNewMatchCountListener(this);
 
         if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
-            Log.d(TAG, "Token is missing!");
             toLogin();
-        } else {
-            Log.d(TAG, "Token is present.");
         }
 
         Log.d(TAG, "onCreate: Starting.");
@@ -114,9 +112,24 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.toolbar_debug_settings) {
+            Intent intent = new Intent(this, SettingsTestingActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        MenuItem build = menu.findItem(R.id.toolbar_debug_settings);
+        if (!BuildConfig.FLAVOR.equals("dev")) {
+            build.setVisible(false);
+        } else {
+            build.setVisible(true);
+        }
         ImageView rotateButton = (ImageView) menu.findItem(R.id.toolbar_refresh).getActionView();
         if (rotateButton != null) {
             rotateButton.setImageResource(R.drawable.button_refresh);

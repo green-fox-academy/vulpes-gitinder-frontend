@@ -46,7 +46,7 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="bottom"
             android:background="?attr/colorPrimary"
-            app:tabMode="scrollable" />
+            app:tabMode="fixed" />
     </android.support.design.widget.AppBarLayout>
 
     <com.greenfox.gitinder.model.NonSwipeableViewPager
