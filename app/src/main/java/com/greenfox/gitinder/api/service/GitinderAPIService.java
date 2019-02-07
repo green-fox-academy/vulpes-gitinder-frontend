@@ -5,13 +5,11 @@ import com.greenfox.gitinder.api.model.TestSetting;
 
 public class GitinderAPIService {
 
-    GitinderAPI stagingAPI;
     GitinderAPI realAPI;
     GitinderAPI mockAPI;
     TestSetting settings;
 
-    public GitinderAPIService(GitinderAPI stagingAPI, GitinderAPI realAPI, GitinderAPI mockAPI, TestSetting settings) {
-        this.stagingAPI = stagingAPI;
+    public GitinderAPIService(GitinderAPI realAPI, GitinderAPI mockAPI, TestSetting settings) {
         this.realAPI = realAPI;
         this.mockAPI = mockAPI;
         this.settings = settings;
@@ -20,11 +18,11 @@ public class GitinderAPIService {
     public GitinderAPI provide(String endpoint) {
         if (BuildConfig.FLAVOR.equals("dev")) {
             if (settings.getEndpoints().containsKey(endpoint) && settings.getStatus(endpoint)) {
-                return stagingAPI;
+                return realAPI;
             }
             return mockAPI;
         } else if (BuildConfig.FLAVOR.equals("staging")) {
-            return stagingAPI;
+            return realAPI;
         }
         return realAPI;
     }

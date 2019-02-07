@@ -29,7 +29,7 @@ public class Constants {
     public static final String LOGOUT = "Logout";
     public static final String SEEN = "Seen";
     public static final String GITINDER_API_STAGING_URL = "https://gitinder-staging.azurewebsites.net";
-    public static final String GITINDER_API_LIVE_URL = "https://gitinder-staging.azurewebsites.net";
+    public static final String GITINDER_API_LIVE_URL = "https://gitinder-dev.azurewebsites.net";
     public static final int SENT_MESSAGE = 1;
     public static final int RECEIVED_MESSAGE = 2;
 }
