@@ -20,7 +20,7 @@ public class GitinderAPIService {
     public GitinderAPI provide(String endpoint) {
         if (BuildConfig.FLAVOR.equals("dev")) {
             if (settings.getEndpoints().containsKey(endpoint) && settings.getStatus(endpoint)) {
-                return realAPI;
+                return stagingAPI;
             }
             return mockAPI;
         } else if (BuildConfig.FLAVOR.equals("staging")) {
