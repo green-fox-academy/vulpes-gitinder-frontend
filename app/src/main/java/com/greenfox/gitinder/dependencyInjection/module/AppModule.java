@@ -86,8 +86,14 @@ public class AppModule {
 
     @Provides
     @Singleton
+    GitinderAPI stagingApi() {
+        return new Retrofit.Builder().baseUrl(Constants.GITINDER_API_STAGING_URL).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
+    }
+
+    @Provides
+    @Singleton
     GitinderAPI realApi() {
-        return new Retrofit.Builder().baseUrl(Constants.GITINDER_API_URL).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
+        return new Retrofit.Builder().baseUrl(Constants.GITINDER_API_LIVE_URL).addConverterFactory(GsonConverterFactory.create()).build().create(GitinderAPI.class);
     }
 
     @Provides
@@ -117,7 +123,7 @@ public class AppModule {
     @Provides
     @Singleton
     @Inject
-    GitinderAPIService gitinderAPIService(GitinderAPI realAPI, BackendMockAPI mockAPI, TestSetting testSettings) {
-        return new GitinderAPIService(realAPI, mockAPI, testSettings);
+    GitinderAPIService gitinderAPIService(GitinderAPI stagingAPI, GitinderAPI realAPI, BackendMockAPI mockAPI, TestSetting testSettings) {
+        return new GitinderAPIService(stagingAPI, realAPI, mockAPI, testSettings);
     }
 }
