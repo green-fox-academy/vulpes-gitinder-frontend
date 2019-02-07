@@ -9,7 +9,9 @@ import android.util.Log;
 import com.greenfox.gitinder.Constants;
 
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
+import com.greenfox.gitinder.service.NotificationService;
 
 
 import javax.inject.Inject;
@@ -30,6 +32,10 @@ public class BackgroundReceiver extends BroadcastReceiver {
     @Inject
     GitinderAPI gitinderAPI;
 
+    @Inject
+    NotificationService notificationService;
+
+
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -40,6 +46,12 @@ public class BackgroundReceiver extends BroadcastReceiver {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 Log.d(TAG, "onResponse: matches called");
+                if (response.body() != null && sharedPreferences.getBoolean(Constants.ENABLE_NOTIFICATIONS,false)){
+                    for (Match m: response.body().getMatches()) {
+                        notificationService.pushNewMatchNotification(m,context);
+
+                    }
+                }
             }
 
             @Override
