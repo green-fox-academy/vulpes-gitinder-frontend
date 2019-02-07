@@ -3,6 +3,7 @@ package com.greenfox.gitinder.api.service;
 import android.content.SharedPreferences;
 
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.service.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +12,16 @@ import javax.inject.Inject;
 
 public class MatchService {
 
-    @Inject
-    GitinderAPI gitinderAPI;
 
-    @Inject
-    SharedPreferences sharedPreferences;
 
     List<Match> matchList;
     NewMatchCountListener newMatchCountListener;
     MatchesListener matchesListener;
+    NotificationService notificationService;
+
+    public MatchService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
 
     public MatchService() {
         this.matchList = new ArrayList<>();
@@ -55,6 +57,20 @@ public class MatchService {
             }
         }
         return counter;
+    }
+
+    public void newMatchesForReceiver(List<Match> matches){
+        for (int i = 0; i < matchList.size(); i++) {
+            for (int j = 0; j < matches.size() ; j++) {
+                if (!matchList.get(i).getUsername().equals(matches.get(j).getUsername())){
+                    matchList.add(matches.get(j));
+                }
+
+            }
+
+        }
+
+
     }
 
     public List<Match> getMatchList() {

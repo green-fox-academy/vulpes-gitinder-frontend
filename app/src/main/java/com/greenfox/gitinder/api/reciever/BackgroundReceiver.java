@@ -36,7 +36,6 @@ public class BackgroundReceiver extends BroadcastReceiver {
     NotificationService notificationService;
 
 
-
     @Override
     public void onReceive(Context context, Intent intent) {
         AndroidInjection.inject(this,context);
@@ -46,11 +45,8 @@ public class BackgroundReceiver extends BroadcastReceiver {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 Log.d(TAG, "onResponse: matches called");
-                if (response.body() != null && sharedPreferences.getBoolean(Constants.ENABLE_NOTIFICATIONS,false)){
-                    for (Match m: response.body().getMatches()) {
-                        notificationService.pushNewMatchNotification(m,context);
+                if (response.body() != null){
 
-                    }
                 }
             }
 
