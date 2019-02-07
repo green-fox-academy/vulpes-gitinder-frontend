@@ -132,7 +132,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
-                sharedPreferences.edit().remove(Constants.GITINDER_TOKEN).apply();
+                sharedPreferences.edit().clear().apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
