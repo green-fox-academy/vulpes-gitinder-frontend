@@ -53,7 +53,6 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     @Inject
     GitinderAPIService gitinderAPI;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,6 +65,8 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
+
+        reload();
 
         logoutButton.setOnClickListener(v -> {
             logout();
@@ -87,13 +88,24 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         if (buttonView.isChecked() != sharedPreferences.getBoolean((String) buttonView.getTag(), false)) {
             settings.setEnableNotifications(isChecked);
             settings.setEnableBackgroundSync(isChecked);
-            sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
-            Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
-            if (!bSyncSwitch.isChecked()) {
-                alarmSetUp.stopAlarm(getContext());
-            }else {
-                alarmSetUp.startAlarm(getContext());
-            }
+
+
+            Call<GitinderResponse> gitinderResponseCall = gitinderAPI.provide(Constants.SAVE_SETTINGS)
+                    .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), settings);
+            gitinderResponseCall.enqueue(new CustomCallback<GitinderResponse>() {
+                @Override
+                public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                    Log.d(TAG, "onCheckedChanged: onResponse: SUCCESSFUL");
+                    sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
+                    Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
+                    if (!bSyncSwitch.isChecked()) {
+                        alarmSetUp.stopAlarm(getContext());
+                    }else {
+                        alarmSetUp.startAlarm(getContext());
+                    }
+                }
+            });
+
         }
     }
 
@@ -115,7 +127,15 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 settings.setMaxDistance(seekBar.getProgress());
-                sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
+                Call<GitinderResponse> gitinderResponseCall = gitinderAPI.provide(Constants.SAVE_SETTINGS)
+                        .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), settings);
+                gitinderResponseCall.enqueue(new CustomCallback<GitinderResponse>() {
+                    @Override
+                    public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
+                        Log.d(TAG, "onStopTrackingTouch: onResponse: SUCCESSFUL");
+                        sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
+                    }
+                });
             }
         });
     }
