@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
+import com.greenfox.gitinder.activity.MatchesDialog;
 import com.greenfox.gitinder.adapter.CardStackAdapter;
 import com.greenfox.gitinder.api.model.AvailableProfiles;
 import com.greenfox.gitinder.api.model.CustomCallback;
@@ -99,6 +100,9 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
             public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
                 if (!(response.body().getMatch() == null)){
                     matchService.addMatch(response.body().getMatch());
+                    MatchesDialog matchesDialog = new MatchesDialog();
+                    matchesDialog.setMatch(response.body().getMatch());
+                    matchesDialog.show(getFragmentManager(), "matchesDialog");
                 }
             }
         });
