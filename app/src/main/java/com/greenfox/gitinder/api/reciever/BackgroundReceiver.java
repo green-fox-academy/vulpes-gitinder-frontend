@@ -9,7 +9,9 @@ import android.util.Log;
 import com.greenfox.gitinder.Constants;
 
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.service.NotificationService;
 
@@ -30,23 +32,23 @@ public class BackgroundReceiver extends BroadcastReceiver {
     SharedPreferences sharedPreferences;
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
     @Inject
-    NotificationService notificationService;
+    MatchService matchService;
 
 
     @Override
     public void onReceive(Context context, Intent intent) {
         AndroidInjection.inject(this,context);
-        Call<Matches> matchesCall = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
+        Call<Matches> matchesCall = gitinderAPI.provide(Constants.GET_MATCHES).matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, "abc"));
 
         matchesCall.enqueue(new Callback<Matches>() {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
                 Log.d(TAG, "onResponse: matches called");
-                if (response.body() != null){
-
+                if (response.body() != null && sharedPreferences.getBoolean(Constants.ENABLE_NOTIFICATIONS,false)){
+                    matchService.newMatchesForReceiver(response.body().getMatches(),context);
                 }
             }
 

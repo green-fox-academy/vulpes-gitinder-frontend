@@ -4,10 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/toolbar_debug_settings"
+        android:icon="@drawable/ic_build_black_24dp"
+        android:title="Build Settings"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/toolbar_refresh"
         android:icon="@drawable/button_refresh"
         android:title="@string/toolbar_refresh"
         app:actionViewClass="android.widget.ImageView"
         app:showAsAction="ifRoom" />
-
 </menu>

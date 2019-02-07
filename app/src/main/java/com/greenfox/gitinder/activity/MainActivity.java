@@ -9,12 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
@@ -41,9 +43,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     SharedPreferences sharedPreferences;
 
     @Inject
-    NotificationService notificationService;
-
-    @Inject
     MatchService matchService;
 
     FloatingActionButton floatingActionButton;
@@ -54,23 +53,17 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = findViewById(R.id.main_toolbar);
-
-        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
         floatingActionButton = findViewById(R.id.floating_action_button);
+        floatingActionButtonText = findViewById(R.id.floating_action_button_text);
 
-        matchService.setNewMatchCountListener(this);
         hideFloatingButtonWhenNoNewMatches();
-        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
-            Log.d(TAG, "Token is missing!");
-            toLogin();
-        } else {
-            Log.d(TAG, "Token is present.");
-        }
+        matchService.setNewMatchCountListener(this);
 
-        Match match = MatchFactory.createNewMatch();
-        notificationService.createNotificationChannel(this);
-        notificationService.pushNewMatchNotification(match, this);
+        if (!sharedPreferences.contains(Constants.GITINDER_TOKEN)) {
+            toLogin();
+        }
 
         Log.d(TAG, "onCreate: Starting.");
         Log.d(TAG, "MATCHES_COUNT: " + matchService.getNewMatchesCount());
@@ -83,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         tabLayout.setupWithViewPager(mViewPager);
         setSupportActionBar(toolbar);
         getSupportActionBar().setLogo(R.mipmap.gitinder_icon);
+
         floatingActionButton.setOnClickListener(v -> {
             toMatchesFragment();
         });
@@ -90,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.gitinder_icon);
+
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
             toMatchesFragment();
         }
-
     }
 
     public void setupViewPager(NonSwipeableViewPager viewPager) {
@@ -101,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         sectionsPageAdapter.addFragment(new SwipingFragment(), getString(R.string.tab_title_swiping));
         sectionsPageAdapter.addFragment(new MatchesFragment(), getString(R.string.tab_title_matches));
         sectionsPageAdapter.addFragment(new SettingsFragment(), getString(R.string.tab_title_settings));
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(sectionsPageAdapter);
     }
 
@@ -111,9 +106,24 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.toolbar_debug_settings) {
+            Intent intent = new Intent(this, SettingsTestingActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         animation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        MenuItem build = menu.findItem(R.id.toolbar_debug_settings);
+        if (!BuildConfig.FLAVOR.equals("dev")) {
+            build.setVisible(false);
+        } else {
+            build.setVisible(true);
+        }
         ImageView rotateButton = (ImageView) menu.findItem(R.id.toolbar_refresh).getActionView();
         if (rotateButton != null) {
             rotateButton.setImageResource(R.drawable.button_refresh);
@@ -128,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     public void toMatchesFragment(){
         mViewPager.setCurrentItem(1);
     }
-
 
     @Override
     public void onMatchCountChanged(int newMatchCount) {

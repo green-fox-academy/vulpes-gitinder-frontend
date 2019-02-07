@@ -1,7 +1,7 @@
 package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,25 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.greenfox.gitinder.BuildConfig;
-import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
-import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.activity.MessagesActivity;
 import com.greenfox.gitinder.model.Match;
-import com.greenfox.gitinder.model.factory.MessagesFactory;
+import com.greenfox.gitinder.api.service.MatchService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> implements MatchService.MatchesListener{
 
     private LayoutInflater mInflater;
-    private List<Match> matchList;
-    private MatchService matchService;
+    List<Match> matchList;
+    MatchService matchService;
 
     public MatchAdapter(Context context, MatchService matchService) {
         this.mInflater = LayoutInflater.from(context);
@@ -51,12 +46,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         String username = matchList.get(position).getUsername();
         String avatarUrl = matchList.get(position).getAvatarUrl();
 
-        String lastMessage;
-        if(matchList.get(position).getMessages().size() == 0){
-            lastMessage = "";
-        } else {
-            lastMessage = matchList.get(position).getLastMessage();
-        }
+        String lastMessage = getLastMatchMessage(position);
 
         if(matchList.get(position).isNew()){
             holder.newText.setText("NEW");
@@ -99,14 +89,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profileButton = itemView.findViewById(R.id.match_profile_button);
             profilePicture = itemView.findViewById(R.id.match_picture);
 
-            if (BuildConfig.FLAVOR.equals("dev")) {
-                messagesButton.setOnClickListener(v -> {
-                    setMessageToMatch(matchList.get(getAdapterPosition()));
-                    notifyDataSetChanged();
-                });
-            } else {
-                messagesButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "PIVO PROSIM", Toast.LENGTH_SHORT).show());
-            }
+            messagesButton.setOnClickListener(v -> {
+                Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
+                intent.putExtra("match", matchList.get(getAdapterPosition()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intent);
+            });
 
             profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
         }
@@ -125,8 +113,14 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
         matchList.clear();
     }
 
-    public void setMessageToMatch(Match match){
-        match.setMessages(MessagesFactory.createMessage());
-        matchService.updateNewMatchesCount();
+    public String getLastMatchMessage(int viewHolderPosition){
+        String last;
+        if(matchList.get(viewHolderPosition).getMessages().size() == 0){
+            last = "";
+        } else {
+            last = matchList.get(viewHolderPosition).getLastMessage();
+        }
+        return last;
     }
+
 }
