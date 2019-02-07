@@ -16,7 +16,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.MatchAdapter;
-import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Match;
@@ -35,7 +35,7 @@ public class MatchesFragment extends BaseFragment {
     private static final String TAG = "MatchesFragment";
 
     @Inject
-    GitinderAPI gitinderAPI;
+    GitinderAPIService gitinderAPI;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -77,7 +77,7 @@ public class MatchesFragment extends BaseFragment {
     }
 
     public void updateMatches(){
-        Call<Matches> call = gitinderAPI.matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
+        Call<Matches> call = gitinderAPI.provide(Constants.GET_MATCHES).matches(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""));
 
         call.enqueue(new Callback<Matches>() {
             @Override

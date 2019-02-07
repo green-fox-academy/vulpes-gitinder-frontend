@@ -1,6 +1,8 @@
 package com.greenfox.gitinder;
 
 
+import javax.inject.Singleton;
+
 public class Constants {
     public static final String SHARED_PREFERENCES = "preference";
     public static final String GITINDER_TOKEN = "gitinder-token";
@@ -16,7 +18,17 @@ public class Constants {
     public static final String GO_TO_MATCHES = "GoToMatches";
     public static final String PROFILE = "profile";
     public static final String USERNAME = "username";
+    public static final String GET_PROFILES = "Get Profiles";
+    public static final String SWIPING = "Swiping";
+    public static final String GET_MATCHES = "Get Matches";
+    public static final String GET_MESSAGES = "GET Messages";
+    public static final String SEND_MESSAGE = "Send Message";
+    public static final String GET_SETTINGS = "Get Settings";
+    public static final String SAVE_SETTINGS = "Save Settings";
+    public static final String LOGIN = "Login";
+    public static final String LOGOUT = "Logout";
+    public static final String SEEN = "Seen";
+    public static final String GITINDER_API_URL = "https://gitinder.azurewebsites.net";
     public static final int SENT_MESSAGE = 1;
     public static final int RECEIVED_MESSAGE = 2;
-
 }
