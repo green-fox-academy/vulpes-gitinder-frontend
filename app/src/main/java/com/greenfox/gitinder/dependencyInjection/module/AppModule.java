@@ -8,6 +8,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.api.mock.BackendMockAPI;
 import com.greenfox.gitinder.api.model.TestSetting;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GithubAPI;
 import com.greenfox.gitinder.api.service.GithubTokenAPI;
 import com.greenfox.gitinder.api.service.GitinderAPI;
@@ -104,8 +105,9 @@ public class AppModule {
 
     @Provides
     @Singleton
-    MatchService matchService() {
-        return new MatchService();
+    @Inject
+    MatchService matchService(NotificationService notificationService) {
+        return new MatchService(notificationService);
     }
 
     @Provides
@@ -120,4 +122,8 @@ public class AppModule {
     GitinderAPIService gitinderAPIService(GitinderAPI realAPI, BackendMockAPI mockAPI, TestSetting testSettings) {
         return new GitinderAPIService(realAPI, mockAPI, testSettings);
     }
+
+    @Provides
+    @Singleton
+    AlarmSetUp alarmSetUp(){return new AlarmSetUp();}
 }

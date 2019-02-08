@@ -1,7 +1,11 @@
 package com.greenfox.gitinder.api.service;
 
+import android.content.Context;
+
 import com.greenfox.gitinder.model.Match;
+import com.greenfox.gitinder.service.NotificationService;
 import com.greenfox.gitinder.model.Message;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +14,12 @@ public class MatchService {
     List<Match> matchList;
     NewMatchCountListener newMatchCountListener;
     MatchesListener matchesListener;
+    NotificationService notificationService;
+
+    public MatchService(NotificationService notificationService) {
+        this.notificationService = notificationService;
+        matchList = new ArrayList<>();
+    }
 
     public MatchService() {
         this.matchList = new ArrayList<>();

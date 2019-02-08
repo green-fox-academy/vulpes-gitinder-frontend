@@ -21,8 +21,15 @@ public class AlarmSetUp {
         alarmContext = context;
     }
 
-    public void startAlarm(Context context) {
-        alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    public AlarmSetUp() {
+    }
+
+    public void setAlarmContext(Context alarmContext) {
+        this.alarmContext = alarmContext;
+    }
+
+    public void startAlarm() {
+        alarm = (AlarmManager) alarmContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, 0);
         if (BuildConfig.FLAVOR.equals(Constants.STAGING)) {
@@ -31,8 +38,8 @@ public class AlarmSetUp {
         alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 60000, pendingIntent);
     }
 
-    public void stopAlarm(Context context) {
-        alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+    public void stopAlarm() {
+        alarm = (AlarmManager) alarmContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, 0);
         alarm.cancel(pendingIntent);
