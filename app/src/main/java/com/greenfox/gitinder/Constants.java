@@ -18,6 +18,7 @@ public class Constants {
     public static final String GO_TO_MATCHES = "GoToMatches";
     public static final String PROFILE = "profile";
     public static final String USERNAME = "username";
+    public static final String USER_PICTURE = "userPic";
     public static final String GET_PROFILES = "Get Profiles";
     public static final String SWIPING = "Swiping";
     public static final String GET_MATCHES = "Get Matches";
