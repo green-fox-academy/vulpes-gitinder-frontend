@@ -70,8 +70,8 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
-        maximumDistance = (TextView) getView().findViewById(R.id.maximumDistance);
-
+        settingSeekBar();
+        displayImage();
         reload();
 
         logoutButton.setOnClickListener(v -> {
@@ -84,8 +84,6 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         bSyncSwitch.setTag(Constants.ENABLE_BACKGROUNDSYNC);
         notificationSwitch.setChecked(sharedPreferences.getBoolean((String) notificationSwitch.getTag(), false));
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
-        settingSeekBar();
-        displayImage();
     }
 
     @Override
