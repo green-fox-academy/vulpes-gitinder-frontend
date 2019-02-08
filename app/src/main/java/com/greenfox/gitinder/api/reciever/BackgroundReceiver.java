@@ -61,8 +61,7 @@ public class BackgroundReceiver extends BroadcastReceiver {
                         }
                     } else {
                         for (int i = 0; i < newMatchList.size(); i++) {
-                            for (int j = 0; j < matchService.getMatchList().size(); j++) {
-                                if (!response.body().getMatches().get(j).getUsername().equals(newMatchList.get(i).getUsername())) {
+                                if (!matchService.getMatchList().contains(newMatchList.get(i))) {
                                     matchService.addMatch(newMatchList.get(i));
                                     notificationService.pushNewMatchNotification(newMatchList.get(i), context);
                                     Log.d(TAG, "onResponse: notification fired");
@@ -70,7 +69,7 @@ public class BackgroundReceiver extends BroadcastReceiver {
                             }
                         }
                     }
-                }
+
             }
 
             @Override

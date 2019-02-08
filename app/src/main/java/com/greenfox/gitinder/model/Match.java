@@ -102,4 +102,13 @@ public class Match implements Parcelable {
         dest.writeString(matchedAt);
         dest.writeList(messages);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Match){
+            return ((Match) obj).getUsername().equals(username);
+        }
+        return false;
+    }
+
 }
