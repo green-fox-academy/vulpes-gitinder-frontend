@@ -70,6 +70,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         notificationSwitch = getView().findViewById(R.id.notifications);
         bSyncSwitch = getView().findViewById(R.id.bckSync);
         logoutButton = getView().findViewById(R.id.settings_logout_button);
+        maximumDistance = (TextView) getView().findViewById(R.id.maximumDistance);
 
         reload();
 
