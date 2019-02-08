@@ -25,8 +25,8 @@ public class AlarmSetUp {
         alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(alarmContext, BackgroundReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(alarmContext, 0, intent, 0);
-        if (BuildConfig.FLAVOR.equals("live")) {
-            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 300000, pendingIntent);
+        if (BuildConfig.FLAVOR.equals(Constants.STAGING)) {
+            alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 10000, pendingIntent);
         }
         alarm.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), 60000, pendingIntent);
     }
