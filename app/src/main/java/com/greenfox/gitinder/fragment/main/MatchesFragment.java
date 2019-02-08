@@ -52,12 +52,22 @@ public class MatchesFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        RecyclerView recyclerView = view.findViewById(R.id.fragment_matches_recycler_view);
+    public void onResume(){
+        super.onResume();
+        matchService.updateMatches();
+    }
 
-        matchAdapter = new MatchAdapter(getActivity().getApplicationContext(), matchService);
+    public void setupRecyclerViewAndAdapter(){
+        RecyclerView recyclerView = getView().findViewById(R.id.fragment_matches_recycler_view);
+
+        matchAdapter = new MatchAdapter(getActivity(), matchService);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(matchAdapter);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        setupRecyclerViewAndAdapter();
     }
 
     public void updateMatches(){
@@ -66,11 +76,23 @@ public class MatchesFragment extends BaseFragment {
         call.enqueue(new Callback<Matches>() {
             @Override
             public void onResponse(Call<Matches> call, Response<Matches> response) {
-                Log.d(TAG, "Getting matches - SUCCESS");
+                Log.d(TAG, "onResponse: matches called");
+                if (response.body() != null && sharedPreferences.getBoolean(Constants.ENABLE_NOTIFICATIONS,false)){
+                    List<Match> newMatchList = response.body().getMatches();
+                    Log.d(TAG, "onResponse: received new matchList" + (newMatchList.size() - matchService.getMatchList().size()));
+                    if (matchService.getMatchList().size() == 0) {
+                        matchService.addMatches(response.body().getMatches());
+                        for (Match m: response.body().getMatches()) {
+                        }
+                    } else {
+                        for (int i = 0; i < newMatchList.size(); i++) {
+                            if (!matchService.getMatchList().contains(newMatchList.get(i))) {
+                                matchService.addMatch(newMatchList.get(i));
+                            }
+                        }
+                    }
+                }
 
-                List<Match> responseMatches = response.body().getMatches();
-
-                matchService.addMatches(responseMatches);
             }
 
             @Override
