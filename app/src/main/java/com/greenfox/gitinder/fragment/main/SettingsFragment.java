@@ -28,6 +28,8 @@ import com.greenfox.gitinder.fragment.BaseFragment;
 import com.greenfox.gitinder.model.Settings;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import retrofit2.Call;
@@ -48,7 +50,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     SharedPreferences sharedPreferences;
 
     @Inject
-    public Settings settings;
+    Settings settings;
 
     @Inject
     GitinderAPIService gitinderAPI;
@@ -86,17 +88,19 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView.isChecked() != sharedPreferences.getBoolean((String) buttonView.getTag(), false)) {
-            settings.setEnableNotifications(isChecked);
-            settings.setEnableBackgroundSync(isChecked);
-
+            sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
 
             Call<GitinderResponse> gitinderResponseCall = gitinderAPI.provide(Constants.SAVE_SETTINGS)
-                    .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), settings);
+                    .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), getSharedPrefSettings());
             gitinderResponseCall.enqueue(new CustomCallback<GitinderResponse>() {
                 @Override
                 public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                     Log.d(TAG, "onCheckedChanged: onResponse: SUCCESSFUL");
-                    sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
+
+                    Log.d(TAG, "onResponse SAVE: Code: " + response.code());
+                    Log.d(TAG, "onResponse SAVE: Message: " + response.message());
+                    Log.d(TAG, "onResponse SAVE: Body: " + response.body());
+
                     Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
                     if (!bSyncSwitch.isChecked()) {
                         alarmSetUp.stopAlarm(getContext());
@@ -117,7 +121,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                maximumDistance.setText(getString(R.string.settings_maximum_distance) + seekBar.getProgress());
+                maximumDistance.setText(getString(R.string.settings_maximum_distance) + " " + seekBar.getProgress());
             }
 
             @Override
@@ -127,13 +131,18 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 settings.setMaxDistance(seekBar.getProgress());
+                sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
+
                 Call<GitinderResponse> gitinderResponseCall = gitinderAPI.provide(Constants.SAVE_SETTINGS)
-                        .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), settings);
+                        .updateSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""), getSharedPrefSettings());
                 gitinderResponseCall.enqueue(new CustomCallback<GitinderResponse>() {
                     @Override
                     public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
                         Log.d(TAG, "onStopTrackingTouch: onResponse: SUCCESSFUL");
-                        sharedPreferences.edit().putInt(Constants.MAX_DISTANCE, seekBar.getProgress()).apply();
+
+                        Log.d(TAG, "onResponse SAVE: Code: " + response.code());
+                        Log.d(TAG, "onResponse SAVE: Message: " + response.message());
+                        Log.d(TAG, "onResponse SAVE: Body: " + response.body());
                     }
                 });
             }
@@ -143,7 +152,16 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     //Hardcoded image
     public void displayImage() {
         imageView = (ImageView) getView().findViewById(R.id.imageView);
-        Picasso.get().load("https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg").into(imageView);
+        Picasso.get().load(sharedPreferences.getString(Constants.USER_PICTURE, "")).into(imageView);
+    }
+
+    public Settings getSharedPrefSettings(){
+        Settings putSettings = new Settings();
+        putSettings.setEnableBackgroundSync(sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC, false));
+        putSettings.setEnableNotifications(sharedPreferences.getBoolean(Constants.ENABLE_NOTIFICATIONS, false));
+        putSettings.setMaxDistance(sharedPreferences.getInt(Constants.MAX_DISTANCE, 0));
+        putSettings.setPreferredLanguages(new ArrayList<>());
+        return  putSettings;
     }
 
     public void logout() {
@@ -152,7 +170,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         call.enqueue(new Callback<GitinderResponse>() {
             @Override
             public void onResponse(Call<GitinderResponse> call, Response<GitinderResponse> response) {
-                sharedPreferences.edit().remove(Constants.GITINDER_TOKEN).apply();
+                sharedPreferences.edit().clear().apply();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
@@ -162,19 +180,21 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
                 Log.d(TAG, t.getMessage());
             }
         });
-        Picasso.get().load("https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg").into(imageView);
     }
 
     @Override
     public void reload() {
 
-        gitinderAPI.provide(Constants.GET_SETTINGS).getSettings(Constants.GITINDER_TOKEN).enqueue(new CustomCallback<Settings>() {
+        gitinderAPI.provide(Constants.GET_SETTINGS).getSettings(sharedPreferences.getString(Constants.GITINDER_TOKEN, "aaa")).enqueue(new CustomCallback<Settings>() {
 
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {
+                Log.d(TAG, "onResponse GET: Code: " + response.code());
+                Log.d(TAG, "onResponse GET: Message: " + response.message());
+                Log.d(TAG, "onResponse GET: Body: " + response.body());
                 notificationSwitch.setChecked(response.body().isEnableNotifications());
                 bSyncSwitch.setChecked(response.body().isEnableBackgroundSync());
-                maximumDistance.setText(Integer.toString(response.body().getMaxDistance()));
+                maximumDistance.setText(getString(R.string.settings_maximum_distance) + " " + Integer.toString(response.body().getMaxDistance()));
                 seekBar.setProgress(response.body().getMaxDistance());
             }
         });
