@@ -20,6 +20,7 @@ import com.greenfox.gitinder.BuildConfig;
 import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.adapter.SectionsPageAdapter;
+import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.MatchService;
 import com.greenfox.gitinder.fragment.main.MatchesFragment;
 import com.greenfox.gitinder.fragment.main.SettingsFragment;
@@ -30,6 +31,8 @@ import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.service.NotificationService;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import dagger.android.AndroidInjection;
 
 public class MainActivity extends AppCompatActivity implements MatchService.NewMatchCountListener {
@@ -45,6 +48,12 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
     @Inject
     MatchService matchService;
 
+    @Inject
+    NotificationService notificationService;
+
+    @Inject
+    AlarmSetUp alarmSetUp;
+
     FloatingActionButton floatingActionButton;
     public TextView floatingActionButtonText;
 
@@ -53,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        alarmSetUp.setAlarmContext(this);
         toolbar = findViewById(R.id.main_toolbar);
         floatingActionButton = findViewById(R.id.floating_action_button);
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
@@ -87,6 +96,12 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
 
         if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(Constants.GO_TO_MATCHES)) {
             toMatchesFragment();
+        }
+
+        notificationService.createNotificationChannel(this);
+
+        if (sharedPreferences.getBoolean(Constants.ENABLE_BACKGROUNDSYNC, false)){
+            alarmSetUp.startAlarm();
         }
     }
 

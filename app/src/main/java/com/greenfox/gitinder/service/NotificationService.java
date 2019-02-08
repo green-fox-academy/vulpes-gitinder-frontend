@@ -32,7 +32,6 @@ public class NotificationService {
 
     public NotificationService() {
     }
-
     private void createMatchNotification(final Match match, Bitmap bitmap, Context ctx) {
 
         Intent intent = new Intent(ctx, MainActivity.class);

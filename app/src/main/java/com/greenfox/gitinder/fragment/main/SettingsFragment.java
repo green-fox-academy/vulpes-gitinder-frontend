@@ -44,7 +44,6 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
     public TextView maximumDistance;
     public ImageView imageView;
     public Button logoutButton;
-    public AlarmSetUp alarmSetUp;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -54,6 +53,10 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
 
     @Inject
     GitinderAPIService gitinderAPI;
+
+    @Inject
+    AlarmSetUp alarmSetUp;
+
 
     @Nullable
     @Override
@@ -82,12 +85,17 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
         bSyncSwitch.setChecked(sharedPreferences.getBoolean((String) bSyncSwitch.getTag(), false));
         settingSeekBar();
         displayImage();
-        alarmSetUp = new AlarmSetUp(view.getContext());
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (buttonView.isChecked() != sharedPreferences.getBoolean((String) buttonView.getTag(), false)) {
+            
+          if (!bSyncSwitch.isChecked()) {
+                alarmSetUp.stopAlarm();
+            }else {
+                alarmSetUp.startAlarm();
+            }
             sharedPreferences.edit().putBoolean((String) buttonView.getTag(), isChecked).apply();
 
             Call<GitinderResponse> gitinderResponseCall = gitinderAPI.provide(Constants.SAVE_SETTINGS)
@@ -103,9 +111,9 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
 
                     Toast.makeText(getActivity().getApplicationContext(), isChecked ? "Enabled!" : "Diasbled!", Toast.LENGTH_SHORT).show();
                     if (!bSyncSwitch.isChecked()) {
-                        alarmSetUp.stopAlarm(getContext());
+                        alarmSetUp.stopAlarm();
                     }else {
-                        alarmSetUp.startAlarm(getContext());
+                        alarmSetUp.startAlarm();
                     }
                 }
             });
