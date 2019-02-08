@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
         setContentView(R.layout.activity_main);
         alarmSetUp.setAlarmContext(this);
         toolbar = findViewById(R.id.main_toolbar);
+
         floatingActionButton = findViewById(R.id.floating_action_button);
         floatingActionButtonText = findViewById(R.id.floating_action_button_text);
 

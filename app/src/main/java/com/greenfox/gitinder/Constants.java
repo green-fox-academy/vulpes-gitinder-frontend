@@ -33,4 +33,5 @@ public class Constants {
     public static final String GITINDER_API_LIVE_URL = "https://gitinder-dev.azurewebsites.net";
     public static final int SENT_MESSAGE = 1;
     public static final int RECEIVED_MESSAGE = 2;
+    public static final String STAGING = "staging";
 }

@@ -222,6 +222,8 @@
         android:id="@+id/settings_logout_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:background="@android:color/transparent"
         android:text="@string/settings_logout_button"
         android:textColor="@color/colorOrangeLike"
@@ -229,7 +231,6 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/LanguageList" />
 
 </android.support.constraint.ConstraintLayout>
