@@ -14,7 +14,7 @@ public class GitHubUserMock implements GithubAPI {
         return new CallMock<GitHubUsername>() {
             @Override
             public void enqueue(Callback<GitHubUsername> callback) {
-                callback.onResponse(this, Response.success(new GitHubUsername("Joey")));
+                callback.onResponse(this, Response.success(new GitHubUsername("Joey", "https://short-biography.com/wp-content/uploads/tom-hanks/Thomas-Jeffrey-Hanks.jpg")));
             }
         };
     }

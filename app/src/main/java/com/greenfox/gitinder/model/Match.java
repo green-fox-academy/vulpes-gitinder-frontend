@@ -16,14 +16,14 @@ public class Match implements Parcelable {
     String avatarUrl;
 
     @SerializedName("matched_at")
-    int matchedAt;
+    String matchedAt;
 
     List<Message> messages;
 
     public Match() {
     }
 
-    public Match(String username, String avatarUrl, int matchedAt, List<Message> messages) {
+    public Match(String username, String avatarUrl, String matchedAt, List<Message> messages) {
         this.username = username;
         this.avatarUrl = avatarUrl;
         this.matchedAt = matchedAt;
@@ -33,7 +33,7 @@ public class Match implements Parcelable {
     protected Match(Parcel in) {
         username = in.readString();
         avatarUrl = in.readString();
-        matchedAt = in.readInt();
+        matchedAt = in.readString();
         messages = new ArrayList<>();
         in.readList(messages, Message.class.getClassLoader());
     }
@@ -66,11 +66,11 @@ public class Match implements Parcelable {
         this.avatarUrl = avatarUrl;
     }
 
-    public int getMatchedAt() {
+    public String getMatchedAt() {
         return matchedAt;
     }
 
-    public void setMatchedAt(int matchedAt) {
+    public void setMatchedAt(String matchedAt) {
         this.matchedAt = matchedAt;
     }
 
@@ -99,7 +99,7 @@ public class Match implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
         dest.writeString(avatarUrl);
-        dest.writeInt(matchedAt);
+        dest.writeString(matchedAt);
         dest.writeList(messages);
     }
 }

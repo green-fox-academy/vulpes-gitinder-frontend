@@ -88,40 +88,25 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardSwiped(Direction direction) {
-        disableButtonsAndSwiping();
+        Profile current = adapter.getProfiles().get(manager.getTopPosition() - 1);
+        Log.d(TAG, "onCardSwiped: " + current.getUsername());
+        Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING).swipe(
+                sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                current.getUsername(),
+                direction.toString().toLowerCase());
 
-        handler.postDelayed(() -> {
-            if (manager.getItemCount() == 1){
-                extinctText.setText("The cards have gone extinct.");
-            } else {
-                Log.d(TAG, "onCardSwiped: 1/2 manager.getTopPosition(): " + manager.getTopPosition());
-                Log.d(TAG, "onCardSwiped: 1/2 manager.getItemCount(): " + manager.getItemCount());
-                if (manager.getItemCount() > 1){
-                    profileDirection(manager.getTopPosition() - 1, direction);
-                } else {
-                    profileDirection(0, direction);
+        call.enqueue(new CustomCallback<SwipeResponse>() {
+            @Override
+            public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
+                if (response.isSuccessful() && !(response.body().getMatch() == null)) {
+                    matchService.addMatch(response.body().getMatch());
+                    MatchesDialog matchesDialog = new MatchesDialog();
+                    matchesDialog.setMatch(response.body().getMatch());
+                    matchesDialog.show(getFragmentManager(), "matchesDialog");
                 }
-                Log.d(TAG, "onCardSwiped: 2/2 manager.getTopPosition(): " + manager.getTopPosition());
-                Log.d(TAG, "onCardSwiped: 2/2 manager.getItemCount(): " + manager.getItemCount());
-                extinctText.setText("");
             }
-            enableButtonsAndSwiping();
-        }, 200);
+        });
     }
-
-//    Call<SwipeResponse> call = gitinderAPI.provide(Constants.SWIPING).swipe(
-//            sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
-//            sharedPreferences.getString(Constants.USERNAME, ""),
-//            direction.toString().toLowerCase());
-//
-//        call.enqueue(new CustomCallback<SwipeResponse>() {
-//        @Override
-//        public void onResponse(Call<SwipeResponse> call, Response<SwipeResponse> response) {
-//            if (!(response.body().getMatch() == null)){
-//                matchService.addMatch(response.body().getMatch());
-//                MatchesDialog matchesDialog = new MatchesDialog();
-//                matchesDialog.setMatch(response.body().getMatch());
-//                matchesDialog.show(getFragmentManager(), "matchesDialog");
 
     private void setupButtons(){
         setupButtonSwipe(likeButton, Direction.Right);
@@ -132,7 +117,6 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     private void setupButtonSwipe(View view, Direction direction){
         view.setOnClickListener(v -> {
-            disableButtonsAndSwiping();
             Log.d(TAG, "setupButtonSwipe: Like/Nope clicked");
             SwipeAnimationSetting setting = new SwipeAnimationSetting.Builder()
                     .setDirection(direction)
@@ -254,10 +238,10 @@ public class SwipingFragment extends BaseFragment implements CardStackListener {
 
     @Override
     public void onCardAppeared(View view, int position) {
-        Log.d(TAG, "onCardAppeared: adapter.getProfiles().size() " + adapter.getProfiles().size());
-        if (position > 1){
-            seenProfile(position);
-        }
+//        Log.d(TAG, "onCardAppeared: adapter.getProfiles().size(): " + adapter.getProfiles().size());
+//        if (position > 1){
+//            seenProfile(position);
+//        }
     }
 
     @Override
