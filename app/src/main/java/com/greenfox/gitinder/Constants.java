@@ -20,6 +20,7 @@ public class Constants {
     public static final String USERNAME = "username";
     public static final String USER_PICTURE = "userPic";
     public static final String GET_PROFILES = "Get Profiles";
+    public static final String GET_LANGUAGES = "getLanguages";
     public static final String SWIPING = "Swiping";
     public static final String GET_MATCHES = "Get Matches";
     public static final String GET_MESSAGES = "GET Messages";

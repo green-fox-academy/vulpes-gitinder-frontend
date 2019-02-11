@@ -25,10 +25,12 @@ import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.reciever.AlarmSetUp;
 import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.fragment.BaseFragment;
+import com.greenfox.gitinder.model.Languages;
 import com.greenfox.gitinder.model.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -205,5 +207,16 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
                 seekBar.setProgress(response.body().getMaxDistance());
             }
         });
+    }
+
+    public List<String> getLanguages(){
+        List<String> languages = new ArrayList<>();
+        gitinderAPI.provide(Constants.GET_LANGUAGES).getLanguages(sharedPreferences.getString(Constants.GITINDER_TOKEN, "")).enqueue(new CustomCallback<Languages>() {
+            @Override
+            public void onResponse(Call<Languages> call, Response<Languages> response) {
+                languages.addAll(response.body().getLanguages());
+            }
+        });
+        return languages;
     }
 }

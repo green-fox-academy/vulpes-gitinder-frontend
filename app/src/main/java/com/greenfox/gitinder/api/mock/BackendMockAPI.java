@@ -7,6 +7,7 @@ import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
 import com.greenfox.gitinder.api.model.factory.AvailableProfilesFactory;
 import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.model.Languages;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Message;
@@ -15,6 +16,7 @@ import com.greenfox.gitinder.model.Profile;
 import com.greenfox.gitinder.model.Settings;
 import com.greenfox.gitinder.model.User;
 import com.greenfox.gitinder.model.factory.ErrorMessageFactory;
+import com.greenfox.gitinder.model.factory.LanguageFactory;
 import com.greenfox.gitinder.model.factory.MatchFactory;
 import com.greenfox.gitinder.model.factory.MessagesFactory;
 import com.greenfox.gitinder.model.factory.ProfileFactory;
@@ -223,6 +225,23 @@ public class BackendMockAPI implements GitinderAPI {
                 } else {
                     callback.onResponse(this, Response.success(matches));
                 }
+            }
+        };
+    }
+
+    @Override
+    public Call<Languages> getLanguages(String gitinderToken) {
+        return new CallMock<Languages>() {
+            @Override
+            public void enqueue(Callback<Languages> callback) {
+                if (gitinderToken == null || gitinderToken.isEmpty()) {
+                    callback.onResponse(this, Response.error(403,
+                            ResponseBody.create(MediaType.parse("application/json"),
+                                    errorMessageFactory.getErrorJSON("Unauthorized request!"))));
+                } else {
+                    callback.onResponse(this, Response.success(LanguageFactory.createLanguages()));
+                }
+
             }
         };
     }

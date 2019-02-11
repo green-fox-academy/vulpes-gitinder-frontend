@@ -63,6 +63,7 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
         } else if (uri == null) {
             LoginDialog loginDialog = new LoginDialog();
+            loginDialog.setCancelable(false);
             loginDialog.show(getSupportFragmentManager(), "loginDialog");
         }
 

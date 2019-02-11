@@ -5,6 +5,7 @@ import com.greenfox.gitinder.api.model.GitinderResponse;
 import com.greenfox.gitinder.api.model.LoginResponse;
 import com.greenfox.gitinder.api.model.MessageResponse;
 import com.greenfox.gitinder.api.model.SwipeResponse;
+import com.greenfox.gitinder.model.Languages;
 import com.greenfox.gitinder.model.Matches;
 import com.greenfox.gitinder.model.Message;
 import com.greenfox.gitinder.model.Messages;
@@ -35,6 +36,9 @@ public interface GitinderAPI {
 
     @PUT("settings")
     Call<GitinderResponse> updateSettings(@Header("X-Gitinder-Token") String gitinderToken, @Body Settings settings);
+
+    @GET("languages")
+    Call<Languages> getLanguages(@Header("X-Gitinder-Token") String gitinderToken);
 
     @GET("profile")
     Call<Profile> getProfile(@Header("X-Gitinder-Token") String gitinderToken);

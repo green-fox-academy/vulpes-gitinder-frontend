@@ -14,6 +14,7 @@ public class TestSetting {
         endpoints.put(Constants.GET_TARGET_PROFILE, false);
         endpoints.put(Constants.GET_PROFILES, false);
         endpoints.put(Constants.SWIPING, false);
+        endpoints.put(Constants.GET_LANGUAGES, false);
         endpoints.put(Constants.GET_MATCHES, false);
         endpoints.put(Constants.GET_MESSAGES, false);
         endpoints.put(Constants.SEND_MESSAGE, false);
