@@ -134,7 +134,7 @@ public class SettingsFragment extends BaseFragment implements CompoundButton.OnC
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 maximumDistance.setText(getString(R.string.settings_maximum_distance) + " " + seekBar.getProgress() + " km");
             }
-    
+
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
