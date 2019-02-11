@@ -60,7 +60,7 @@ public class MatchesFragment extends BaseFragment {
     public void setupRecyclerViewAndAdapter(){
         RecyclerView recyclerView = getView().findViewById(R.id.fragment_matches_recycler_view);
 
-        matchAdapter = new MatchAdapter(getActivity(), matchService);
+        matchAdapter = new MatchAdapter(getActivity(), matchService, gitinderAPI, sharedPreferences);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(matchAdapter);
     }

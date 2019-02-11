@@ -2,8 +2,10 @@ package com.greenfox.gitinder.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +14,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.greenfox.gitinder.Constants;
 import com.greenfox.gitinder.R;
 import com.greenfox.gitinder.activity.MessagesActivity;
+import com.greenfox.gitinder.activity.ProfileActivity;
+import com.greenfox.gitinder.api.model.CustomCallback;
+import com.greenfox.gitinder.api.service.GitinderAPI;
+import com.greenfox.gitinder.api.service.GitinderAPIService;
 import com.greenfox.gitinder.model.Match;
 import com.greenfox.gitinder.api.service.MatchService;
+import com.greenfox.gitinder.model.Profile;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> implements MatchService.MatchesListener{
+    private static final String TAG = "MatchAdapter";
 
     private LayoutInflater mInflater;
     List<Match> matchList;
     MatchService matchService;
+    GitinderAPIService gitinderAPI;
+    SharedPreferences sharedPreferences;
 
-    public MatchAdapter(Context context, MatchService matchService) {
+    public MatchAdapter(Context context, MatchService matchService, GitinderAPIService gitinderAPI, SharedPreferences sharedPreferences) {
         this.mInflater = LayoutInflater.from(context);
         this.matchList = new ArrayList<>();
+        this.gitinderAPI = gitinderAPI;
+        this.sharedPreferences = sharedPreferences;
         this.matchService = matchService;
         matchService.setMatchesListener(this);
     }
@@ -90,13 +106,28 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
             profilePicture = itemView.findViewById(R.id.match_picture);
 
             messagesButton.setOnClickListener(v -> {
-                Intent intent = new Intent(itemView.getContext(), MessagesActivity.class);
-                intent.putExtra("match", matchList.get(getAdapterPosition()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                v.getContext().startActivity(intent);
+                Intent intentMessages = new Intent(itemView.getContext(), MessagesActivity.class);
+                intentMessages.putExtra("match", matchList.get(getAdapterPosition()));
+                intentMessages.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                v.getContext().startActivity(intentMessages);
             });
 
-            profileButton.setOnClickListener(v -> Toast.makeText(v.getContext(), "TOTO JE MOJE MATKA", Toast.LENGTH_SHORT).show());
+            profileButton.setOnClickListener(v -> {
+                Intent profileIntent = new Intent(itemView.getContext(), ProfileActivity.class);
+                Call<Profile> profileCall = gitinderAPI.provide(Constants.GET_TARGET_PROFILE)
+                        .getTargetProfile(sharedPreferences.getString(Constants.GITINDER_TOKEN, ""),
+                                          matchList.get(getAdapterPosition()).getUsername());
+                profileCall.enqueue(new CustomCallback<Profile>() {
+                    @Override
+                    public void onResponse(Call<Profile> call, Response<Profile> response) {
+                        Log.d(TAG, "onResponse: SUCCESS");
+                        profileIntent.putExtra(Constants.PROFILE, response.body());
+                        profileIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        itemView.getContext().startActivity(profileIntent);
+                    }
+                });
+
+            });
         }
 
     }
