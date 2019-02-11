@@ -11,6 +11,7 @@ public class TestSetting {
 
     public TestSetting() {
         endpoints = new HashMap<>();
+        endpoints.put(Constants.GET_TARGET_PROFILE, false);
         endpoints.put(Constants.GET_PROFILES, false);
         endpoints.put(Constants.SWIPING, false);
         endpoints.put(Constants.GET_MATCHES, false);

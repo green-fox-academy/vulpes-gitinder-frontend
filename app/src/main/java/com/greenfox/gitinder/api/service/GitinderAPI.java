@@ -39,6 +39,9 @@ public interface GitinderAPI {
     @GET("profile")
     Call<Profile> getProfile(@Header("X-Gitinder-Token") String gitinderToken);
 
+    @GET("profile/{username}")
+    Call<Profile> getTargetProfile(@Header("X-Gitinder-Token") String gitinderToken, @Path("username") String username);
+
     @GET("available")
     Call<AvailableProfiles> getAvailable(@Header("X-Gitinder-Token") String gitinderToken);
 
