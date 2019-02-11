@@ -23,11 +23,11 @@
     <string name="login_dialog_exit">exit</string>
     <string name="main_nope">Nope</string>
     <string name="main_like">Like</string>
-    <string name="settings_enable_notification">Enable Notification</string>
     <string name="settings_hard_coded_list">Klingon, Matrix, Java</string>
-    <string name="settings_bck_sync">Enable background sync</string>
+    <string name="settings_enable_notification">Notifications</string>
+    <string name="settings_bck_sync">Background Sync</string>
     <string name="settings_preferred_languages">Preferred languages</string>
-    <string name="settings_maximum_distance">Maximum distance :</string>
+    <string name="settings_maximum_distance">Maximum distance:</string>
     <string name="settings_logout_button">Logout</string>
     <string name="title_activity_scrolling">GiTinder</string>
     <string name="notification_new_match">You have a new match!</string>

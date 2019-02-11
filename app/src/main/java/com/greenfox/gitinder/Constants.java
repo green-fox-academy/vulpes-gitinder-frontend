@@ -12,6 +12,8 @@ public class Constants {
     public static final String GITHUB_URL = "https://github.com/login/oauth/authorize?githubAPI_id=";
     public static final String ENABLE_NOTIFICATIONS = "enableNotifications";
     public static final String ENABLE_BACKGROUNDSYNC = "enableBackgroundSync";
+    public static final int SEEK_BAR_MAX = 160;
+    public static final int SEEK_BAR_MIN = 10;
     public static final String MAX_DISTANCE = "maxDistance";
     public static final String NOTIFICATION_CHANNEL = "Notifications";
     public static final String NEW_MATCH_GROUP = "newMatches";

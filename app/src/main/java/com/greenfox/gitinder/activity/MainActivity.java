@@ -171,4 +171,8 @@ public class MainActivity extends AppCompatActivity implements MatchService.NewM
             floatingActionButtonText.setText(String.valueOf(matchService.getNewMatchesCount()));
         }
     }
+
+    public NonSwipeableViewPager getViewPager() {
+        return mViewPager;
+    }
 }
